@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form enctype="multipart/form-data">
+		
+		<h1>Welcome to Importing Student Information from Excel!</h1>
+		
+		<p:fileUpload mode="advanced" update="@form"  label="Choose Student Details Excel file(*.xls)"
+			fileUploadListener="#{toImportExcel.handleFileUpload}" auto="TRUE" allowTypes="/(\.|\/)(xls)$/"/>
+		<p:growl id="messages" showDetail="true" />
+		
+		<p:panel id="idbtnpanel"  visible="#{toImportExcel.listofstudents.size()>0}">
+			<p:commandButton action="#{toImportExcel.doSaveToDBStudentDetails()}"  value="UPLOAD TO DB (if ok)!"></p:commandButton>
+		</p:panel>
+		
+		<p:dataTable id="idstudlist" value="#{toImportExcel.listofstudents}" var="students2" rowIndexVar="index2">
+			<f:facet name="header">Listing of New Students to be added!</f:facet>
+			<p:column>
+				<f:facet name="header">Index </f:facet>
+				<h:outputText value="#{index2}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Student First Name </f:facet>
+				<h:outputText value="#{students2.firstname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Midddle Name </f:facet>
+				<h:outputText value="#{students2.middlename}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Last Name </f:facet>
+				<h:outputText value="#{students2.lastname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Course Name </f:facet>
+				<h:outputText value="#{students2.tblQuestioncategoryMaster.qcId}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Center ID </f:facet>
+				<h:outputText value="#{students2.tblCenterDetails.anpcode}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Taluka </f:facet>
+				<h:outputText value="#{students2.citytownvillage}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student District </f:facet>
+				<h:outputText value="#{students2.district}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Email </f:facet>
+				<h:outputText value="#{students2.emailid}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Phone No </f:facet>
+				<h:outputText value="#{students2.mobileown}" />
+			</p:column>
+			
+			
+		</p:dataTable>
+
+	</h:form>
+</h:body>
+</html>

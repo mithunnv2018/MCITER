@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form>
+		<p:growl id="idgrowl2" />
+		<h:messages />
+		<h3 align="right">
+			 
+			<h:commandButton id="btn" value="Print Result">
+				<p:printer target="idpanelmain" />
+			</h:commandButton>
+
+		</h3>
+		 
+		<p:panel id="idpanelmain">
+			<p:graphicImage url="/images/STUDENTLOGO.png" width="100%"
+				height="200px" />
+			<h1 align="center"
+				style="color: White; background-color: Black; font-weight: bold;">Statement
+				of Marks</h1>
+			<p:panelGrid style="text-align:center;width:100%;">
+
+				<p:row>
+					<p:column style="color:White;background-color:Black;">
+						<h:outputText value="Place" />
+					</p:column>
+					<p:column style="color:White;background-color:Black;">
+						<h:outputText value="Center Code" />
+					</p:column>
+					<p:column style="color:White;background-color:Black;">
+						<h:outputText value="Student ID" />
+					</p:column>
+					<p:column style="color:White;background-color:Black;">
+						<h:outputText value="Month and Year of Exam" />
+					</p:column>
+					<p:column style="color:White;background-color:Black;">
+						<h:outputText value="Course Duration" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputText
+							value="#{resultPrintingController.tblstudentresultdetails.studrestPlace}" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{resultPrintingController.tblstudentresultdetails.studrestCentercode}" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{resultPrintingController.tblstudentresultdetails.studentId}" />
+					</p:column>
+					<p:column>
+						<h:outputText
+							value="#{resultPrintingController.tblstudentresultdetails.studrestMonthandyear}" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{resultPrintingController.tblstudentresultdetails.studrestCourseduration}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+
+			<p:separator />
+
+			<h3 align="center">Candidate's Full Name</h3>
+			<h3 align="center">
+				<h:outputText
+					value="#{resultPrintingController.tblstudentresultdetails.studrestStudentfullname} " />
+			</h3>
+			<p:separator />
+			<h3 align="center">Name of Course</h3>
+			<h3 align="center">
+				<h:outputText value="#{resultPrintingController.tblstudentresultdetails.studrestCoursename} " />
+			</h3>
+			<p:separator />
+
+			<p:panelGrid style="text-align:center;width:100%;font-weight:bold;">
+
+				<p:row>
+					<p:column>
+						<h:outputText value="Particulars" />
+					</p:column>
+					<p:column>
+						<h:outputText value="Marks" />
+					</p:column>
+					<p:column>
+						<h:outputText value="Percentage" />
+					</p:column>
+					<p:column>
+						<h:outputText value="Grade" />
+					</p:column>
+					<p:column rowspan="3">
+						<h:outputText value=" " />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputText value="Maximum Marks" />
+					</p:column>
+					<p:column>
+						<h:outputText value="#{resultPrintingController.tblstudentresultdetails.studrestMaxmarks}" />
+					</p:column>
+					<p:column rowspan="2" style="font-size:16pt;">
+						<h:outputText
+							value="#{resultPrintingController.tblstudentresultdetails.studrestPercentage}" />
+					</p:column>
+					<p:column rowspan="2" style="font-size:16pt;">
+						<h:outputText
+							value="#{resultPrintingController.tblstudentresultdetails.studrestGrade}" />
+					</p:column>
+
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputText value="Marks Obtained" />
+					</p:column>
+
+					<p:column>
+						<h:outputText
+							value="#{resultPrintingController.tblstudentresultdetails.studrestMarksobtain}" />
+					</p:column>
+
+				</p:row>
+			</p:panelGrid>
+
+
+			<p:panelGrid style="text-align:center;font-size:9pt;width:100%;">
+				<p:row>
+					<p:column style="color:White;background-color:Black;">A++</p:column>
+					<p:column style="color:White;background-color:Black;">A+</p:column>
+					<p:column style="color:White;background-color:Black;">A</p:column>
+					<p:column style="color:White;background-color:Black;">B</p:column>
+					<p:column style="color:White;background-color:Black;">C</p:column>
+					<p:column style="color:White;background-color:Black;">Fail</p:column>
+					<p:column style="color:White;background-color:Black;">AB</p:column>
+
+				</p:row>
+				<p:row>
+					<p:column>90 and Above</p:column>
+					<p:column>80 and Above</p:column>
+					<p:column>65 and Above</p:column>
+					<p:column>50 and Above</p:column>
+					<p:column>40 and Above</p:column>
+					<p:column>Less than 40</p:column>
+					<p:column>Absent</p:column>
+
+				</p:row>
+
+			</p:panelGrid>
+
+			<p:panelGrid style="font-size:9pt;width:100%;font-weight:bold;">
+				<p:row>
+					<p:column style="text-align:center;">
+						<h:outputText value=" " />
+					</p:column>
+					<p:column style="text-align:center;">
+						<h:outputText value=" " />
+					</p:column>
+					<p:column style="text-align:center;">
+						<p:graphicImage url="/images/sign.png" width="100%"
+							height="100px" />
+
+					</p:column>
+
+				</p:row>
+
+				<p:row>
+					<p:column style="text-align:center;">
+						<h:outputText value="Name of the ANP" />
+					</p:column>
+					<p:column style="text-align:center;">
+						<h:outputText value="Signature" />
+					</p:column>
+					<p:column style="text-align:center;">
+						<h:outputText value="Director" />
+					</p:column>
+
+				</p:row>
+				<p:row>
+					<p:column style="text-align:center;">
+						<h:outputText
+							value="#{resultPrintingController.tblstudentresultdetails.studrestNameofanp}"
+							style="font-size:14pt;text-decoration:underline;" />
+					</p:column>
+					<p:column style="text-align:center;">
+						<h:outputText value="ANP Center Head" />
+					</p:column>
+					<p:column style="text-align:center;">
+						<h:outputText value="(MCITER)" />
+					</p:column>
+
+				</p:row>
+			</p:panelGrid>
+
+
+		</p:panel>
+
+	</h:form>
+</h:body>
+</html>

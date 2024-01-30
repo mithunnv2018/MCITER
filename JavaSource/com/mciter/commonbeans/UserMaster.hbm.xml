@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 7 May, 2012 9:46:55 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="com.mciter.commonbeans.UserMaster" table="tbl_user_master">
+  <id name="U_ID" type="java.lang.Integer">
+    
+  </id>
+  <property column="U_FullName" generated="never" lazy="false"
+   name="U_FullName" type="string"/>
+  <property column="U_UserName" generated="never" lazy="false"
+   name="U_UserName" type="string"/>
+  <property column="U_Pass" generated="never" lazy="false" name="U_Pass" type="string"/>
+  <property column="U_Tag" generated="never" lazy="false" name="U_Tag" type="java.lang.Integer"/>
+ </class>
+</hibernate-mapping>

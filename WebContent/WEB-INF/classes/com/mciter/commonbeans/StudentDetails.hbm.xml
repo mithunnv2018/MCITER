@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 May, 2012 3:17:39 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="com.mciter.commonbeans.StudentDetails" table="tbl_student_details">
+  <id name="studentid" type="java.lang.String">
+   <column name="STUDENTID"/>
+  </id>
+  <property generated="never" lazy="false" name="emailid" type="java.lang.String">
+   <column name="EMAILID"/>
+  </property>
+  <property generated="never" lazy="false" name="anpcode" type="java.lang.String">
+   <column name="ANPCODE"/>
+  </property>
+  <property generated="never" lazy="false" name="firstname" type="java.lang.String">
+   <column name="FIRSTNAME"/>
+  </property>
+  <property generated="never" lazy="false" name="middlename" type="java.lang.String">
+   <column name="MIDDLENAME"/>
+  </property>
+  <property generated="never" lazy="false" name="lastname" type="java.lang.String">
+   <column name="LASTNAME"/>
+  </property>
+  <property generated="never" lazy="false" name="dayofbirth" type="java.lang.String">
+   <column name="DAYOFBIRTH"/>
+  </property>
+  <property generated="never" lazy="false" name="monthofbirth" type="java.lang.String">
+   <column name="MONTHOFBIRTH"/>
+  </property>
+  <property generated="never" lazy="false" name="yearofbirth" type="java.lang.String">
+   <column name="YEAROFBIRTH"/>
+  </property>
+  <property generated="never" lazy="false" name="age" type="java.lang.String">
+   <column name="AGE"/>
+  </property>
+  <property generated="never" lazy="false" name="gender" type="java.lang.String">
+   <column name="GENDER"/>
+  </property>
+  <property generated="never" lazy="false" name="maritalstatus" type="java.lang.String">
+   <column name="MARITALSTATUS"/>
+  </property>
+  <property generated="never" lazy="false"
+   name="addressforcorrespondence" type="java.lang.String">
+   <column name="ADDRESSFORCORRESPONDENCE"/>
+  </property>
+  <property generated="never" lazy="false" name="address" type="java.lang.String">
+   <column name="ADDRESS"/>
+  </property>
+  <property generated="never" lazy="false" name="suburb" type="java.lang.String">
+   <column name="SUBURB"/>
+  </property>
+  <property generated="never" lazy="false" name="citytownvillage" type="java.lang.String">
+   <column name="CITYTOWNVILLAGE"/>
+  </property>
+  <property generated="never" lazy="false" name="pincode" type="java.lang.String">
+   <column name="PINCODE"/>
+  </property>
+  <property generated="never" lazy="false" name="state" type="java.lang.String">
+   <column name="STATE"/>
+  </property>
+  <property generated="never" lazy="false" name="district" type="java.lang.String">
+   <column name="DISTRICT"/>
+  </property>
+  <property generated="never" lazy="false" name="tahsil" type="java.lang.String">
+   <column name="TAHSIL"/>
+  </property>
+  <property generated="never" lazy="false" name="mobileown" type="java.lang.String">
+   <column name="MOBILEOWN"/>
+  </property>
+  <property generated="never" lazy="false" name="mobileother" type="java.lang.String">
+   <column name="MOBILEOTHER"/>
+  </property>
+  <property generated="never" lazy="false" name="modeofpayment" type="java.lang.String">
+   <column name="MODEOFPAYMENT"/>
+  </property>
+  <property generated="never" lazy="false" name="categoryofstudent" type="java.lang.String">
+   <column name="CATEGORYOFSTUDENT"/>
+  </property>
+  <property generated="never" lazy="false" name="tag" type="java.lang.Integer">
+   <column name="TAG"/>
+  </property>
+  <property generated="never" lazy="false" name="active" type="java.lang.String">
+   <column name="ACTIVE"/>
+  </property>
+ </class>
+</hibernate-mapping>

@@ -1,0 +1,277 @@
+package com.mciter.services;
+
+import java.util.List;
+import java.util.Random;
+
+import javax.faces.FacesException;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.mciter.commonbeans.QuestionMaster;
+import com.mciter.utils.HibernateUtils;
+
+public class QuestionsUtil {
+
+	public QuestionsUtil() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void saveToNewQuestions(Object mobj) {
+		Session session = HibernateUtils.currentSession();
+		Transaction tx = null;
+		boolean rollback = true;
+		try {
+			tx = session.beginTransaction();
+			session.save(mobj);
+
+			tx.commit();
+			rollback = false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new FacesException("saveToNewQuestions Failed for "
+					+ mobj.getClass(), e.getCause());
+		} finally {
+			if (rollback && tx != null) {
+				tx.rollback();
+			}
+			HibernateUtils.closeSession();
+		}
+	}
+
+	public static void updateToQuestions(Object mobj) {
+		Session session = HibernateUtils.currentSession();
+		Transaction tx = null;
+		boolean rollback = true;
+		try {
+			tx = session.beginTransaction();
+			session.update(mobj);
+
+			tx.commit();
+			rollback = false;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rollback && tx != null) {
+				tx.rollback();
+			}
+			HibernateUtils.closeSession();
+		}
+	}
+
+	public static int deleteFromDB(String tablename, String whereclause) {
+		Session session = HibernateUtils.currentSession();
+		Transaction tx = null;
+		int ret = 0;
+		boolean rollback = true;
+		try {
+			tx = session.beginTransaction();
+			Query createQuery = session.createQuery("delete from " + tablename
+					+ " where " + whereclause);
+			ret = createQuery.executeUpdate();
+			System.out.println("Mith Rows Deleted:" + ret);
+			tx.commit();
+			rollback = false;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rollback && tx != null) {
+				tx.rollback();
+			}
+			HibernateUtils.closeSession();
+
+		}
+		return ret;
+	}
+
+	public static Integer doGetNextPK(String tablename, String pkid) {
+
+		if (tablename.isEmpty()) {
+			Integer ret = new Random().nextInt(10000);
+			return ret;
+		} else {
+			StringBuffer sqlQry = new StringBuffer();
+			sqlQry.append(" SELECT  max(E." + pkid + ") from  " + tablename
+					+ " E");
+
+			try {
+				Session session = HibernateUtils.currentSession();
+				Query dashBrdQry = session.createQuery(sqlQry.toString());
+
+				List dataList = dashBrdQry.list();
+				System.out.println("size is"+dataList.size());
+				
+				if(dataList.get(0)==null)
+				{
+					return 1;
+				}
+				System.out.println("class is"+dataList.get(0).getClass()+"valui is "+dataList.get(0));
+				Integer a=0;
+				 
+					System.out.println("IS a string here");
+					if(dataList.get(0).getClass().getName().indexOf("String")!=-1)
+					{
+						String r=(String)dataList.get(0);
+						a=Integer.parseInt(r);
+					}
+					else if(dataList.get(0).getClass().getName().indexOf("Integer")!=-1)
+					{
+						a=(Integer)dataList.get(0);
+					}
+					a++;
+					System.out.println("Value is "+a);
+					return a ;
+				 
+//				Integer ret=(Integer)  dataList.get(0);
+//				ret++;
+				
+//				return ret;
+				
+
+			} catch (Exception e) {
+				System.out.println("dogetNextPK method has error "+e.getMessage());
+				e.printStackTrace();
+			} finally {
+
+				HibernateUtils.closeSession();
+			}
+		}
+		return null;
+	}
+
+	public static <T> List retrieveALL(T a, String tablename, String columnames) {
+		Session session = HibernateUtils.currentSession();
+		try {
+			Query query = session.createQuery("SELECT   " + columnames
+					+ " FROM " + tablename + " a");
+
+			// +" WHERE u_username='" + U_UserName +
+			// "' AND u_pass='"+U_Pass+"'");
+			List<T> dataList = query.list();
+			return dataList;
+
+		} catch (Exception e) {
+			System.out.println("checklogin method error:" + e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+
+			HibernateUtils.closeSession();
+		}
+		return null;
+	}
+
+	public static <T> List retrieveALLwithHB(T a, String tablename,
+			String columnames) {
+		Session session = HibernateUtils.currentSession();
+		try {
+			Query query = session.createQuery("from  " + tablename + " a");
+
+			// +" WHERE u_username='" + U_UserName +
+			// "' AND u_pass='"+U_Pass+"'");
+			List<T> dataList = query.list();
+			return dataList;
+
+		} catch (Exception e) {
+			System.out.println("retieveALlwithHB method error:"
+					+ e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+
+			HibernateUtils.closeSession();
+		}
+		return null;
+	}
+
+	public static <T> List retrieveWherClause(T a, String tablename,
+			String whereclause) {
+		Session session = HibernateUtils.currentSession();
+		try {
+			// Query query = session.createQuery("SELECT   "+columnames
+			// + " FROM "+tablename+" a" +" "+whereclause);
+
+			// +" WHERE u_username='" + U_UserName +
+			// "' AND u_pass='"+U_Pass+"'");
+			Query query = session.createQuery("from " + tablename + " where "
+					+ whereclause);
+			List<T> dataList = query.list();
+			return dataList;
+
+		} catch (Exception e) {
+			System.out.println("checklogin method error:" + e.getMessage());
+			e.printStackTrace();
+		}
+		finally {
+
+			HibernateUtils.closeSession();
+		}
+		return null;
+	}
+
+	public String resetSessionMith(String sessionname, String retvalue) {
+		ExternalContext ctx = FacesContext.getCurrentInstance()
+				.getExternalContext();
+		// Map<String, Object> sessionMap = ctx.getSessionMap();
+		// QuestionMaster m=(QuestionMaster)sessionMap.get("questionMaster");
+
+		HttpSession session = (HttpSession) ctx.getSession(false);
+		session.removeAttribute(sessionname);
+		System.out.println("resetSessionMith done");
+		return retvalue + "?redirect=true";
+		// session.invalidate();
+	}
+
+	/**
+	 * retrieves a random number and checks if the new Primary Key is Not repeated.
+	 * @param tablename
+	 * @param column must be a integer type columnn 
+	 * @param b is just for methodoverloading
+	 * @return
+	 */
+	public static Integer doGetNextPK(String tablename, String column, boolean b) {
+		boolean stop2=false;
+		Integer pk2 =0;
+		
+		for(int i=0;i<10 && stop2!=true;i++)
+		{
+			pk2 = doGetNextPK("", "");
+			if(tablename.length()==0 || column.length()==0)
+			{
+				System.out.println("doGetNextPK tablename is empty so returned random number");
+				return pk2;
+			}
+			try {
+				List abcd = retrieveWherClause(new Object(), tablename, column+"="+pk2);
+				if(abcd.size()==0)
+				{
+					System.out.println("doGetNextPK is a uniques number so returned random number");
+					 
+					stop2=true;
+					return pk2;
+				}
+				else
+				{
+					System.out.println("doGetNextPK tablename is already existing");
+					
+				}
+				
+			} catch ( Exception e) {
+				// TODO Auto-generated catch block
+				
+				e.printStackTrace();
+				break;
+			}  
+		}
+		System.out.println("doGetNextPK(3args) had an error");
+		return pk2;
+	}
+	
+	 
+}

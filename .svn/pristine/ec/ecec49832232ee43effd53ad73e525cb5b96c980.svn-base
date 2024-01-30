@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12 Sep, 2012 11:52:34 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblDemousers" table="tbl_demousers"  >
+        <id name="demoId" type="java.lang.Integer">
+            <column name="demo_id" />
+            <generator class="identity" />
+        </id>
+        <property name="studentid" type="string">
+            <column name="studentid" length="45" not-null="true" />
+        </property>
+        <property name="demoTag" type="string">
+            <column name="demo_tag" length="45" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

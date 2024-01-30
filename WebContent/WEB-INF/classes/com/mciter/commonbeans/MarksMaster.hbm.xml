@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 9 May, 2012 12:14:04 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.MarksMaster" table="tbl_marks_master">
+        <id name="M_ID" type="java.lang.Integer">
+            <column name="M_ID" />
+             
+        </id>
+        <property name="M_Name" type="java.lang.String">
+            <column name="M_NAME" />
+        </property>
+        <property name="M_Marks" type="java.lang.Double">
+            <column name="M_MARKS" />
+        </property>
+        <property name="M_Tag" type="java.lang.Integer">
+            <column name="M_TAG" />
+        </property>
+    </class>
+</hibernate-mapping>

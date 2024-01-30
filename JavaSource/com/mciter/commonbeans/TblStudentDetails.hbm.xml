@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6 Aug, 2012 8:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblStudentDetails" table="tbl_student_details"  >
+        <id name="studentid" type="string">
+            <column name="studentid" length="45" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tblCenterDetails" class="com.mciter.commonbeans.TblCenterDetails" fetch="select">
+            <column name="anpcode" length="30" />
+        </many-to-one>
+        <many-to-one name="tblQuestioncategoryMaster" class="com.mciter.commonbeans.TblQuestioncategoryMaster" fetch="select">
+            <column name="QC_ID" not-null="true" />
+        </many-to-one>
+        <property name="firstname" type="string">
+            <column name="firstname" length="100" />
+        </property>
+        <property name="middlename" type="string">
+            <column name="middlename" length="100" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="lastname" length="100" />
+        </property>
+        <property name="dayofbirth" type="string">
+            <column name="dayofbirth" length="100" />
+        </property>
+        <property name="monthofbirth" type="string">
+            <column name="monthofbirth" length="45" />
+        </property>
+        <property name="yearofbirth" type="string">
+            <column name="yearofbirth" length="45" />
+        </property>
+        <property name="age" type="string">
+            <column name="age" length="45" />
+        </property>
+        <property name="gender" type="string">
+            <column name="gender" length="45" />
+        </property>
+        <property name="maritalstatus" type="string">
+            <column name="maritalstatus" length="45" />
+        </property>
+        <property name="addressforcorrespondence" type="string">
+            <column name="addressforcorrespondence" length="500" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="500" />
+        </property>
+        <property name="suburb" type="string">
+            <column name="suburb" length="100" />
+        </property>
+        <property name="citytownvillage" type="string">
+            <column name="citytownvillage" length="100" />
+        </property>
+        <property name="pincode" type="string">
+            <column name="pincode" length="45" />
+        </property>
+        <property name="state" type="string">
+            <column name="state" length="100" />
+        </property>
+        <property name="district" type="string">
+            <column name="district" length="100" />
+        </property>
+        <property name="tahsil" type="string">
+            <column name="tahsil" length="100" />
+        </property>
+        <property name="mobileown" type="string">
+            <column name="mobileown" length="45" />
+        </property>
+        <property name="mobileother" type="string">
+            <column name="mobileother" length="45" />
+        </property>
+        <property name="emailid" type="string">
+            <column name="emailid" length="50" />
+        </property>
+        <property name="modeofpayment" type="string">
+            <column name="modeofpayment" length="500" />
+        </property>
+        <property name="categoryofstudent" type="string">
+            <column name="categoryofstudent" length="100" />
+        </property>
+        <property name="tag" type="int">
+            <column name="tag" not-null="true" />
+        </property>
+        <property name="active" type="string">
+            <column name="active" length="45" not-null="true" />
+        </property>
+        <property name="registerationdate" type="timestamp">
+            <column name="registerationdate" length="19" />
+        </property>
+        <set name="tblStudentexamConducts" table="tbl_studentexam_conduct" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Studentid" length="45" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentexamConduct" />
+        </set>
+        <set name="tblStudentCourseDetailses" table="tbl_student_course_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="studentid" length="45" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentCourseDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

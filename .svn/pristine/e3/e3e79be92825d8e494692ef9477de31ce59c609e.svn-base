@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:loadBundle basename="resources2" var="msg" />
+<h:head>
+	<title><ui:insert name="pageTitle">Page Title</ui:insert>
+	</title>
+	<style type="text/css">
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+}
+
+.header {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 18px;
+}
+
+.bottom {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	text-align: center;
+	vertical-align: middle;
+	color: #8E969D;
+}
+</style>
+
+</h:head>
+<f:view contentType="text/html">
+	<body bgcolor="#ffffff">
+		<p:growl autoUpdate="true" />
+
+		<h:form>
+			<p:remoteCommand autoRun="true" name="checkvalidbrowser"
+				actionListener="#{commonParams2.isValidBorwser('/MCITER/errorbrowsernotsupported.jsf')}"></p:remoteCommand>
+		</h:form>
+		<ui:insert name="logoshow">
+
+			<p:graphicImage value="/images/LOGO.png" style="text-align:center;"
+				width="100%" height="130px" />
+		</ui:insert>
+
+		<h:outputText 
+			value="#{commonParams2.browsername} [#{commonParams2.browserversion}] " style="font-style:italic;font-size:8pt;"/>
+		<ui:insert name="menusshow">
+			<p:menubar>
+				<p:menuitem value="Master Page" url="index.jsf" />
+				<p:submenu label="Master Pages">
+					<p:menuitem value="Login Page" url="loginpage.jsf" />
+					<p:menuitem value="Edit Questions Page!"
+						url="editquestionmaster.jsf" />
+					<p:menuitem value="Add New Question	Page!"
+						url="addnewquestionmaster.jsf" />
+					<p:menuitem value="Add New paper Pattern Page!"
+						url="addnewpaperpattern.jsf" />
+					<p:menuitem value="Add New Exam Conduct Page!"
+						url="examconductforcenterform.jsf" />
+					<p:menuitem value="Edit Old Exam Conduct Page!"
+						url="editexamconductforcenterform.jsf" />
+							
+						
+					<p:menuitem value="List Of Students !" url="listofstudents.jsf" />
+				</p:submenu>
+				<p:submenu label="Franchaisee Pages">
+
+					<p:menuitem value="Go Add New Institute Info!"
+						url="clientinformation.jsf" />
+					<p:menuitem value="Go Add New Student Info!"
+						url="studentinformationform.jsf" />
+					<p:menuitem value="Go Edit Existing Student Info!"
+						url="editstudentinformationform.jsf" />
+
+				</p:submenu>
+
+				<p:submenu label="Student Exam Pages">
+					<p:menuitem value="Login for Student" url="studentloginpage.jsf" />
+				</p:submenu>
+
+			</p:menubar>
+		</ui:insert>
+
+		<ui:insert name="centermenushow">
+			<p:menubar>
+				<p:menuitem value="Home Page" url="centerloginpage.jsf" />
+
+				<p:submenu label="Franchaise Pages">
+
+					<p:menuitem value="Go Add New Student Info!"
+						url="clientstudentinformationform.jsf" />
+					<p:menuitem value="Go Edit Old Student Info!"
+						url="clienteditstudentinformationform.jsf" />
+					<p:menuitem value="List of Students!"
+						url="centerlistofstudents.jsf" />
+				 
+
+				</p:submenu>
+
+			</p:menubar>
+
+
+		</ui:insert>
+
+
+
+		<p:separator />
+
+		<table style="border: 1px solid #CAD6E0" align="center"
+			cellpadding="0" cellspacing="0" border="0" width="500">
+			<tbody>
+
+
+				<tr>
+					<td class="header" height="42" align="center" valign="middle"
+						width="100%" bgcolor="#E4EBEB"><ui:insert name="pageHeader">Page Header</ui:insert>
+					</td>
+				</tr>
+				<tr>
+					<td height="1" width="100%" bgcolor="#CAD6E0"></td>
+				</tr>
+
+				<tr>
+					<td width="100%" colspan="2">
+						<table width="100%" style="height: 150px" align="left"
+							cellpadding="0" cellspacing="0" border="0">
+							<tbody>
+								<tr>
+									<td align="center" width="100%" valign="middle"><ui:insert
+											name="body">Page Body</ui:insert></td>
+								</tr>
+							</tbody>
+						</table></td>
+				</tr>
+
+				<tr>
+					<td colspan="2" valign="bottom" height="1" width="100%"
+						bgcolor="#CAD6E0"></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</f:view>
+</html>

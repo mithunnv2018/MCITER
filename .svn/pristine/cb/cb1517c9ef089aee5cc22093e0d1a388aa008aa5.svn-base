@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Jul, 2012 7:31:16 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblStudentCourseDetails" table="tbl_student_course_details" >
+        <id name="scdId" type="java.lang.Integer">
+            <column name="SCD_Id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblQuestioncategoryMaster" class="com.mciter.commonbeans.TblQuestioncategoryMaster" fetch="select">
+            <column name="QC_Id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblStudentDetails" class="com.mciter.commonbeans.TblStudentDetails" fetch="select">
+            <column name="studentid" length="45" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

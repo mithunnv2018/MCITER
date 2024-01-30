@@ -1,0 +1,232 @@
+<head>
+<script language = "Javascript">
+
+	var ishift=false;
+	var totaltime=0;
+	var speedtesttimer;
+	var stopspeedtest=false;
+
+
+//////////countdown code start//////////////////
+// set minutes
+var mins;
+ 
+// calculate the seconds (don't change this! unless time progresses at a different speed for you...)
+var secs;
+var txtbox5;
+var constantpara;
+var start;
+var mySplitResult;
+var previoustext;
+
+
+function xyz(evt, txtxyz1){
+
+var charCode = (evt.which) ? evt.which : event.keyCode;
+
+ //var textBox = obj;//getObject(obj);//'txt2');
+//alert("event"); 	
+   if (charCode == 32) // space
+   {
+	var str = txtxyz1.value;
+	var temp = new Array();
+	// this will return an array with strings "1", "2", etc.
+	temp = str.split(" ");
+	//alert(str);
+	/*for (a in temp ) {
+		//temp[a] = temp[a];
+		//alert(temp[a]);
+		if(temp[a] == "")
+		{
+			alert("space");
+		}
+	}*/
+	if(mySplitResult[temp.length-2] == temp[temp.length-2])
+	{
+		/*alert("Mysplitresult: " + mySplitResult[temp.length-2] + ":temp:" + temp[temp.length-2]);
+		alert("Correct");*/
+		previoustext = previoustext +  " " +mySplitResult[temp.length-2];
+	}
+	else{
+		/*alert("Mysplitresult: " + mySplitResult[temp.length-2] + ":temp:" + temp[temp.length-2]);
+		alert("Incorrect");*/
+		previoustext = previoustext +  " <font color=red><b>" + mySplitResult[temp.length-2] + "</b></font>";
+	}
+      /*if(mySplitResult[temp.length-1] == "")
+	{
+		alert("space");
+	}*/
+	var nexttext="";
+	for (i=1; i<mySplitResult.length-1; i++)
+	  {
+		if(i > (temp.length-2)){
+		  //alert("temp: " + i + " text: " + temp[i] );
+			if(i == (temp.length-2) + 1){
+				nexttext = nexttext + " <b>" + mySplitResult[i] + "</b>";
+			}else{
+				nexttext = nexttext + " " + mySplitResult[i];
+			}
+		}
+	  }
+	document.getElementById('para').innerHTML = previoustext  + nexttext;
+  }
+
+	//--- Commented ----
+	 /*if (charCode == 76) // l
+   	{
+	alert("its l");
+	var str = txtxyz1.value;
+	var temp = new Array();
+	// this will return an array with strings "1", "2", etc.
+	temp = str.split(" ");
+
+	  for (a in temp ) {
+		temp[a] = temp[a];
+		//alert(temp[a]);
+		if(temp[a] == "")
+		{
+			alert("l space");
+		}
+		else{
+			alert("l nospace");
+		}
+	}
+
+	}*/
+	// --- END COMMENT
+}
+
+function savetotaltime(time2,textstring)
+{
+	//alert("Savetotaltime done");
+	totaltime=time2/60;
+	mins=Math.round(totaltime);
+	secs = mins * 60;
+	constantpara = textstring.value;
+	mySplitResult = textstring.split(" ");
+	previoustext = "<span style='color:#000000'>";
+	var temp = new Array();
+	temp = textstring.split(" ");//b.split(' ');
+	var newHTML = "<span style='color:#000000'><b>" + mySplitResult[0] + "</b>";
+	
+	for (i=1; i<temp.length; i++)
+	  {
+		  //alert("temp: " + i + " text: " + temp[i] );
+		newHTML = newHTML + " " + temp[i];
+	  }
+	newHTML = newHTML + "</span>";
+	start = true;
+	document.getElementById('para').innerHTML = newHTML;
+}
+function stopSpeedTestTimer()
+{
+	stopspeedtest=true;
+}
+function startSpeedTestTimer()
+{
+	
+ 
+}
+
+
+function countdown() {
+	txtbox5.focus();
+	//var element3 = document.getElementById("idform2:idtxt2");
+ 	//alert("jquery here"+element3.value);
+	setTimeout('Decrement()',1000);
+}
+function Decrement() {
+	if (document.getElementById) {
+		minutes = document.getElementById("minutes");
+		seconds = document.getElementById("seconds");
+		// if less than a minute remaining
+		if (seconds < 59) {
+			seconds.value = secs;
+		} else {
+			minutes.value = getminutes();
+			seconds.value = getseconds();
+		}
+		//secs;
+	    secs=secs-1;
+	    if(getminutes()<=0)
+	    {
+		    if(getseconds()<=0)
+		    {
+    			stopspeedtest=true;
+		    }
+	    }
+		if(stopspeedtest==false)
+		{
+			setTimeout('Decrement()',1000);
+		}
+	}
+}
+function getminutes() {
+	// minutes is seconds divided by 60, rounded down
+	mins = Math.floor(secs / 60);
+	return mins;
+}
+function getseconds() {
+	// take mins remaining (as seconds) away from total seconds remaining
+	return secs-Math.round(mins *60);
+}
+
+/////////////countdown code end///////////////	
+
+///////////////key code event handling code start//
+	function setfocus(obj)
+	{
+		txtbox5=obj;		
+		
+	}
+
+	function getObject(obj)
+ 	  {
+ 		  var theObj;
+ 		  if (document.all) {
+ 			  if (typeof obj=='string') {
+ 				  return document.all(obj);
+ 			  } else {
+ 				  return obj.style;
+ 			  }
+ 		  }
+ 		  if (document.getElementById) {
+ 			  if (typeof obj=='string') {
+ 				  return document.getElementById(obj);
+ 			  } else {
+ 				  return obj.style;
+ 			  }
+ 		  }
+ 		  return null;
+ 	  }
+ 	
+ 
+	/***********************************************
+	* Disable Text Selection script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+	* This notice MUST stay intact for legal use
+	* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+	***********************************************/
+
+	function disableSelection(target){
+	if (typeof target.onselectstart!="undefined") //IE route
+		target.onselectstart=function(){return false}
+	else if (typeof target.style.MozUserSelect!="undefined") //Firefox route
+		target.style.MozUserSelect="none"
+	else //All other route (ie: Opera)
+		target.onmousedown=function(){return false}
+
+	 
+	target.style.cursor = "default"
+	}
+
+
+</script>
+
+<body onload="savetotaltime(420,'Hi this is atul, And i am teaching you typing')">
+
+<p id="para"> </p>
+
+
+<input id="txtxyz" name="txtxyz" type = "text" value="ok" onkeyup="xyz(event, this)">
+
+</body>

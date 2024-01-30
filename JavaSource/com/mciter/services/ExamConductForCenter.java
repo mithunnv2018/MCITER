@@ -1,0 +1,256 @@
+package com.mciter.services;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.faces.model.SelectItem;
+
+
+import com.mciter.commonbeans.TblCenterDetails;
+import com.mciter.commonbeans.TblExaminationConduct;
+import com.mciter.commonbeans.TblPaperpatternMaster;
+import com.mciter.commonbeans.TblQuestioncategoryMaster;
+import com.mciter.commonbeans.TblStudentDetails;
+import com.mciter.commonbeans.TblStudentexamConduct;
+import com.mciter.utils.CommonParams2;
+
+public class ExamConductForCenter implements Serializable {
+
+	
+	private ArrayList<SelectItem> centercodes;
+	private TblCenterDetails centerdetails;
+	private TblQuestioncategoryMaster questioncategorymaster;
+	private List<TblStudentDetails> listofstudents;
+	private TblStudentDetails[] selectionlistofstudents;
+	private List<TblPaperpatternMaster> listofpaperpatternmaster;
+	private TblPaperpatternMaster tblpaperpatternmaster;
+	private TblExaminationConduct tblexaminationconduct;
+	private List<TblExaminationConduct> listofexaminationconduct;
+
+	public ExamConductForCenter()
+	{
+		List<TblCenterDetails> retrieveALLwithHB = QuestionsUtil.retrieveALLwithHB(new TblCenterDetails(), "TblCenterDetails", "");
+		centercodes=new ArrayList<SelectItem>();
+		for (TblCenterDetails centerDetails : retrieveALLwithHB) {
+			
+			centercodes.add(new SelectItem(centerDetails.getAnpcode(),centerDetails.getNameofinstitute()));
+//					new SelectItem(centerDetails.getAnpcode()));
+			
+			
+		}
+		centerdetails=new TblCenterDetails();
+		questioncategorymaster=new TblQuestioncategoryMaster();
+		setListofpaperpatternmaster(new ArrayList<TblPaperpatternMaster>());
+		setListofpaperpatternmaster(QuestionsUtil.retrieveALLwithHB(new TblPaperpatternMaster(), "TblPaperpatternMaster", " "));
+		tblpaperpatternmaster=new TblPaperpatternMaster();
+		setTblexaminationconduct(new TblExaminationConduct());
+		getTblexaminationconduct().setTblCenterDetails(new TblCenterDetails());
+		loadExamConduct();
+	}
+	
+	private void loadExamConduct()
+	{
+		listofexaminationconduct=new ArrayList<TblExaminationConduct>();
+		listofexaminationconduct= QuestionsUtil.retrieveWherClause(new TblExaminationConduct(), "TblExaminationConduct", " Exc_Active='active' ");
+		
+	}
+	
+	public void showStudentsList()
+	{
+		listofstudents=new ArrayList<TblStudentDetails>();
+		String anpcode=tblexaminationconduct.getTblCenterDetails().getAnpcode();
+//			centerdetails.getAnpcode();
+		Integer qcid=questioncategorymaster.getQcId();
+		List<TblStudentDetails> retrieveWherClause =QuestionsUtil.retrieveWherClause(new TblStudentDetails(), "TblStudentDetails", "anpcode='"+anpcode+"' AND QC_ID="+qcid +" AND active='active' order by registerationdate desc" );
+		listofstudents.addAll(retrieveWherClause);
+		
+		System.out.println("Done retrieveing Student details!");
+	}
+	
+	private boolean isExamNameRepeat(String examname)
+	{
+		List<TblExaminationConduct> retrieveWherClause = QuestionsUtil.retrieveWherClause(new TblExaminationConduct(), "TblExaminationConduct", "Exc_Name='"+examname+"' ");
+		if(retrieveWherClause.size()>=1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public String saveToDB()
+	{
+		try {
+			if(selectionlistofstudents==null || selectionlistofstudents.length==0)
+			{
+				CommonParams2.showMessageOnScreen("Sorry You did not Select any student!");
+				System.out.println("Sorry You did not Select any student!");
+				return null;
+			}
+			if(isExamNameRepeat(tblexaminationconduct.getExcName()))
+			{
+				CommonParams2.showMessageOnScreen("Sorry Exam Name already exists!");
+				System.out.println("Sorry Exam Name already exists!");
+				return null;
+			}
+			tblexaminationconduct.setExcActive("active");
+			Integer excId=QuestionsUtil.doGetNextPK("TblExaminationConduct", "Exc_Tag",true);
+			tblexaminationconduct.setExcId(excId);
+		tblexaminationconduct.setExcDatetime(new Date());
+//		tblexaminationconduct.setExcDuration(excDuration) AUTOMATICALYY
+//		tblexaminationconduct.setExcName(excName) AUTOMATICALLY
+//		tblexaminationconduct.setExcStudentendtime(excStudentendtime) AUTOMATIC
+//		tblexaminationconduct.setExcStudentstarttime(excStudentstarttime) AUTOMATIC
+			tblexaminationconduct.setExcTag(excId);
+//		tblexaminationconduct.setTblCenterDetails(tblCenterDetails) AUTOMATIC
+			QuestionsUtil.saveToNewQuestions(tblexaminationconduct);
+			String sePassword=QuestionsUtil.doGetNextPK("", "")+tblexaminationconduct.getExcStudentendtime().getTime()+"";
+			
+			
+			///////////mith added below code on 26th june 2012
+			
+			String subjectemail=tblexaminationconduct.getTblCenterDetails().getAnpcode();
+			subjectemail+="-";
+			subjectemail+="";
+			String centername="";
+			for (SelectItem center2 : centercodes) {
+				String anpcode2 = (String) center2.getValue();
+				if(anpcode2.equals(tblexaminationconduct.getTblCenterDetails().getAnpcode()))
+				{
+					centername=center2.getLabel();
+					break;
+				}
+			}
+			
+			subjectemail+=centername+"-";
+			subjectemail+=tblexaminationconduct.getExcName();
+			String course=new CommonParams2().doGetCourseNameFromID(questioncategorymaster.getQcId());
+			
+			String message="Hi \n";
+			message+="Center Name "+centername+" for exam "+tblexaminationconduct.getExcName();
+			
+			message+="Student ID & password details below for course -"+course+":- \n";
+			
+			message+="STUDENTID \t Firstname \t Lastname \t Course \t Password \n";
+			
+			
+			
+			for(int i=0;i<selectionlistofstudents.length;i++)
+			{
+				TblStudentDetails localStudentDetails = selectionlistofstudents[i];
+				TblStudentexamConduct studentexamconduct=new TblStudentexamConduct();
+				studentexamconduct.setSeEndtime(new Date());
+				Integer seId=QuestionsUtil.doGetNextPK("TblStudentexamConduct", "Se_Tag",true);
+				studentexamconduct.setSeId(seId);
+				studentexamconduct.setSePassword(sePassword);
+				studentexamconduct.setSeRemaintime(0);
+				studentexamconduct.setSeStarttime(tblexaminationconduct.getExcStudentstarttime());
+				studentexamconduct.setSeStatus("active");
+				studentexamconduct.setSeTag(seId);
+				studentexamconduct.setTblExaminationConduct(tblexaminationconduct);
+				studentexamconduct.setTblPaperpatternMaster(tblpaperpatternmaster);
+				studentexamconduct.setTblQuestioncategoryMaster(questioncategorymaster);
+				studentexamconduct.setTblStudentDetails(localStudentDetails);
+				QuestionsUtil.saveToNewQuestions(studentexamconduct);
+				
+				message+=""+localStudentDetails.getStudentid()+" \t";
+				message+=""+localStudentDetails.getFirstname()+" \t";
+				message+=""+localStudentDetails.getLastname()+" \t";
+				message+=""+studentexamconduct.getSePassword()+"\n";
+			}
+			message+="\n Note:-This is an automated email from mciter.com";
+			
+			String emailto=new CommonParams2().doGetEmailofCenter(tblexaminationconduct.getTblCenterDetails().getAnpcode());
+			CommonParams2.sendMailAlert(emailto, message, subjectemail);
+			
+			return "index";
+			
+			
+		} catch (Exception e) {
+			System.out.println("saveToDB at ExamConductForCenter class"+e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	
+
+	public ArrayList<SelectItem> getCentercodes() {
+		return centercodes;
+	}
+
+	public void setCentercodes(ArrayList<SelectItem> centercodes) {
+		this.centercodes = centercodes;
+	}
+
+	public TblCenterDetails getCenterdetails() {
+		return centerdetails;
+	}
+
+	public void setCenterdetails(TblCenterDetails centerdetails) {
+		this.centerdetails = centerdetails;
+	}
+
+	public void setQuestioncategorymaster(TblQuestioncategoryMaster questioncategorymaster) {
+		this.questioncategorymaster = questioncategorymaster;
+	}
+
+	public TblQuestioncategoryMaster getQuestioncategorymaster() {
+		return questioncategorymaster;
+	}
+
+	public void setListofstudents(List<TblStudentDetails> listofstudents) {
+		this.listofstudents = listofstudents;
+	}
+
+	public List<TblStudentDetails> getListofstudents() {
+		return listofstudents;
+	}
+
+	public TblStudentDetails[] getSelectionlistofstudents() {
+		return selectionlistofstudents;
+	}
+
+	public void setSelectionlistofstudents(
+			TblStudentDetails[] selectionlistofstudents) {
+		this.selectionlistofstudents = selectionlistofstudents;
+	}
+
+	public void setListofpaperpatternmaster(List<TblPaperpatternMaster> listofpaperpatternmaster) {
+		this.listofpaperpatternmaster = listofpaperpatternmaster;
+	}
+
+	public List<TblPaperpatternMaster> getListofpaperpatternmaster() {
+		return listofpaperpatternmaster;
+	}
+
+	public void setTblpaperpatternmaster(TblPaperpatternMaster tblpaperpatternmaster) {
+		this.tblpaperpatternmaster = tblpaperpatternmaster;
+	}
+
+	public TblPaperpatternMaster getTblpaperpatternmaster() {
+		return tblpaperpatternmaster;
+	}
+
+	public void setTblexaminationconduct(TblExaminationConduct tblexaminationconduct) {
+		this.tblexaminationconduct = tblexaminationconduct;
+	}
+
+	public TblExaminationConduct getTblexaminationconduct() {
+		return tblexaminationconduct;
+	}
+
+	public List<TblExaminationConduct> getListofexaminationconduct() {
+		return listofexaminationconduct;
+	}
+
+	public void setListofexaminationconduct(
+			List<TblExaminationConduct> listofexaminationconduct) {
+		this.listofexaminationconduct = listofexaminationconduct;
+	}
+}

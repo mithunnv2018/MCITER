@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 9 Jul, 2012 8:37:35 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblStudentexamConduct" table="tbl_studentexam_conduct"  >
+        <id name="seId" type="java.lang.Integer">
+            <column name="Se_Id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblExaminationConduct" class="com.mciter.commonbeans.TblExaminationConduct" fetch="select">
+            <column name="Exc_Id" />
+        </many-to-one>
+        <many-to-one name="tblQuestioncategoryMaster" class="com.mciter.commonbeans.TblQuestioncategoryMaster" fetch="select">
+            <column name="QC_Id" />
+        </many-to-one>
+        <many-to-one name="tblStudentDetails" class="com.mciter.commonbeans.TblStudentDetails" fetch="select">
+            <column name="Studentid" length="45" />
+        </many-to-one>
+        <many-to-one name="tblPaperpatternMaster" class="com.mciter.commonbeans.TblPaperpatternMaster" fetch="select">
+            <column name="PP_Id" />
+        </many-to-one>
+        <property name="seStatus" type="string">
+            <column name="Se_Status" length="45" />
+        </property>
+        <property name="sePassword" type="string">
+            <column name="Se_Password" length="45" />
+        </property>
+        <property name="seStarttime" type="timestamp">
+            <column name="Se_Starttime" length="19" />
+        </property>
+        <property name="seEndtime" type="timestamp">
+            <column name="Se_Endtime" length="19" />
+        </property>
+        <property name="seRemaintime" type="java.lang.Integer">
+            <column name="Se_Remaintime" />
+        </property>
+        <property name="seTag" type="java.lang.Integer">
+            <column name="Se_Tag" />
+        </property>
+        <set name="tblStudentpaperSessions" table="tbl_studentpaper_session" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Se_Id" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentpaperSession" />
+        </set>
+        <set name="tblStudentresultDetailses" table="tbl_studentresult_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="SE_Id" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentresultDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

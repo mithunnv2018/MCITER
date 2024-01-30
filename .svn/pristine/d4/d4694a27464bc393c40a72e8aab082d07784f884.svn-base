@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16 May, 2012 4:40:23 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class name="com.mciter.commonbeans.PaperPatternMaster" table="tbl_paperpattern_master">
+  <id name="PP_ID" type="java.lang.Integer">
+   <column name="PP_ID"/>
+  </id>
+  <property generated="never" lazy="false" name="PP_Name" type="java.lang.String">
+   <column name="PP_NAME"/>
+  </property>
+  <property generated="never" lazy="false" name="PP_Total" type="java.lang.Integer">
+   <column name="PP_TOTAL"/>
+  </property>
+  <property generated="never" lazy="false" name="PP_PassingMarks" type="java.lang.Integer">
+   <column name="PP_PASSINGMARKS"/>
+  </property>
+  <property generated="never" lazy="false" name="PP_GraceMarks" type="java.lang.Integer">
+   <column name="PP_GRACEMARKS"/>
+  </property>
+  <property generated="never" lazy="false" name="PP_Tag" type="java.lang.Integer">
+   <column name="PP_TAG"/>
+  </property>
+  <property generated="never" lazy="false" name="PP_Negativemarks" type="java.lang.Integer">
+   <column name="PP_NEGATIVEMARKS"/>
+  </property>
+ </class>
+</hibernate-mapping>

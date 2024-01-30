@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 31 Aug, 2012 5:51:31 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblTypingtestMaster" table="tbl_typingtest_master"  >
+        <id name="typetId" type="java.lang.Integer">
+            <column name="typet_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="qcId" type="int">
+            <column name="QC_ID" not-null="true" />
+        </property>
+        <property name="typetDesc" type="string">
+            <column name="typet_desc" length="9000" not-null="true" />
+        </property>
+        <property name="fontId" type="int">
+            <column name="font_id" not-null="true" />
+        </property>
+        <property name="typetTypingtype" type="string">
+            <column name="typet_typingtype" length="45" not-null="true" />
+        </property>
+        <property name="typetTag" type="int">
+            <column name="typet_tag" not-null="true" />
+        </property>
+        <property name="typetAlias" type="string">
+            <column name="typet_alias" length="100" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

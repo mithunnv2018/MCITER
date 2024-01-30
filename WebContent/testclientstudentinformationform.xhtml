@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form>
+		<p:growl/>
+		<p:remoteCommand name="chekcredentials2testclientstudinfo"   autoRun="true" actionListener="#{commonParams2.checkCredentialsForLoggedOut('forms_CenterController','/MCITER/centerloginpage.jsf')}"/>
+		<div style="width: 700px" align="right">
+							<p:commandButton value="Logout "
+								action="#{questionsUtil.resetSessionMith('forms_CenterController','centerloginpage')}"
+								style="font-size:xx-small;" />
+						</div>	
+		<h1>Welcome to Student Information !</h1>
+		<p:panel style="width:100%;">
+			<f:facet name="header">Information about Student!</f:facet>
+
+			<p:panelGrid style="width:100%;" columns="2">
+				<f:facet name="header">Center Code</f:facet>
+				<h:outputText value="Anp Code :" />
+				<h:outputText value="#{forms_CenterController.centerdetails.anpcode}" />
+				
+				<h:outputText value="Center name :" />
+				<h:outputText value="#{forms_CenterController.centerdetails.nameofinstitute}" />
+				
+				 
+			</p:panelGrid>
+			<p:panel>
+				<f:facet name="header">Course Name</f:facet>
+				<p:selectOneMenu
+					value="#{forms_CenterController.studentdetails.tblQuestioncategoryMaster.qcId}"
+					effect="fade">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems value="#{commonParams2.courseList2}" var="course"
+						itemLabel="#{course.QC_Name}" itemValue="#{course.QC_ID}" />
+
+				</p:selectOneMenu>
+			</p:panel>
+			<p:panelGrid columns="2" style="width:100%;">
+				<f:facet name="header">Name of Applicant!</f:facet>
+
+				<h:outputText value="First Name" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.firstname}" />
+
+				<h:outputText value="Middle Name" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.middlename}" />
+
+				<h:outputText value="Last Name" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.lastname}" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" style="width:100%;">
+				<f:facet name="header">Date of Birth!</f:facet>
+
+				<h:outputText value="Day" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.dayofbirth}" />
+
+				<h:outputText value="Month" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.monthofbirth}" />
+
+				<h:outputText value="Year " />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.yearofbirth}" />
+
+				<h:outputText value="Age " />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.age}" />
+
+
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" style="width:100%;">
+
+				<h:outputText value="Gender " />
+				<p:selectOneRadio
+					value="#{forms_CenterController.studentdetails.gender}">
+					<f:selectItem itemLabel="Male" itemValue="Male" />
+					<f:selectItem itemLabel="Female" itemValue="Female" />
+				</p:selectOneRadio>
+
+				<h:outputText value="Marital Status " />
+				<p:selectOneRadio
+					value="#{forms_CenterController.studentdetails.maritalstatus}">
+					<f:selectItem itemLabel="Single" itemValue="Single" />
+					<f:selectItem itemLabel="Married" itemValue="Married" />
+				</p:selectOneRadio>
+
+			</p:panelGrid>
+			<p:panelGrid columns="2" style="width:100%;">
+				<f:facet name="header">Address Information</f:facet>
+				<h:outputText value="Address of Correspondence" />
+				<p:inputTextarea
+					value="#{forms_CenterController.studentdetails.addressforcorrespondence}" />
+
+				<h:outputText value="Address" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.address}" />
+
+
+				<h:outputText value="Suburb" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.suburb}" />
+
+				<h:outputText value="City/Town/Village" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.citytownvillage}" />
+
+				<h:outputText value="Tahsil" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.tahsil}" />
+
+				<h:outputText value="District" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.district}" />
+
+				<h:outputText value="State" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.state}" />
+
+
+				<h:outputText value="Pin Code" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.pincode}" />
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" style="width:100%;">
+
+				<h:outputText value="Mobile (Own) +91" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.mobileown}" />
+
+				<h:outputText value="Mobile (Other) +91" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.mobileother}" />
+
+				<h:outputText value="Email ID" />
+				<p:inputText
+					value="#{forms_CenterController.studentdetails.emailid}" />
+
+				<h:outputText value="Category of Student" />
+
+				<p:selectOneMenu
+					value="#{forms_CenterController.studentdetails.categoryofstudent}">
+					<f:selectItem itemLabel="--Select-" itemValue="" />
+					<f:selectItem itemLabel="College" itemValue="College" />
+					<f:selectItem itemLabel="School" itemValue="School" />
+					<f:selectItem itemLabel="Graduate" itemValue="Graduate" />
+					<f:selectItem itemLabel="Post Graduate" itemValue="Post Graduate" />
+					<f:selectItem itemLabel="Govt. Employee" itemValue="Govt. Employee" />
+					<f:selectItem itemLabel="Professional" itemValue="Professional" />
+					<f:selectItem itemLabel="House Wife" itemValue="House Wife" />
+					<f:selectItem itemLabel="Senior Citizen" itemValue="Senior Citizen" />
+					<f:selectItem itemLabel="Other" itemValue="Other" />
+
+				</p:selectOneMenu>
+
+				<h:outputText value="Registeration Date" />
+				<p:calendar showButtonPanel="true" timeZone="#{commonParams2.indiantimezone}"
+					value="#{forms_CenterController.studentdetails.registerationdate}">
+
+				</p:calendar>
+			</p:panelGrid>
+
+
+
+			<p:commandButton value="Save"
+				action="#{forms_CenterController.saveNewStudentDetailsAtCenter()}" />
+		</p:panel>
+
+
+	</h:form>
+</h:body>
+</html>

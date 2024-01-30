@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 18 Jul, 2012 6:41:05 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblCenterDetails" table="tbl_center_details" lazy="false">
+        <id name="anpcode" type="string">
+            <column name="anpcode" length="30" />
+            <generator class="assigned" />
+        </id>
+        <property name="nameofinstitute" type="string">
+            <column name="nameofinstitute" length="45" />
+        </property>
+        <property name="addressofinstitute" type="string">
+            <column name="addressofinstitute" length="45" />
+        </property>
+        <property name="talukaofinstitute" type="string">
+            <column name="talukaofinstitute" length="45" />
+        </property>
+        <property name="distofinstitute" type="string">
+            <column name="distofinstitute" length="45" />
+        </property>
+        <property name="stateofinstitute" type="string">
+            <column name="stateofinstitute" length="45" />
+        </property>
+        <property name="emailid" type="string">
+            <column name="emailid" length="45" />
+        </property>
+        <property name="statusofinstitute" type="string">
+            <column name="statusofinstitute" length="45" />
+        </property>
+        <property name="areainsqft" type="string">
+            <column name="areainsqft" length="45" />
+        </property>
+        <property name="institutepremises" type="string">
+            <column name="institutepremises" length="45" />
+        </property>
+        <property name="yearofestablishment" type="string">
+            <column name="yearofestablishment" length="45" />
+        </property>
+        <property name="affiliationfor" type="string">
+            <column name="affiliationfor" length="45" />
+        </property>
+        <property name="centerheadname" type="string">
+            <column name="centerheadname" length="45" />
+        </property>
+        <property name="centerheadqualification" type="string">
+            <column name="centerheadqualification" length="45" />
+        </property>
+        <property name="centerheadphoneno" type="string">
+            <column name="centerheadphoneno" length="45" />
+        </property>
+        <property name="centerheadresidenceaddress" type="string">
+            <column name="centerheadresidenceaddress" length="45" />
+        </property>
+        <property name="centercoordinatorname" type="string">
+            <column name="centercoordinatorname" length="45" />
+        </property>
+        <property name="centercoordinatorqualification" type="string">
+            <column name="centercoordinatorqualification" length="45" />
+        </property>
+        <property name="centercoordinatorphoneno" type="string">
+            <column name="centercoordinatorphoneno" length="45" />
+        </property>
+        <property name="centercoordinatorresidenceaddress" type="string">
+            <column name="centercoordinatorresidenceaddress" length="45" />
+        </property>
+        <property name="tag" type="int">
+            <column name="tag" not-null="true" />
+        </property>
+        <property name="centerpassword" type="string">
+            <column name="centerpassword" length="45" not-null="true" />
+        </property>
+        <set name="tblExaminationConducts" table="tbl_examination_conduct" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="anpcode" length="30" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblExaminationConduct" />
+        </set>
+        <set name="tblStudentDetailses" table="tbl_student_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="anpcode" length="30" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

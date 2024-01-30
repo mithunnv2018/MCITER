@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form>
+		<p:growl autoUpdate="true" globalOnly="true" life="6000" />
+		<p:remoteCommand name="chekcredentials2centerlistofstud"
+			autoRun="true"
+			actionListener="#{commonParams2.checkCredentialsForLoggedOut('forms_CenterController','/MCITER/centerloginpage.jsf')}" />
+		<div style="width: 700px" align="right">
+			<p:commandButton value="Logout "
+				action="#{questionsUtil.resetSessionMith('forms_CenterController','centerloginpage')}"
+				style="font-size:xx-small;" />
+		</div>
+		<h1>Welcome to Printing of Results for Center 
+			#{forms_CenterController.centerdetails.nameofinstitute} !</h1>
+		
+
+		<p:panelGrid columns="2" style="width:100%;">
+			<f:facet name="header">Listing of Appeared Students!</f:facet>
+
+			<h:outputText value="Center Code" />
+			
+			<p:selectOneMenu disabled="true"
+				value="#{resultPrintingController.tblexaminationconduct.tblCenterDetails.anpcode}">
+				<f:selectItem itemLabel="--Select--" itemValue="" />
+				<f:selectItems value="#{resultPrintingController.centercodes}" />
+				 
+			</p:selectOneMenu>
+
+			<h:outputText value="Exam  Name" />
+			<p:selectOneMenu id="idexamname3"
+				value="#{resultPrintingController.tblexaminationconduct.excId}"
+				effect="fade">
+				<f:selectItem itemLabel="--Select--" itemValue="" />
+				<f:selectItems value="#{resultPrintingController.examlist}" />
+				<p:ajax update="idstudentlist4" listener="#{resultPrintingController.showAppearedStudentList()}"></p:ajax>
+
+			</p:selectOneMenu>
+ 
+		</p:panelGrid>
+
+		<p:dataTable id="idstudentlist4" var="students2" style="width:100%;"
+			value="#{resultPrintingController.listofappearedstudents}"
+			selection="#{resultPrintingController.tblstudentexamconduct}"
+			rowKey="#{students2.seId}" paginator="true" rendered="true" rows="20">
+			<p:column>
+				<f:facet name="header">Click </f:facet>
+				<p:commandLink value="Print"
+					onclick="window.open('testexampaperresult.jsf?se_id=#{students2.seId}','_blank')" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Id </f:facet>
+				<h:outputText value="#{students2.tblStudentDetails.studentid}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Name</f:facet>
+				<h:outputText value="#{students2.tblStudentDetails.firstname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Last Name</f:facet>
+				<h:outputText value="#{students2.tblStudentDetails.lastname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">District</f:facet>
+				<h:outputText value="#{students2.tblStudentDetails.district}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">City</f:facet>
+				<h:outputText value="#{students2.tblStudentDetails.citytownvillage}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Gender</f:facet>
+				<h:outputText value="#{students2.tblStudentDetails.gender}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Status</f:facet>
+				<h:outputText value="#{students2.seStatus}" />
+			</p:column>
+
+		</p:dataTable>
+
+
+
+
+
+	</h:form>
+</h:body>
+</html>

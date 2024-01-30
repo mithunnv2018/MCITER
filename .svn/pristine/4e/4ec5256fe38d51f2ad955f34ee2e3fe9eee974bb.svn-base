@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+</h:head>
+<h:body>
+
+	<h:form>
+		<p:growl autoUpdate="true"/>
+		<p:remoteCommand name="chekcredentials2addnewppttrn"   autoRun="true" actionListener="#{commonParams2.checkCredentialsForLoggedOut('userMaster','/MCITER/loginpage.jsf')}"/>
+		<div style="width: 700px" align="right">
+							<p:commandButton value="Logout "
+								action="#{questionsUtil.resetSessionMith('{userMaster','loginpage')}"
+								style="font-size:xx-small;" />
+						</div>
+		<h6>Welcome user name #{userMaster.u_UserName} to MCITER page2</h6>
+		
+		<p:dataTable value="#{examPatternController.listoldpaperpatternmaster}" var="oldpaperpattern2" paginator="true" style="width:100%;">
+			<f:facet name="header">Existing Exam Paper Pattern Master</f:facet>
+			<p:column>
+				<f:facet name="header">Paper Name</f:facet>
+				<h:outputText value="#{oldpaperpattern2.ppName}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Paper Total Marks</f:facet>
+				<h:outputText value="#{oldpaperpattern2.ppTotal}" />
+			</p:column>
+		</p:dataTable>
+		
+		<p:separator/>
+		<p:separator/>
+		
+		
+		<p:panel header="Add New Paper Pattern" >
+			
+			<p:panelGrid columns="2" cellpadding="2" id="idpanelgrid2" style="width:100%;">
+				<f:facet name="header">Initial Details</f:facet>
+
+ 				
+				<h:outputLabel for="idpapername" value="Paper Name:" />
+				<p:inputText id="idpapername"
+					value="#{examPatternController.paperpatternmaster.PP_Name}">
+				</p:inputText>
+
+				<h:outputText value="Course Name:" />
+				<p:selectOneMenu
+					value="#{examPatternController.questioncategorymaster.QC_ID}"
+					effect="fade">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems value="#{commonParams2.courseList2}" var="course"
+						itemLabel="#{course.QC_Name}" itemValue="#{course.QC_ID}" />
+
+				</p:selectOneMenu>
+
+				<h:outputText value="Marks:" />
+				<p:selectOneMenu value="#{examPatternController.marksmaster.m_ID}">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems value="#{commonParams2.marksList2}" var="marksupper"
+						itemLabel="#{marksupper.m_Marks.toString()}"
+						itemValue="#{marksupper.m_ID}" />
+
+				</p:selectOneMenu>
+
+				<h:outputText value="Main Question Name:" />
+				<p:inputText
+					value="#{examPatternController.papermainqdetails.MQ_Name}"></p:inputText>
+
+				<h:outputText value="Each Question carry:" />
+				<p:inputText
+					value="#{examPatternController.papermainqdetails.MQ_TotalQmarks}"></p:inputText>
+
+				<h:outputText value="Limit No of Questions to:" />
+				<p:inputText
+					value="#{examPatternController.papermainqdetails.MQ_Nosofquestion}"></p:inputText>
+
+			</p:panelGrid>
+			<p:commandButton value="Show Questions3!" ajax="false"
+				id="idshowquestions"  
+				actionListener="#{examPatternController.doShowQuestions()}"
+				update="idpanelgrid2,idquestionlist" />
+
+			<p:dataTable id="idquestionlist" var="question2" paginator="true" rows="15"
+				value="#{examPatternController.mainqpatterndetailslist}"
+				selection="#{examPatternController.selectedmainqpatterndetailslist}"
+				rowKey="#{question2.MP_ID}" editable="false">
+
+				<p:column selectionMode="multiple" />
+
+
+				<p:column>
+					<f:facet name="header">Question Name </f:facet>
+					<h:outputText title="#{question2.questionText}"   value="#{question2.questionText.subSequence(0,10)}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Marks Alloted</f:facet>
+					<h:inputText value="#{question2.MP_Marks}">
+						<f:ajax disabled="true"></f:ajax>
+					</h:inputText>
+				</p:column>
+
+			</p:dataTable>
+
+
+			<p:commandButton value="Add Questions!" ajax="false"
+				id="idaddmainquestions"
+				actionListener="#{examPatternController.doAddMainQuestions()}"
+				update="idaddedlist" />
+		
+			<p:separator ></p:separator>
+
+			<p:dataTable id="idaddedlist" var="addedquestion2" rendered="#{examPatternController.showmainquestionname}"
+				value="#{examPatternController.addedpapermainqdetailslist}"
+				 paginator="true" rows="15"
+				rowKey="#{addedquestion2.MQ_ID}" editable="false">
+
+				 				<p:column>
+					<f:facet name="header">Main Question Name </f:facet>
+					<h:outputText value="#{addedquestion2.MQ_Name}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Marks Alloted</f:facet>
+					<h:inputText value="#{addedquestion2.realTotalMarks}">
+						<f:ajax disabled="true"></f:ajax>
+					</h:inputText>
+				</p:column>
+				
+			</p:dataTable>
+			
+			<p:panelGrid  columns="2" cellpadding="2" id="idpanelgrid3" rendered="#{examPatternController.showmainquestionname}" style="width:100%;">
+			
+				<f:facet name="header">Marks Details</f:facet>
+				<h:outputText value="Total Marks:" />
+				<p:inputText  value="#{examPatternController.paperpatternmaster.PP_Total}" required="false" requiredMessage="Enter The Total Marks">
+				
+				</p:inputText>
+				
+				<h:outputText value="Passing Marks:" />
+				<p:inputText value="#{examPatternController.paperpatternmaster.PP_PassingMarks}" required="false" requiredMessage="Enter The Passing Marks below"></p:inputText>
+				
+				<h:outputText value="Grace Marks:" />
+				<p:inputText value="#{examPatternController.paperpatternmaster.PP_GraceMarks}" required="false" requiredMessage="Enter grace marks below"></p:inputText>
+				
+				<h:outputText value="Negative Marks:" />
+				<p:inputText value="#{examPatternController.paperpatternmaster.PP_Negativemarks}" required="false" requiredMessage="Enter negative marks below"></p:inputText>
+				
+				
+			</p:panelGrid>
+
+			<p:separator></p:separator>
+			<p:separator></p:separator>
+			
+			<p:commandButton value="Save All!" ajax="false"
+				id="idSaveAll"
+				 action="#{examPatternController.doSaveAllQuestions()}"
+				 />
+			<p:commandButton value="Cancel2" action="index.jsf?redirect=true" />
+		 
+		</p:panel>
+
+
+	</h:form>
+
+</h:body>
+
+</html>

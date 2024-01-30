@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form id="idform">
+
+		<h1>Welcome to Exporting Student Result to Excel!</h1>
+
+		<p:growl id="messages" showDetail="true" />
+		<p:ajaxStatus onstart="alert(‘Start’)" oncomplete="alert(‘End’)"/>
+
+		<h:outputText value="Select Exam Name!" />
+		<p:selectOneMenu value="#{toExportResultsExcel.selectedExcId}">
+			<f:selectItem itemLabel="--Select--" itemValue="" />
+			<f:selectItems value="#{toExportResultsExcel.listofexams}"
+				var="formobj" itemLabel="#{formobj.excName}"
+				itemValue="#{formobj.excId}" itemDescription="#{formobj.excId.toString()}"/>
+			<p:ajax update="idresultexam idexc" listener="#{toExportResultsExcel.doLoadResults()}"/>	
+		</p:selectOneMenu>
+
+		
+
+		<h1>Listing of Students Results !</h1>
+		<h:outputText value="Exc Id = #{toExportResultsExcel.selectedExcId}" id="idexc"/>
+		<h3></h3>
+		<p:dataTable id="idresultexam" value="#{toExportResultsExcel.listofstudentresults}"
+			var="students2" rowIndexVar="index2">
+			 
+			<p:column>
+				<f:facet name="header">Index </f:facet>
+				<h:outputText value="#{index2+1}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Student ID</f:facet>
+				<h:outputText value="#{students2.studentId}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Full Name </f:facet>
+				<h:outputText value="#{students2.studrestStudentfullname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Center Code </f:facet>
+				<h:outputText value="#{students2.studrestCentercode}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Place</f:facet>
+				<h:outputText value="#{students2.studrestPlace}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Course Name</f:facet>
+				<h:outputText value="#{students2.studrestCoursename}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Name of Institute</f:facet>
+				<h:outputText value="#{students2.studrestNameofanp}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Month and Year</f:facet>
+				<h:outputText value="#{students2.studrestMonthandyear}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Course Duration</f:facet>
+				<h:outputText value="#{students2.studrestCourseduration}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Max Marks </f:facet>
+				<h:outputText value="#{students2.studrestMaxmarks}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Marks Obtained</f:facet>
+				<h:outputText value="#{students2.studrestMarksobtain}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Percentage </f:facet>
+				<h:outputText value="#{students2.studrestPercentage}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Grade </f:facet>
+				<h:outputText value="#{students2.studrestGrade}" />
+			</p:column>
+
+
+		</p:dataTable>
+		
+		<p:commandButton value="Export as Excel" ajax="false" >
+			<p:dataExporter target="idresultexam" type="xls"   fileName="results" />
+		</p:commandButton>
+
+	</h:form>
+</h:body>
+</html>

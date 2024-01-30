@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+	<style type="text/css">
+@font-face {
+	font-family: "kiran";
+	src: url(#{commonParams2.fonturl});
+}
+
+.ace {
+	font-family: "kiran";
+	font-size: 15pt;
+}
+</style>
+
+</h:head>
+<h:body>
+
+	<h:form prependId="true">
+
+		<p:growl autoUpdate="true" />
+		<p:remoteCommand name="chekcredentials2addnewppttrn" autoRun="true"
+			actionListener="#{commonParams2.checkCredentialsForLoggedOut('userMaster','/MCITER/loginpage.jsf')}" />
+		<div style="width: 700px" align="right">
+			<p:commandButton value="Logout "
+				action="#{questionsUtil.resetSessionMith('{userMaster','loginpage')}"
+				style="font-size:xx-small;" />
+		</div>
+		<h6>Welcome user name #{userMaster.u_UserName} to MCITER page2</h6>
+
+		<p:dataTable rendered="true" rows="20" selectionMode="single"
+			selection="#{editTypingMasterController.selectedhashmap}"
+			value="#{editTypingMasterController.listofoldtypingtestmaster}"
+			var="oldtypingmaster2" paginator="true" style="width:100%;"
+			rowKey="#{oldtypingmaster2.typetid}">
+			<p:ajax event="rowSelect" update="@all"
+				listener="#{editTypingMasterController.doloadForEditing()}"></p:ajax>
+			<f:facet name="header">Existing Typing  Master</f:facet>
+			<p:column>
+				<f:facet name="header">Course Name</f:facet>
+				<h:outputText value="#{oldtypingmaster2.course}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Font Name</f:facet>
+				<h:outputText value="#{oldtypingmaster2.fontname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Paragraph</f:facet>
+				<h:outputText value="#{oldtypingmaster2.paragraph}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:separator />
+		<p:separator />
+
+
+		<p:panel header="Add New Typing Test Master" style="width:100%;">
+
+			<p:panelGrid columns="2" cellpadding="2" id="idpanelgrid3"
+				style="width:100%;">
+				<f:facet name="header">Initial Details</f:facet>
+
+				<h:outputText value="Font :" />
+				<p:selectOneMenu
+					value="#{editTypingMasterController.tblfontmaster.fontId}"
+					effect="fade">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems
+						value="#{editTypingMasterController.listtblfontmaster}"
+						var="fontm" itemLabel="#{fontm.fontName}"
+						itemValue="#{fontm.fontId}" />
+					<p:ajax listener="#{editTypingMasterController.doUpdateFont()}"
+						update="@all"></p:ajax>
+				</p:selectOneMenu>
+
+
+				<h:outputText value="Course Name:" />
+				<p:selectOneMenu
+					value="#{editTypingMasterController.tblquestioncategorymaster.qcId}"
+					effect="fade">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems value="#{commonParams2.courseList2}" var="course"
+						itemLabel="#{course.QC_Name}" itemValue="#{course.QC_ID}" />
+				</p:selectOneMenu>
+
+
+				<h:outputText value="Paragraph Alias:" />
+				<p:inputText
+					value="#{editTypingMasterController.tbltypingtestmaster.typetAlias}" />
+
+
+				<h:outputText value="Paragraph"
+					title="Font url is:#{editTypingMasterController.fonturl}" />
+				<p:inputTextarea id="idparagraph3" cols="100" rows="15"
+					autoResize="true"
+					value="#{editTypingMasterController.tbltypingtestmaster.typetDesc}"
+					style="font-size:20px;font-family:kiran;" />
+				
+				<h:outputText value="Paragraph in Label" />
+				<h:outputLabel
+					value="#{editTypingMasterController.tbltypingtestmaster.typetDesc}"
+					escape="false" />
+
+
+			</p:panelGrid>
+
+			<p:commandButton value="Update All!" ajax="true" update="@form"
+				id="idUpdateAll"
+				action="#{editTypingMasterController.doUpdateAll()}" />
+			<p:commandButton value="Cancel2" action="index.jsf?redirect=true" />
+
+		</p:panel>
+
+
+	</h:form>
+
+</h:body>
+
+</html>

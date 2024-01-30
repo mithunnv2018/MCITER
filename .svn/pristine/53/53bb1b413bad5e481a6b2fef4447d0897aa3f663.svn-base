@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- 
+		Replace path to template, title, header and body
+		with actual data.
+	 -->
+<ui:composition template="/template/template1.xhtml">
+	<ui:define name="pageTitle">LOGIN PAGE</ui:define>
+	<ui:define name="pageHeader">#{msg.welcomeadminloginpage}</ui:define>
+	<ui:define name="menusshow"></ui:define>
+	<ui:define name="centermenushow"></ui:define>
+	<ui:define name="body">
+
+		<h:form>
+			<p:growl autoUpdate="true"></p:growl>
+			
+			 <p:remoteCommand name="chekcredentialsmaster" autoRun="true" actionListener="#{commonParams2.checkCredentialsForLoggedIn('userMaster','/MCITER/index.jsf')}"/>
+			<div style="width: 700px" align="right">
+							<p:commandButton value="Logout "
+								action="#{questionsUtil.resetSessionMith('userMaster','loginpage')}"
+								style="font-size:xx-small;" />
+						</div>
+			 
+			<p:panelGrid columns="2" id="idpanelgrid233" >
+			    
+				<h:outputText value="Enter Your User Name:" />
+				<p:inputText id="uid" value="#{userMaster.u_UserName}" />
+				<h:outputText value="Enter Your Password:" />
+				<p:password id="pwd" value="#{userMaster.u_Pass}" />
+				<p:commandButton id="idbtn1" action="#{userMaster.checklogin()}"
+					value="#{msg.adminloginbutton}" />
+				<p:commandButton id="idbtn2" action="#{userMaster.reset()}"
+					value="#{msg.adminlogincancelbutton}" />
+			</p:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Jul, 2012 7:31:16 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblMainqpatternDetails" table="tbl_mainqpattern_details" >
+        <id name="mpId" type="java.lang.Integer">
+            <column name="MP_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblQuestionsMaster" class="com.mciter.commonbeans.TblQuestionsMaster" fetch="select">
+            <column name="Q_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblPapermainqDetails" class="com.mciter.commonbeans.TblPapermainqDetails" fetch="select">
+            <column name="MQ_ID" not-null="true" />
+        </many-to-one>
+        <property name="mpMarks" type="int">
+            <column name="MP_Marks" not-null="true" />
+        </property>
+        <property name="mpTag" type="int">
+            <column name="MP_tag" not-null="true" />
+        </property>
+        <set name="tblStudentpaperSessions" table="tbl_studentpaper_session" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="MP_Id" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentpaperSession" />
+        </set>
+    </class>
+</hibernate-mapping>

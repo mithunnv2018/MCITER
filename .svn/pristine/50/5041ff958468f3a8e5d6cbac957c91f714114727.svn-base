@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 18 Jul, 2012 6:41:05 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblExaminationConduct" table="tbl_examination_conduct" lazy="false"   >
+        <id name="excId" type="java.lang.Integer">
+            <column name="Exc_Id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblCenterDetails" class="com.mciter.commonbeans.TblCenterDetails" fetch="select"   >
+            <column name="anpcode" length="30" not-null="true" />
+        </many-to-one>
+        <property name="excName" type="string">
+            <column name="Exc_Name" length="100" not-null="true" />
+        </property>
+        <property name="excDatetime" type="timestamp">
+            <column name="Exc_Datetime" length="19" not-null="true" />
+        </property>
+        <property name="excDuration" type="int">
+            <column name="Exc_Duration" not-null="true" />
+        </property>
+        <property name="excActive" type="string">
+            <column name="Exc_Active" length="45" not-null="true" />
+        </property>
+        <property name="excStudentstarttime" type="timestamp">
+            <column name="Exc_Studentstarttime" length="19" />
+        </property>
+        <property name="excStudentendtime" type="timestamp">
+            <column name="Exc_Studentendtime" length="19" />
+        </property>
+        <property name="excTag" type="int">
+            <column name="Exc_Tag" not-null="true" />
+        </property>
+        <set name="tblStudentexamConducts" table="tbl_studentexam_conduct" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Exc_Id" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentexamConduct" />
+        </set>
+    </class>
+</hibernate-mapping>

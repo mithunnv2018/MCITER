@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6 Aug, 2012 8:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblQuestionsMaster" table="tbl_questions_master" >
+        <id name="QId" type="java.lang.Integer">
+            <column name="Q_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblUserMaster" class="com.mciter.commonbeans.TblUserMaster" fetch="select">
+            <column name="U_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblMarksMaster" class="com.mciter.commonbeans.TblMarksMaster" fetch="select">
+            <column name="M_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblQuestioncategoryMaster" class="com.mciter.commonbeans.TblQuestioncategoryMaster" fetch="select">
+            <column name="QC_ID" not-null="true" />
+        </many-to-one>
+        <property name="QName" type="string">
+            <column name="Q_Name" length="500" not-null="true" />
+        </property>
+        <property name="QDesc" type="string">
+            <column name="Q_Desc" length="500" not-null="true" />
+        </property>
+        <property name="QMultiSelect" type="boolean">
+            <column name="Q_MultiSelect" not-null="true" />
+        </property>
+        <property name="QOption" type="int">
+            <column name="Q_Option" not-null="true" />
+        </property>
+        <property name="QTag" type="int">
+            <column name="Q_Tag" not-null="true" />
+        </property>
+        <set name="tblQuestionOptionses" table="tbl_question_options" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Q_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblQuestionOptions" />
+        </set>
+        <set name="tblMainqpatternDetailses" table="tbl_mainqpattern_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Q_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblMainqpatternDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

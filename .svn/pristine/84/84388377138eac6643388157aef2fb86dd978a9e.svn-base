@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_center_details"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_examination_conduct"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_mainqpattern_details"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_marks_master"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_papermainq_details"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_paperpattern_master"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_question_options"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_questioncategory_master"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_questions_master"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_student_course_details"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_student_details"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_studentexam_conduct"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_studentpaper_session"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_user_master"/>
+  <table-filter match-catalog="mciterdemo" match-name="tbl_studentresult_details"/>
+  
+</hibernate-reverse-engineering>

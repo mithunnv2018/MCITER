@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6 Aug, 2012 8:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblUserMaster" table="tbl_user_master" >
+        <id name="UId" type="java.lang.Integer">
+            <column name="U_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="UFullName" type="string">
+            <column name="U_FullName" length="200" not-null="true" />
+        </property>
+        <property name="UUserName" type="string">
+            <column name="U_UserName" length="100" not-null="true" />
+        </property>
+        <property name="UPass" type="string">
+            <column name="U_Pass" length="45" not-null="true" />
+        </property>
+        <property name="UTag" type="int">
+            <column name="U_Tag" not-null="true" />
+        </property>
+        <set name="tblQuestionsMasters" table="tbl_questions_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="U_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblQuestionsMaster" />
+        </set>
+    </class>
+</hibernate-mapping>

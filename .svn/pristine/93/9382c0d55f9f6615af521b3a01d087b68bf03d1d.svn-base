@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+</h:head>
+<h:body>
+
+	<h:form>
+		<p:growl autoUpdate="true" />
+		<p:remoteCommand name="chekcredentials2addnewppttrn" autoRun="true"
+			actionListener="#{commonParams2.checkCredentialsForLoggedOut('userMaster','/MCITER/loginpage.jsf')}" />
+		<div style="width: 700px" align="right">
+			<p:commandButton value="Logout "
+				action="#{questionsUtil.resetSessionMith('{userMaster','loginpage')}"
+				style="font-size:xx-small;" />
+		</div>
+		<h6>Welcome user name #{userMaster.u_UserName} to MCITER page2</h6>
+
+		<p:dataTable  rendered="true" rows="20"
+			value="#{addNewTypingExamPaperpatternController.listoldpaperpatternmaster}"
+			var="oldpaperpattern2" paginator="true" style="width:100%;">
+			<f:facet name="header">Existing Typing Exam Paper Pattern Master</f:facet>
+			<p:column>
+				<f:facet name="header">Paper Name</f:facet>
+				<h:outputText value="#{oldpaperpattern2.ppName}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Alloted Marks</f:facet>
+				<h:outputText value="#{oldpaperpattern2.ppTotal}" />
+			</p:column>
+			
+		</p:dataTable>
+
+		<p:separator />
+		<p:separator />
+
+
+		<p:panel header="Add New Typing Paper Pattern" style="width:100%;">
+
+			<p:panelGrid columns="2" cellpadding="2" id="idpanelgrid2"
+				style="width:100%;">
+				<f:facet name="header">Initial Details</f:facet>
+
+
+				<h:outputLabel for="idpapername" value="Paper Name:" />
+				<p:inputText id="idpapername"
+					value="#{addNewTypingExamPaperpatternController.tblpaperpatternmaster.ppName}">
+				</p:inputText>
+
+				<h:outputText value="Course Name:" />
+				<p:selectOneMenu
+					value="#{addNewTypingExamPaperpatternController.tblquestioncategorymaster.qcId}"
+					effect="fade">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems value="#{commonParams2.courseList2}" var="course"
+						itemLabel="#{course.QC_Name}" itemValue="#{course.QC_ID}" />
+					<p:ajax update="idparagraphs"
+						listener="#{addNewTypingExamPaperpatternController.doGetParagraphSelectionList()}"></p:ajax>
+
+
+				</p:selectOneMenu>
+
+				<h:outputText value="Paragraph Selection:" />
+				<p:selectOneMenu id="idparagraphs" value="#{addNewTypingExamPaperpatternController.tbltypingtestmaster.typetId}" effect="fade" rendered="true" >
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems value="#{addNewTypingExamPaperpatternController.tbltypingtestmasterlist}" var="para2"
+						itemLabel="#{para2.typetAlias}" itemValue="#{para2.typetId}" />
+
+				</p:selectOneMenu>
+
+	 
+				<h:outputText value="Marks:" />
+				<p:inputText value="#{addNewTypingExamPaperpatternController.tblpaperpatternmaster.ppTotal}"/>
+ 
+				<h:outputText value="Time in seconds:" />
+				<p:inputText value="#{addNewTypingExamPaperpatternController.tbltypingtestdetails.typedetTime}"></p:inputText>
+
+				<h:outputText value="Passing marks:" />
+				<p:inputText value="#{addNewTypingExamPaperpatternController.tblpaperpatternmaster.ppPassingMarks}"></p:inputText>
+
+				<h:outputText value="Maximum Mistakes:" />
+				<p:inputText value="#{addNewTypingExamPaperpatternController.tbltypingtestdetails.typedetMistakes}"></p:inputText>
+
+
+				<h:outputText value="negative marks(on Each mistakes):" title="can range from 0.25 to 1" />
+				<p:inputText title="can range from 0.25 to 1" value="#{addNewTypingExamPaperpatternController.tbltypingtestdetails.typedetNegativeoneachmistake}"></p:inputText>
+
+
+			</p:panelGrid>
+
+			<p:commandButton value="Save All!" ajax="false" id="idSaveAll"
+				 action="#{addNewTypingExamPaperpatternController.doSaveNewPaperpattern()}" />
+			<p:commandButton value="Cancel2" action="index.jsf?redirect=true" />
+
+		</p:panel>
+
+
+	</h:form>
+
+</h:body>
+
+</html>

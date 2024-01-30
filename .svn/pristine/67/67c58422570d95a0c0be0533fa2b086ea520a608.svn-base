@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 1 Sep, 2012 10:42:48 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblTypingtestDetails" table="tbl_typingtest_details" catalog="mciterdemo">
+        <id name="typedetId" type="java.lang.Integer">
+            <column name="typedet_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="typetId" type="int">
+            <column name="typet_ID" not-null="true" />
+        </property>
+        <property name="mqId" type="int">
+            <column name="MQ_ID" not-null="true" />
+        </property>
+        <property name="typedetTime" type="int">
+            <column name="typedet_time" not-null="true" />
+        </property>
+        <property name="typedetMistakes" type="int">
+            <column name="typedet_mistakes" not-null="true" />
+        </property>
+        <property name="typedetNegativeoneachmistake" type="double">
+            <column name="typedet_negativeoneachmistake" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="typedetTag" type="int">
+            <column name="typedet_tag" not-null="true" />
+        </property>
+        <property name="typedetType" type="string">
+            <column name="typedet_type" length="100" not-null="true">
+                <comment>SPEED , HTML</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

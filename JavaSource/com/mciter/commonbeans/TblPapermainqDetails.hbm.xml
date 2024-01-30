@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6 Aug, 2012 8:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblPapermainqDetails" table="tbl_papermainq_details"  >
+        <id name="mqId" type="java.lang.Integer">
+            <column name="MQ_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblPaperpatternMaster" class="com.mciter.commonbeans.TblPaperpatternMaster" fetch="select">
+            <column name="PP_ID" not-null="true" />
+        </many-to-one>
+        <property name="mqName" type="string">
+            <column name="MQ_Name" length="500" not-null="true" />
+        </property>
+        <property name="mqTotalQmarks" type="int">
+            <column name="MQ_TotalQMarks" not-null="true" />
+        </property>
+        <property name="mqTag" type="int">
+            <column name="MQ_Tag" not-null="true" />
+        </property>
+        <property name="mqNosofquestion" type="int">
+            <column name="MQ_Nosofquestion" not-null="true" />
+        </property>
+        <set name="tblMainqpatternDetailses" table="tbl_mainqpattern_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="MQ_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblMainqpatternDetails" />
+        </set>
+        <set name="tblTypingtestDetailses" table="tbl_typingtest_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="MQ_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblTypingtestDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

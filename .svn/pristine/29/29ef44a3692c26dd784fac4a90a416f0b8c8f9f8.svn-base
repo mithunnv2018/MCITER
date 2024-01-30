@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form>
+		<p:growl autoUpdate="true" />
+		<p:remoteCommand name="chekcredentials2centerlistofstud"
+			autoRun="true"
+			actionListener="#{commonParams2.checkCredentialsForLoggedOut('forms_CenterController','/MCITER/centerloginpage.jsf')}" />
+		<div style="width: 700px" align="right">
+			<p:commandButton value="Logout "
+				action="#{questionsUtil.resetSessionMith('forms_CenterController','centerloginpage')}"
+				style="font-size:xx-small;" />
+		</div>
+		<h1>Welcome to Listing of Students for Center
+			#{forms_CenterController.centerdetails.nameofinstitute} !</h1>
+
+
+
+		<p:panelGrid columns="2" style="width:100%;">
+			<f:facet name="header">Listing of Active Students!</f:facet>
+
+
+			<h:outputText value="Course Name" />
+			<p:selectOneMenu
+				value="#{forms_CenterController.questioncategorymaster.qcId}"
+				effect="fade">
+				<f:selectItem itemLabel="--Select--" itemValue="" />
+				<f:selectItems value="#{commonParams2.courseList2}" var="course"
+					itemLabel="#{course.QC_Name}" itemValue="#{course.QC_ID}" />
+
+			</p:selectOneMenu>
+			<h:outputText value="Click to get Students list" />
+			<p:commandButton value="Click" ajax="false"
+				actionListener="#{forms_CenterController.showStudentsList()}" />
+
+		</p:panelGrid>
+
+		<p:dataTable id="idstudentlist2" var="students2" style="width:100%;"
+			value="#{forms_CenterController.listofstudents}"
+			rowKey="#{students2.studentid}" editable="false">
+
+			<p:column>
+				<f:facet name="header">Student Id </f:facet>
+				<h:outputText value="#{students2.studentid}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Name</f:facet>
+				<h:outputText value="#{students2.firstname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">State</f:facet>
+				<h:outputText value="#{students2.state}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">District</f:facet>
+				<h:outputText value="#{students2.district}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">City</f:facet>
+				<h:outputText value="#{students2.citytownvillage}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Gender</f:facet>
+				<h:outputText value="#{students2.gender}" />
+			</p:column>
+		</p:dataTable>
+
+
+
+
+	</h:form>
+</h:body>
+</html>

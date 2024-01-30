@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 8 May, 2012 4:55:51 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.QuestionOptions" table="tbl_question_options">
+        <id name="QO_ID" type="java.lang.Integer">
+            <column name="QO_ID" />
+            
+        </id>
+        <property name="Q_ID" type="java.lang.Integer">
+            <column name="Q_ID" />
+        </property>
+        <property name="Q_Selected" type="java.lang.Boolean">
+            <column name="Q_SELECTED" />
+        </property>
+        <property name="QO_Name" type="java.lang.String">
+            <column name="QO_NAME" />
+        </property>
+        <property name="QO_Tag" type="java.lang.Integer">
+            <column name="QO_TAG" />
+        </property>
+    </class>
+</hibernate-mapping>

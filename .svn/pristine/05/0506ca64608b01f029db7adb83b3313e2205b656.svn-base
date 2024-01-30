@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 May, 2012 3:15:15 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.CenterDetails" table="tbl_center_details">
+        <id name="anpcode" type="java.lang.String">
+            <column name="ANPCODE" />
+        </id>
+        
+        <property name="emailid" type="java.lang.String">
+            <column name="EMAILID" />
+             
+        </property>
+        <property name="nameofinstitute" type="java.lang.String">
+            <column name="NAMEOFINSTITUTE" />
+        </property>
+        <property name="addressofinstitute" type="java.lang.String">
+            <column name="ADDRESSOFINSTITUTE" />
+        </property>
+        <property name="talukaofinstitute" type="java.lang.String">
+            <column name="TALUKAOFINSTITUTE" />
+        </property>
+        <property name="distofinstitute" type="java.lang.String">
+            <column name="DISTOFINSTITUTE" />
+        </property>
+        <property name="stateofinstitute" type="java.lang.String">
+            <column name="STATEOFINSTITUTE" />
+        </property>
+        <property name="statusofinstitute" type="java.lang.String">
+            <column name="STATUSOFINSTITUTE" />
+        </property>
+        <property name="areainsqft" type="java.lang.String">
+            <column name="AREAINSQFT" />
+        </property>
+        <property name="institutepremises" type="java.lang.String">
+            <column name="INSTITUTEPREMISES" />
+        </property>
+        <property name="yearofestablishment" type="java.lang.String">
+            <column name="YEAROFESTABLISHMENT" />
+        </property>
+        <property name="affiliationfor" type="java.lang.String">
+            <column name="AFFILIATIONFOR" />
+        </property>
+        <property name="centerheadname" type="java.lang.String">
+            <column name="CENTERHEADNAME" />
+        </property>
+        <property name="centerheadqualification" type="java.lang.String">
+            <column name="CENTERHEADQUALIFICATION" />
+        </property>
+        <property name="centerheadphoneno" type="java.lang.String">
+            <column name="CENTERHEADPHONENO" />
+        </property>
+        <property name="centerheadresidenceaddress" type="java.lang.String">
+            <column name="CENTERHEADRESIDENCEADDRESS" />
+        </property>
+        <property name="centercoordinatorname" type="java.lang.String">
+            <column name="CENTERCOORDINATORNAME" />
+        </property>
+        <property name="centercoordinatorqualification" type="java.lang.String">
+            <column name="CENTERCOORDINATORQUALIFICATION" />
+        </property>
+        <property name="centercoordinatorphoneno" type="java.lang.String">
+            <column name="CENTERCOORDINATORPHONENO" />
+        </property>
+        <property name="centercoordinatorresidenceaddress" type="java.lang.String">
+            <column name="CENTERCOORDINATORRESIDENCEADDRESS" />
+        </property>
+        <property name="tag" type="java.lang.Integer">
+            <column name="TAG" />
+        </property>
+    </class>
+</hibernate-mapping>

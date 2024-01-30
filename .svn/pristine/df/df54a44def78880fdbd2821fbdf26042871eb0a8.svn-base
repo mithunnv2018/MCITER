@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+</h:head>
+<h:body>
+
+	<h:form >
+		<p:remoteCommand name="chekcredentials2addnewq"   autoRun="true" actionListener="#{commonParams2.checkCredentialsForLoggedOut('userMaster','/MCITER/loginpage.jsf')}"/>
+	
+		<h:messages />
+		<div style="width: 700px" align="right">
+							<p:commandButton value="Logout "
+								action="#{questionsUtil.resetSessionMith('{userMaster','loginpage')}"
+								style="font-size:xx-small;" />
+						</div>
+		<h6>Welcome user name #{userMaster.u_UserName} to MCITER page2</h6>
+ <h:outputText value="Hi Template is : #{themeSwitcher2.theme}" /> 
+			 <h:outputText value="Hi Template 2 is : #{theme2.theme}" /> 
+  
+		<p:panelGrid columns="2">
+			<h:outputText value="Question" />
+			<p:inputTextarea cols="100"
+				value="#{questionMasterController.questionMaster.q_Desc}" />
+
+			<h:outputText value="How many options?" />
+			<p:selectOneMenu
+				value="#{questionMasterController.questionMaster.q_Option}">
+				<f:selectItems value="#{commonParams2.noofoptionsList}" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Multi Select" />
+			<p:selectBooleanCheckbox
+				value="#{questionMasterController.questionMaster.q_MultiSelect}" />
+
+			<h:outputText value="Course Name" />
+			<p:selectOneMenu
+				value="#{questionMasterController.questionMaster.QC_ID}">
+				<f:selectItems value="#{commonParams2.courseList}" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Marks" />
+			<p:selectOneMenu
+				value="#{questionMasterController.questionMaster.m_ID}">
+				<f:selectItems value="#{commonParams2.marksList}" />
+			</p:selectOneMenu>
+		</p:panelGrid>
+		<p:commandButton value="Show Options"
+			actionListener="#{questionMasterController.doShowOptions()}"
+			update="idshowoptionspanel" ajax="false" />
+		<p:separator />
+		<p:separator />
+
+		<p:outputPanel id="idshowoptionspanel">
+
+			<p:dataTable
+				rendered="#{questionMasterController.questionMaster.q_MultiSelect}"
+				id="idmultioptionslist" var="options2"
+				value="#{questionMasterController.questionOptionsList}"
+				selection="#{questionMasterController.questionOptionsSelected}"
+				rowIndexVar="rownumber" rowKey="#{options2.QO_ID}">
+				<p:column selectionMode="multiple" />
+				<p:column>
+					<h:outputText value="#{commonParams2.showABCoptions[rownumber]}" />
+				</p:column>
+				<p:column>
+					<p:scrollPanel>
+						<p:inputTextarea cols="50" value="#{options2.QO_Name}" />
+					</p:scrollPanel>
+				</p:column>
+			</p:dataTable>
+
+			<p:dataTable
+				rendered="#{!questionMasterController.questionMaster.q_MultiSelect}"
+				id="idsingleoptionslist" var="options3"
+				value="#{questionMasterController.questionOptionsList}"
+				selection="#{questionMasterController.questionOptionsSingleSelected}"
+				rowIndexVar="rownumber2" rowKey="#{options3.QO_ID}">
+				<p:column selectionMode="single" />
+				<p:column>
+					<h:outputText value="#{commonParams2.showABCoptions[rownumber2]}" />
+				</p:column>
+				<p:column>
+					<p:scrollPanel>
+						<p:inputTextarea cols="50" value="#{options3.QO_Name}" />
+					</p:scrollPanel>
+				</p:column>
+			</p:dataTable>
+
+		</p:outputPanel>
+
+
+		<p:commandButton value="Save To DB"
+			action="#{questionMasterController.doSave()}" />
+
+
+
+
+	</h:form>
+
+</h:body>
+
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6 Aug, 2012 8:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblStudentresultDetails" table="tbl_studentresult_details"  >
+        <id name="studrestId" type="java.lang.Integer">
+            <column name="studrest_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblStudentexamConduct" class="com.mciter.commonbeans.TblStudentexamConduct" fetch="select">
+            <column name="SE_Id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblQuestioncategoryMaster" class="com.mciter.commonbeans.TblQuestioncategoryMaster" fetch="select">
+            <column name="QC_ID" not-null="true" />
+        </many-to-one>
+        <property name="studrestMonthandyear" type="string">
+            <column name="studrest_monthandyear" length="45" not-null="true" />
+        </property>
+        <property name="studrestCourseduration" type="string">
+            <column name="studrest_courseduration" length="45" not-null="true" />
+        </property>
+        <property name="studrestMaxmarks" type="int">
+            <column name="studrest_maxmarks" not-null="true" />
+        </property>
+        <property name="studrestMarksobtain" type="int">
+            <column name="studrest_marksobtain" not-null="true" />
+        </property>
+        <property name="studrestPercentage" type="int">
+            <column name="studrest_percentage" not-null="true" />
+        </property>
+        <property name="studrestGrade" type="string">
+            <column name="studrest_grade" length="45" not-null="true" />
+        </property>
+        <property name="studentId" type="string">
+            <column name="student_id" length="45" not-null="true" />
+        </property>
+        <property name="studrestPlace" type="string">
+            <column name="studrest_place" length="100" not-null="true" />
+        </property>
+        <property name="studrestCentercode" type="string">
+            <column name="studrest_centercode" length="100" not-null="true" />
+        </property>
+        <property name="studrestStudentfullname" type="string">
+            <column name="studrest_studentfullname" length="200" not-null="true" />
+        </property>
+        <property name="studrestCoursename" type="string">
+            <column name="studrest_coursename" length="200" not-null="true" />
+        </property>
+        <property name="studrestNameofanp" type="string">
+            <column name="studrest_nameofanp" length="200" not-null="true" />
+        </property>
+        <property name="studrestTag" type="int">
+            <column name="studrest_tag" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

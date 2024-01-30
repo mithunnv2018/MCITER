@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<script type="text/javascript" language="javascript">
+	function pollerror2()
+	{
+		//alert("Poll Error!");	
+	}
+	//for   code from http://www.tedpavlic.com/post_detect_refresh_with_javascript.php
+	 
+	 	  	 
+	function doStart2()
+	{
+		//set Interval("incr2()", 30000
+	}
+
+	function showStatusDialog()
+	{
+		bar.show();
+		dialogforstatus.show();
+	
+	}
+	function hideStatusDialog()
+	{
+		bar.hide();
+		dialogforstatus.hide();
+	}
+	 
+	
+</script>
+	<style type="text/css">
+.abcfont {
+	font-size: 6pt;
+}
+</style>
+</h:head>
+<f:view contentType="text/html">
+	<h:body>
+
+		<h:form id="idform2">
+			<!--		p:remoteCommand name="chekcredentials2"   autoRun="true" actionListener="commonParams2.checkCredentialsForLoggedOut('studentExamPaperController','/MCITER/studentloginpage.jsf')}"/>-->
+			<p:ajaxStatus>
+				<f:facet name="start">
+					<h:outputText value="Starting..." />
+				</f:facet>
+				<f:facet name="complete">
+					<h:outputText value="Done!" />
+				</f:facet>
+			</p:ajaxStatus>
+
+
+			<p:growl id="idgrowl2" autoUpdate="true" />
+			<p:poll stop="#{studentExamPaperController.stop}"
+				update="idtxtinput iddialogendexam" interval="1"
+				onerror="pollerror2()" id="idpoller" autoStart="true" />
+
+			<p:idleMonitor timeout="60000">
+				<p:ajax event="idle"
+					listener="#{studentExamPaperController.increment()}"
+					update="idtxtinput iddialogendexam" />
+			</p:idleMonitor>
+
+			<p:remoteCommand rendered="#{!studentExamPaperController.stop}"
+				autoRun="true" name="incr2"
+				actionListener="#{studentExamPaperController.increment()}"
+				update="idtxtinput" />
+
+
+			<p:layout fullPage="true" id="idpagelayout2">
+				<p:layoutUnit position="north" size="185">
+					<p:graphicImage value="/images/STUDENTLOGO.png"
+						style="text-align:center;" width="100%" height="130px" />
+
+
+					<p:panelGrid columns="6" style="font-size:9pt;border:0">
+						<h:outputText
+							value="Current Question No is #{studentExamPaperController.INDEX+1}" />
+						<h:outputText
+							value="Total Question is #{studentExamPaperController.ENDINDEX}" />
+						<h:outputText
+							value="Paper Name is: #{studentExamPaperController.examinationconduct.excName}" />
+
+						<h:outputText
+							value="Question Type is :#{studentExamPaperController.currentquestiontypename}" />
+
+						<div style="width: 700px" align="right">
+							<p:commandButton value="Logout "
+								action="#{questionsUtil.resetSessionMith('studentExamPaperController','studentloginpage')}"
+								style="font-size:xx-small;" />
+						</div>
+					</p:panelGrid>
+
+
+				</p:layoutUnit>
+				<p:layoutUnit position="west" size="200" resizable="true">
+					<p:tree value="#{studentExamPaperController.rootTreeNode}"
+						style="font-size:9pt;" var="node" dynamic="true"
+						selectionMode="single">
+						<p:treeNode>
+							<h:outputText value="#{node}" />
+						</p:treeNode>
+						<p:treeNode type="qno">
+							<p:commandButton
+								style="font-size:xx-small;#{studentExamPaperController.doGetTreeAttempted(node)};"
+								value="#{node}"
+								actionListener="#{studentExamPaperController.doNavigate3(node)}"
+								ajax="false" />
+						</p:treeNode>
+					</p:tree>
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center">
+					<p:panel header="#{studentExamPaperController.RELOGIN}">
+
+
+						<h:outputText id="idtxtinput" style="font-size:9pt;"
+							value="Minutes Left = #{studentExamPaperController.count}" />
+
+
+						<p:outputPanel id="idshowoptionspanel">
+
+
+							<p:panelGrid columns="2" style="font-size:9pt;">
+								<h:outputText value="Question" />
+								<p:inputTextarea cols="100" readonly="true"
+									value="#{studentExamPaperController.currentquestion.QDesc}" />
+
+							</p:panelGrid>
+							<p:separator />
+							<p:separator />
+
+							<p:dataTable style="font-size:9pt;"
+								rendered="#{studentExamPaperController.currentquestion.QMultiSelect}"
+								id="idmultioptionslist" var="options2"
+								value="#{studentExamPaperController.questionOptionsList}"
+								selection="#{studentExamPaperController.questionOptionsSelected}"
+								rowIndexVar="rownumber" rowKey="#{options2.qoId}">
+								<p:column selectionMode="multiple" />
+								<p:column>
+									<h:outputText
+										value="#{commonParams2.showABCoptions[rownumber]}" />
+								</p:column>
+								<p:column>
+									<p:inputTextarea readonly="true" autoResize="true" cols="50"
+										value="#{options2.qoName}" />
+								</p:column>
+							</p:dataTable>
+
+							<p:dataTable style="font-size:9pt;"
+								rendered="#{!studentExamPaperController.currentquestion.QMultiSelect}"
+								id="idsingleoptionslist" var="options3"
+								value="#{studentExamPaperController.questionOptionsList}"
+								selection="#{studentExamPaperController.questionOptionsSingleSelected}"
+								rowIndexVar="rownumber2" rowKey="#{options3.qoId}">
+								<p:column selectionMode="single" />
+								<p:column>
+									<h:outputText
+										value="#{commonParams2.showABCoptions[rownumber2]}" />
+								</p:column>
+								<p:column>
+
+									<p:inputTextarea autoResize="true" cols="50" readonly="true"
+										value="#{options3.qoName}" />
+
+								</p:column>
+							</p:dataTable>
+
+						</p:outputPanel>
+
+
+
+					</p:panel>
+				</p:layoutUnit>
+				<p:layoutUnit position="south" size="50px" style="height:9px;">
+					<!--					p:commandButton value="Previous"-->
+					<!--						actionListener="studentExamPaperController.doPrevious()}"-->
+					<!--						ajax="false" update="idshowoptionspanel" style="font-size:medium;" -->
+
+					<p:panelGrid style="width:100%">
+						<p:row>
+							<p:column style="text-align:center;">
+								<p:commandButton value="Submit Answer"
+									actionListener="#{studentExamPaperController.doSubmitAnswer()}"
+									ajax="false" style="font-size:medium;" />
+							</p:column>
+							<p:column style="text-align:right;">
+								<p:commandButton value="End Exam"
+									actionListener="#{studentExamPaperController.endofexam()}"
+									ajax="false" style="font-size:medium;" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<!--					p:commandButton value="Next"-->
+					<!--						actionListener="studentExamPaperController.doNext()}"-->
+					<!--						ajax="false" update="idshowoptionspanel" style="font-size:medium;" -->
+
+				</p:layoutUnit>
+			</p:layout>
+			<p:dialog id="iddialogendexam" modal="true"
+				visible="#{studentExamPaperController.stop}" closable="false">
+				<h:outputText value="End of Exam!" />
+				<p:commandButton value="CLICK HERE"
+					actionListener="#{studentExamPaperController.endofexam()}"
+					ajax="false" style="font-size:medium;" />
+			</p:dialog>
+
+			<p:dialog id="idstatusshow" widgetVar="dialogforstatus">
+				<h:outputText value="...Loading Exam" />
+			</p:dialog>
+			<p:notificationBar position="top" effect="slide" widgetVar="bar" 
+				styleClass="top">
+				<h:outputText
+					value="Hello Student Exam Paper is Loading!"
+					style="color:#FFCC00;font-size:36px;" />
+			</p:notificationBar>
+		</h:form>
+
+
+	</h:body>
+</f:view>
+</html>

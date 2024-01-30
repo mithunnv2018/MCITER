@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6 Aug, 2012 8:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblTypingtestSession" table="tbl_typingtest_session" catalog="mciterdemo">
+        <id name="typesesId" type="java.lang.Integer">
+            <column name="typeses_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblTypingtestDetails" class="com.mciter.commonbeans.TblTypingtestDetails" fetch="select">
+            <column name="typedet_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblStudentexamConduct" class="com.mciter.commonbeans.TblStudentexamConduct" fetch="select">
+            <column name="Se_Id" not-null="true" />
+        </many-to-one>
+        <property name="typesesDesc" type="string">
+            <column name="typeses_desc" length="5000" not-null="true" />
+        </property>
+        <property name="typesesCompletedOnTime" type="boolean">
+            <column name="typeses_CompletedOnTime" not-null="true" />
+        </property>
+        <property name="typesesMistakesdone" type="int">
+            <column name="typeses_mistakesdone" not-null="true" />
+        </property>
+        <property name="typesesTag" type="string">
+            <column name="typeses_tag" length="45" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

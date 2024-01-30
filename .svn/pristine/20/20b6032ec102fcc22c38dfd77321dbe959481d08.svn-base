@@ -1,0 +1,877 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+<style type="text/css">
+@font-face {
+	font-family: "kiran";
+	src: url(#{typingStudentExamPaperController.fonturl});
+}
+
+.ace {
+	font-family: "kiran";
+	font-size: 15pt;
+}
+</style>
+
+	<script type="text/javascript" language="javascript">
+ 	 <!--
+	 	  	 
+ 	var ishift=false;
+	var totaltime=0;
+	var speedtesttimer;
+	var stopspeedtest=false;
+
+
+//////////countdown code start//////////////////
+// set minutes
+var mins;
+ 
+// calculate the seconds (don't change this! unless time progresses at a different speed for you...)
+var secs;
+var txtbox5;
+var constantpara;
+
+var start;
+var mySplitResult;
+var previoustext="";
+// New Method xyz
+var mistakes=0;
+var isdouble;
+function keydowntext(evt,textBox){
+
+	var charCode = (evt.which) ? evt.which : event.keyCode;
+	if (charCode == 16) 
+     {
+ 	     ishift=true;
+ 	      
+ 	 }
+	if (charCode == 16) //Double and single quotes
+    {
+		isdouble = true;
+	     return false;
+	      
+	 }
+	if (charCode == 8) // backspace
+	{
+			/*if(ishift==true){
+				return false;
+			var v=textBox.value;
+			textBox.value = v;
+				}
+				return false;*/
+			//Logic backspace
+			//alert("Backspace");
+				var str = textBox.value;
+				var temp = new Array();
+				// this will return an array with strings "1", "2", etc.
+				temp = str.split(" ");
+
+				  /*for (a in temp ) {
+					temp[a] = temp[a];
+					//alert(temp[a]);
+					if(temp[a] == "")
+					{
+						alert("l space");
+						return false;
+					}
+					else{
+						alert("l nospace");
+						return true;
+					}
+				}*/
+				//alert("before if");
+				if(temp[temp.length-1] == ""){
+					//alert("length " + temp.length + " temp[temp.length-1] : " + temp[temp.length-1]);
+					return false;
+					}
+				return true;
+					
+				
+	}
+	if (charCode == 37) // left arrowmm
+	{
+			if(ishift==true){
+				return false;
+			var v=textBox.value;
+			textBox.value = v;
+				}
+				return false;
+		}	
+	
+	
+	if (charCode == 38) // up arrowmm
+	{
+		if(ishift==true){
+			return false;
+			var v=textBox.value;
+			textBox.value = v;
+				}
+			return false;
+	} 
+	 if (charCode == 39)  // right arrow
+		{
+		if(ishift==true){
+			return false;
+			var v=textBox.value;
+			textBox.value = v;
+				}
+			return false;
+	}
+	 if (charCode == 40)  // down arrow
+	{
+		if(ishift==true){
+			return false;
+			var v=textBox.value;
+			textBox.value = v;
+				}
+			return false;
+	}
+	 
+	 if (charCode == 46)  // delete
+	{
+
+			//alert("Delete Pressed");
+			return false;
+	}
+	
+}
+
+function xyz(evt, txtxyz1){
+
+var charCode = (evt.which) ? evt.which : event.keyCode;
+
+ //var textBox = obj;//getObject(obj);//'txt2');
+//alert("event"); 	
+//alert("double" + isdouble);
+//220 - backslash
+//222 - doublequotes
+
+	//alert("double: " + charCode);
+	if(charCode==222){
+	//alert("162doublequotes");
+		}
+	if(charCode==16){
+		ishift=false;
+	}
+	if (charCode == 162) 
+    {
+		isdouble = true;
+	     return false;
+	      
+	 }
+	 if(isdouble==true){
+		 //alert("double" + isdouble);
+		 }
+   if (charCode == 32) // space
+   {
+	var str = txtxyz1.value;
+	var temp = new Array();
+	// this will return an array with strings "1", "2", etc.
+	temp = str.split(" ");
+	//alert(str);
+	/*for (a in temp ) {
+		//temp[a] = temp[a];
+		//alert(temp[a]);
+		if(temp[a] == "")
+		{
+			alert("space");
+		}
+	}*/
+	var ascitemp = Asc(temp[temp.length-2]);
+	//alert("typedtext: " + temp[temp.length-2]);
+	//alert("Ascitypedtext: " + ascitemp);
+	//alert("Asciconstatn : " + asciiconstant);
+	var orginalasci = asciiconstant.split("&#32");
+	//alert("AsciOrignal: " + orginalasci[temp.length-2] );//asciiconstant
+	var mySplitResultnew = originalresultstring.split(" ");
+	if(orginalasci[temp.length-2] == ascitemp)
+	{
+		/*alert("Mysplitresult: " + mySplitResult[temp.length-2] + ":temp:" + temp[temp.length-2]);
+		alert("Correct");*/
+		previoustext = previoustext +  " " +mySplitResultnew[temp.length-2];
+	}
+	else{
+		/*alert("Mysplitresult: " + mySplitResult[temp.length-2] + ":temp:" + temp[temp.length-2]);
+		alert("Incorrect");*/
+		mistakes++;
+		//alert("mysplitResut:" + mySplitResult[temp.length-2] + ":temp[temp.length-2]:" + temp[temp.length-2] + ":");
+		previoustext = previoustext +  " <font color=red><b>" + mySplitResultnew[temp.length-2] + "</b></font>";
+	}
+      /*if(mySplitResult[temp.length-1] == "")
+	{
+		alert("space");
+	}*/
+	var nexttext="";
+	for (i=0; i<mySplitResultnew.length; i++)
+	  {
+		if(i > (temp.length-2)){
+		  //alert("temp: " + i + " text: " + temp[i] );
+			if(i == (temp.length-2) + 1){
+				nexttext = nexttext + " <b>" + mySplitResultnew[i] + "</b>";
+			}else{
+				nexttext = nexttext + " " + mySplitResultnew[i];
+			}
+		}
+	  }
+	//document.getElementById('para').innerHTML = previoustext  + nexttext;
+	document.getElementById('idform2:idpara2').innerHTML=previoustext  + nexttext;//idform2
+  }
+
+	
+}
+
+//End xyz
+function Asc(obj)
+{
+	var convertedObj = '';
+
+      for(i = 0; i < obj.length; i++)
+      { 
+
+            var asciiChar = obj.charCodeAt(i);
+
+            convertedObj += '&#' + asciiChar;
+
+      } 
+
+      return convertedObj;
+
+
+}
+
+var originalresultstring;
+var asciiconstant;
+
+function savetotaltime(time2,textstring)
+{
+	//alert("Savetotaltime done");
+	totaltime=time2/60;
+	mins=Math.round(totaltime);
+	secs = mins * 60;	
+	//alert("before spliting");
+	constantpara = textstring.value;
+	asciiconstant = textstring;
+	mySplitResult = textstring.split("&#");
+	//alert("after spliting");
+	
+	
+	var temp = new Array();
+	
+	for (i=0; i<mySplitResult.length; i++)
+	  {
+		
+			temp[i] = Chr(mySplitResult[i]);
+	  }
+	
+	
+	
+	//temp = textstring.split(" ");//b.split(' ');
+	var newHTML = "<b>";
+	var secondwordindex;
+	for (x=0; x<temp.length; x++)
+	  {
+		  if(temp[x]== " "){
+			  secondwordindex=x+1;
+			  break;
+		  }
+		   newHTML = newHTML + temp[x] ;
+		   originalresultstring = originalresultstring + temp[x];
+	  }
+	newHTML = newHTML + "</b> ";
+	originalresultstring = originalresultstring + " ";
+	for (y=secondwordindex; y<temp.length; y++)
+	  {
+		  //alert("temp: " + i + " text: " + temp[i] );
+		newHTML = newHTML + "" + temp[y];
+		originalresultstring = originalresultstring + temp[y];
+		//alert("iterated value: " + i + "temp: " + temp[i]);
+	  }
+	newHTML = newHTML + "";
+	start = true;
+	//document.getElementById('para').innerHTML = newHTML;
+	document.getElementById('idform2:idpara2').innerHTML=newHTML;//idform2
+	document.getElementById('idform2:idtxt2').readOnly=true;
+	
+	
+}
+
+function stopSpeedTestTimer()
+{
+	stopspeedtest=true;
+	var txtxyz1=document.getElementById('idform2:idtxt2');
+	
+	document.getElementById('idform2:idtxt2').readOnly=true;
+
+	
+
+	var str = txtxyz1.value;
+	var temp = new Array();
+	// this will return an array with strings "1", "2", etc.
+	temp = str.split(" ");
+	//alert(str);
+	/*for (a in temp ) {
+		//temp[a] = temp[a];
+		//alert(temp[a]);
+		if(temp[a] == "")
+		{
+			alert("space");
+		}
+	}*/
+	var ascitemp = Asc(temp[temp.length-2]);
+	//alert("typedtext: " + temp[temp.length-2]);
+	//alert("Ascitypedtext: " + ascitemp);
+	//alert("Asciconstatn : " + asciiconstant);
+	var orginalasci = asciiconstant.split("&#32");
+	//alert("AsciOrignal: " + orginalasci[temp.length-2] );//asciiconstant
+	var mySplitResultnew = originalresultstring.split(" ");
+	//if (temp[temp.length-2] != ""){
+	if(orginalasci[temp.length-2] == ascitemp)
+	{
+		/*alert("Mysplitresult: " + mySplitResult[temp.length-2] + ":temp:" + temp[temp.length-2]);
+		alert("Correct");*/
+		previoustext = previoustext +  " " +mySplitResultnew[temp.length-2];
+	}
+	else{
+		/*alert("Mysplitresult: " + mySplitResult[temp.length-2] + ":temp:" + temp[temp.length-2]);
+		alert("Incorrect");*/
+		mistakes++;
+		//alert("mysplitResut:" + mySplitResult[temp.length-2] + ":temp[temp.length-2]:" + temp[temp.length-2] + ":");
+		previoustext = previoustext +  " <font color=red><b>" + mySplitResultnew[temp.length-2] + "</b></font>";
+	}
+      /*if(mySplitResult[temp.length-1] == "")
+	{
+		alert("space");
+	}*/
+	var nexttext="";
+	for (i=0; i<mySplitResultnew.length; i++)
+	  {
+		if(i > (temp.length-2)){
+		  //alert("temp: " + i + " text: " + temp[i] );
+			if(i == (temp.length-2) + 1){
+				nexttext = nexttext + " <b>" + mySplitResultnew[i] + "</b>";
+			}else{
+				nexttext = nexttext + " " + mySplitResultnew[i];
+			}
+		}
+	  }
+	//document.getElementById('para').innerHTML = previoustext  + nexttext;
+	document.getElementById('idform2:idpara2').innerHTML=previoustext  + nexttext;//idform2
+	//}
+	alert("msiteke: " + mistakes);
+	if(orginalasci.length != temp.length){
+		mistakes = mistakes + (orginalasci.length - temp.length); 
+	}
+	alert("mistakes:"+mistakes+" orginalasciilength "+orginalasci.length+" templength="+ temp.length);
+	document.getElementById('idform2:idmistakes2').value=mistakes;
+	document.getElementById('idform2:idminutes2').value=getminutes();
+	document.getElementById('idform2:idseconds2').value=getseconds();
+	
+	
+	
+}
+function startSpeedTestTimer()
+{
+	
+ 
+}
+function Chr(AsciiNum)
+{
+	//var ascival2;
+	//alert(AsciiNum);
+	//var Asciisplit = AsciiNum.split("&#");
+
+	//for (var i=0; i < Asciisplit.length; i++) {
+
+	//	 ascival2 = ascival2 + "Asc:" + 
+
+	//}
+	return String.fromCharCode(AsciiNum);;
+
+}
+
+
+function countdown() {
+	//document.getElementById('idform2:idtxt2').disabled=false;
+	document.getElementById('idform2:idtxt2').readOnly=false;
+	txtbox5.focus();
+	//var element3 = document.getElementById("idform2:idtxt2");
+ 	//alert("jquery here"+element3.value);
+	setTimeout('Decrement()',1000);
+}
+function Decrement() {
+	if (document.getElementById) {
+		minutes = document.getElementById("minutes");
+		seconds = document.getElementById("seconds");
+		// if less than a minute remaining
+		if (seconds < 59) {
+			seconds.value = secs;
+		} else {
+			minutes.value = getminutes();
+			seconds.value = getseconds();
+		}
+		//secs;
+	    secs=secs-1;
+	    if(getminutes()<=0)
+	    {
+		    if(getseconds()<=0)
+		    {
+    			stopspeedtest=true;
+		    }
+	    }
+		if(stopspeedtest==false)
+		{
+			setTimeout('Decrement()',1000);
+		}
+	}
+}
+function getminutes() {
+	// minutes is seconds divided by 60, rounded down
+	mins = Math.floor(secs / 60);
+	return mins;
+}
+function getseconds() {
+	// take mins remaining (as seconds) away from total seconds remaining
+	return secs-Math.round(mins *60);
+}
+
+/////////////countdown code end///////////////	
+
+///////////////key code event handling code start//
+	function setfocus(obj)
+	{
+		txtbox5=obj;		
+		
+	}
+
+	function displayKeyCode(evt,obj)
+ 	 {
+ 	 	//alert("Total time is ="+totaltime);
+ 	 	
+ 		var textBox = obj;//getObject(obj);//'txt2');
+ 		 var charCode = (evt.which) ? evt.which : event.keyCode;
+ 		 //textBox.value = String.fromCharCode(charCode);
+ 		 //0if (charCode == 8) textBox.value = "backspace"; //  backspace
+ 		 if (charCode == 8) {
+
+ 	 		 }
+
+ 		/*if (charCode == 32) // space
+		{
+
+				
+			
+				var v=textBox.value;
+				var splituser = v.split[" "];
+				
+				if(splituser.length > 0){	
+				//	alert("space");				
+				var lastelement = splituser[splituser.length-1];
+				
+				var splitpara = constantpara.split[" "];
+
+				
+				newHTMLx = "splituserlength: " + splituser.length + "split para length: " + splitpara.length);
+				
+				for( x=0;x<splitpara.length;x++)
+				{
+					//alert("splituserlength: " + splituser.length + "x length: " + x);
+					if(splituser.length-1 == x){
+
+						if(lastelement!=splitpara[x]){
+							//alert("Incorrect");
+							newHTMLx = newHTMLx + " : correct";
+							break;
+						}else{
+							//alert("Correct");
+							newHTMLx = newHTMLx + " : incorrect";
+							break;
+							}
+					}
+				}
+				}
+				
+ 				return false;
+		}*/
+		if (charCode == 32) // space
+		{
+
+				
+			
+				var v=textBox.value;
+				//document.getElementById('para').innerHTML = ""+ v;
+				document.getElementById('idform2:idpara2').innerHTML=""+v;//idform2
+				if(start == false){
+				var splituser = new Array();
+				splituser = v.split[" "];
+				
+				//if(splituser.length > 0){	
+				for (i=1; i<splituser.length; i++)
+	 			 {
+		 			 
+					newHTML = newHTML + " " + splituser[i];
+					if(i== splituser.length-1){
+						lastelement =  splituser[i];
+				
+						}
+	 			 }
+				
+				//document.getElementById('para').innerHTML =  " First: " + newHTML + "split length - 1: "  + splituser[splituser.length-1] + ", Last ele: " + lastelement;
+				
+				//var lastelement = splituser[splituser.length-1];
+				
+				var splitpara = constantpara.split[" "];
+				
+				//alert("displayKeyCode");
+				var newHTMLx = "splituserlength: " + splituser.length + "split para length: " + splitpara.length;
+				//document.getElementById('para').innerHTML = newHTMLx;
+				for(x=0;x<splitpara.length;x++)
+				{
+					newHTMLx = newHTMLx + " - splituserlength: " + splituser.length + "x length: " + x;
+					if(splituser.length-1 == x){
+
+						if(lastelement!=splitpara[x]){
+							newHTMLx = newHTMLx + " : correct";
+							break;
+						}else{
+							newHTMLx = newHTMLx + " : incorrect";
+							break;
+							}
+					}
+				}
+				//document.getElementById('para').innerHTML = newHTMLx;
+				document.getElementById('idform2:idpara2').innerHTML=newHTMLx;//idform2
+				//}
+				}
+				start = false;
+ 				return false;
+		}
+ 		 
+ 		// if (charCode == 16) textBox.value = "shift"; //  shift
+ 		 if (charCode == 16) 
+ 	     {
+ 	 	     ishift=true;
+ 	 	      
+ 	 	 }
+ 		 if (charCode == 37) // left arrowmm
+			{
+ 				if(ishift==true){
+ 	 				return false;
+					var v=textBox.value;
+					textBox.value = v;
+ 	 				}
+	 				return false;
+ 			}
+ 		if (charCode == 38) // up arrowmm
+		{
+				if(ishift==true){
+					return false;
+					var v=textBox.value;
+					textBox.value = v;
+	 				}
+ 				return false;
+			} 
+ 		 if (charCode == 39)  // right arrow
+ 			{
+				if(ishift==true){
+					return false;
+					var v=textBox.value;
+					textBox.value = v;
+	 				}
+ 				return false;
+			}
+ 		 if (charCode == 40)  // down arrow
+ 		{
+				if(ishift==true){
+					return false;
+					var v=textBox.value;
+					textBox.value = v;
+	 				}
+ 				return false;
+			}
+ 		 
+ 		 if (charCode == 46)  // delete
+ 		{
+		
+					//alert("Delete Pressed");
+					return false;
+			}
+ 		 
+ 		 if (charCode == 93)   // select key
+	 	 {
+ 		 	 alert("Illegal Key Entered!")
+			return false;
+ 		 }			
+ 		 
+ 		 //var lblCharCode = getObject('spnCode');
+ 		//lblCharCode.innerHTML = 'KeyCode:  ' + charCode;
+
+ 		return true;
+
+ 	 }
+ 	function displayKeyUp(evt,obj)
+	 {
+ 		var charCode = (evt.which) ? evt.which : event.keyCode;
+
+ 		var textBox = obj;//getObject(obj);//'txt2');
+		if(charCode==16){
+				ishift=false;
+			}
+
+		if (charCode == 32) // space
+		{
+
+				
+			//alert("space outside" + textBox.value);
+			var v = new String("string");
+				 v=textBox.value;
+				//alert("v: " + v + " txtbox5 : " + txtbox5.value);
+				
+				
+
+				var temp = new Array();
+				temp = txtbox5.split(" ");//b.split(' ');
+				//var newHTML = "<span style='color:#000000'><b>" + mySplitResult[0] + "</b>";
+				
+				for (i=1; i<temp.length; i++)
+				  {
+					 //alert("temp: " + i + " text: " + temp[i] );
+					//newHTML = newHTML + " " + temp[i];
+				  }
+				  
+				var splituser = v.split[" "];
+				
+				//if(splituser.length > 0){	
+					//alert("space" + splituser);
+					for (i=1; i<splituser.length; i++)
+		 			 {
+			 			 //alert("splituser for loop");
+						newHTML = newHTML + " " + splituser[i];
+						if(i== splituser.length-1){
+							lastelement =  splituser[i];
+							//alert("Last element " + lastelement);
+							}
+		 			 }
+									
+				//var lastelement = splituser[splituser.length-1];
+				//alert("splituser last element: " + lastelement);
+				var splitpara = constantpara.split[" "];
+
+				
+				//alert("splituserlength: " + splituser.length + "split para length: " + splitpara.length);
+				for( x=0;x<splitpara.length;x++)
+				{
+					//alert("splituserlength: " + splituser.length + "x length: " + x);
+					if(splituser.length-1 == x){
+
+						if(lastelement!=splitpara[x]){
+							//alert("Incorrect");
+							break;
+						}else{
+							//alert("Correct");
+							break;
+							}
+					}
+				}
+				//}
+ 				return false;
+		}
+	
+
+
+		  
+ 		  // these should never be true in keyup event:
+ 		 
+	 }
+ 	 function getObject(obj)
+ 	  {
+ 		  var theObj;
+ 		  if (document.all) {
+ 			  if (typeof obj=='string') {
+ 				  return document.all(obj);
+ 			  } else {
+ 				  return obj.style;
+ 			  }
+ 		  }
+ 		  if (document.getElementById) {
+ 			  if (typeof obj=='string') {
+ 				  return document.getElementById(obj);
+ 			  } else {
+ 				  return obj.style;
+ 			  }
+ 		  }
+ 		  return null;
+ 	  }
+ 	
+ 
+	/***********************************************
+	* Disable Text Selection script- © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+	* This notice MUST stay intact for legal use
+	* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+	***********************************************/
+
+	function disableSelection(target){
+	if (typeof target.onselectstart!="undefined") //IE route
+		target.onselectstart=function(){return false}
+	else if (typeof target.style.MozUserSelect!="undefined") //Firefox route
+		target.style.MozUserSelect="none"
+	else //All other route (ie: Opera)
+		target.onmousedown=function(){return false}
+
+	 
+	target.style.cursor = "default"
+	}
+///////////////key code event handling code ENDS //
+	//Sample usages
+	//disableSelection(document.body) //Disable text selection on entire body
+	//disableSelection(document.getElementById("mydiv")) //Disable text selection on element with id="mydiv"
+
+	//var somediv=document.getElementById("txt1")
+	//disableSelection(somediv)
+	 
+-->	
+</script>
+	<style type="text/css">
+.abcfont {
+	font-size: 6pt;
+}
+</style>
+</h:head>
+<f:view contentType="text/html">
+	<h:body>
+
+		<h:form id="idform2">
+			<p:remoteCommand name="idsetspeedtestime" autoRun="true"
+				onstart="savetotaltime(#{typingStudentExamPaperController.speedtestendtime},'#{typingStudentExamPaperController.tblTypingtestMaster.typetDesc}')" />
+			<p:focus for="idtxt2" context="idtxt2"></p:focus>
+
+			<p:growl id="idgrowl2" autoUpdate="true" />
+
+			<!--			<p:idleMonitor timeout="60000">-->
+			<!--				<p:ajax event="idle"-->
+			<!--					listener="{studentExamPaperController.increment()}"-->
+			<!--					update="idtxtinput iddialogendexam" />-->
+			<!--			</p:idleMonitor>-->
+
+
+			<p:layout fullPage="true" id="idpagelayout2">
+				<p:layoutUnit position="north" size="185">
+
+
+					<p:graphicImage value="/images/STUDENTLOGO.png"
+						style="text-align:center;" width="100%" height="130px" />
+
+
+					<p:panelGrid columns="6" style="font-size:9pt;border:0">
+						<div style="width: 900px" align="right">
+							<p:commandButton value="Logout "
+								action="#{questionsUtil.resetSessionMith('typingStudentExamPaperController','typingstudentloginpage')}"
+								style="font-size:xx-small;" />
+						</div>
+					</p:panelGrid>
+
+
+				</p:layoutUnit>
+				<p:layoutUnit position="west" size="200" resizable="true">
+
+				</p:layoutUnit>
+
+				<p:layoutUnit position="center">
+
+					<p:panel>
+					
+						<f:facet name="header">
+							<h:outputText 
+								value="Type of Exam :#{typingStudentExamPaperController.tblTypingtestMaster.typetTypingtype}" />
+
+						</f:facet>
+ 
+						<h:outputText escape="false" id="idpara2" value="" style="font-size:20px;font-family:kiran;"/>
+					
+						<!--<h:outputText style="background-color:green;margin-left:20px;font-family:kiran;color:white;font-size:20px;"
+							value="typingStudentExamPaperController.tblTypingtestMaster.typetDesc}" />
+							
+					-->
+					</p:panel>
+					<h:outputText value="Exam Timer for Speed Test" />
+
+					<input id="minutes" type="text"
+						style="width: 14px; border: none; background-color: none; font-size: 16px; font-weight: bold;" />
+							minutes and 
+							<input id="seconds" type="text"
+						style="width: 26px; border: none; background-color: none; font-size: 16px; font-weight: bold;" />
+								seconds. 
+ 					<p:panel>
+
+
+						<p:inputTextarea widgetVar="txt2" cols="80" id="idtxt2"
+							value="#{typingStudentExamPaperController.speedtestenteredtext}"
+							onkeydown="javascript:return keydowntext(event, this)"
+							onmouseover="disableSelection(this)"
+							onkeyup="xyz(event, this)"
+							onselect="return false" onfocus="setfocus(this)"
+							style="font-size:20px;font-family:kiran;"	
+							onmousedown="return false"></p:inputTextarea>
+							
+						<h:inputHidden value="#{typingStudentExamPaperController.mistakes}" id="idmistakes2" />	
+						<h:inputHidden value="#{typingStudentExamPaperController.endingminutes}" id="idminutes2" />	
+						<h:inputHidden value="#{typingStudentExamPaperController.endingseconds}" id="idseconds2" />	
+						
+	
+						<!--<input id="txt1" onkeydown="javascript:return displayKeyCode(event)" name="txt1" type="text"  onmouseover="disableSelection(this)"/>
+						-->
+
+					</p:panel>
+
+					<p:panel>
+						<p:commandButton widgetVar="btnstart" value="Start Speed Test" 
+							onclick="countdown();btnstart.disable();"   />
+						<p:commandButton value="Stop Speed Test"
+							onclick="stopSpeedTestTimer();btnstart.enable();" />
+
+					</p:panel>
+					<p:outputPanel id="idresult2" rendered="#{typingStudentExamPaperController.speedtestover}">
+						<p:panelGrid columns="2">
+							
+							<f:facet name="header">Speed Typing Exam Result</f:facet>
+							<h:outputText value="Result in detail" />
+							<h:outputText
+								value="#{typingStudentExamPaperController.resultfromhashmap}" />
+							<h:outputText value="Result" />
+							<h:outputText escape="false"
+								value="#{typingStudentExamPaperController.resultinhtml}" />
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:layoutUnit>
+				<p:layoutUnit position="south" size="50px" style="height:9px;">
+					<p:commandButton value="VIEW RESULT" update="idresult2" ajax="false"
+						actionListener="#{typingStudentExamPaperController.doEndExam()}"></p:commandButton>
+				</p:layoutUnit>
+			</p:layout>
+			<!--			<p:dialog id="iddialogendexam" modal="true"-->
+			<!--				visible="{studentExamPaperController.stop}" closable="false">-->
+			<!--				<h:outputText value="End of Exam!" />-->
+			<!--				<p:commandButton value="CLICK HERE"-->
+			<!--					actionListener="{studentExamPaperController.endofexam()}"-->
+			<!--					ajax="false" style="font-size:medium;" />-->
+			<!--			</p:dialog>-->
+			<!---->
+			<!--			<p:dialog id="idstatusshow" widgetVar="dialogforstatus">-->
+			<!--				<h:outputText value="...Loading Exam" />-->
+			<!--			</p:dialog>-->
+			<!--			<p:notificationBar position="top" effect="slide" widgetVar="bar">-->
+			<!--				<h:outputText value="Hello Student Exam Paper is Loading!"-->
+			<!--					style="color:#FFCC00;font-size:36px;" />-->
+			<!--			</p:notificationBar>-->
+
+		</h:form>
+
+
+	</h:body>
+</f:view>
+</html>

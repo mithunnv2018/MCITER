@@ -1,0 +1,288 @@
+package com.mciter.services;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
+
+import com.mciter.commonbeans.TblFontMaster;
+import com.mciter.commonbeans.TblQuestioncategoryMaster;
+import com.mciter.commonbeans.TblTypingtestMaster;
+import com.mciter.utils.CommonParams2;
+
+public class EditTypingMasterController implements Serializable {
+
+	private TblQuestioncategoryMaster tblquestioncategorymaster;
+	private TblTypingtestMaster tbltypingtestmaster;
+	private TblFontMaster tblfontmaster;
+	private ArrayList<TblFontMaster> listtblfontmaster;
+	private String fonturl = "kiran.TTF";
+
+	private ArrayList<HashMap> listofoldtypingtestmaster;
+	private HashMap<String, String> selectedhashmap;
+	private HashMap<Integer, TblTypingtestMaster> mapofoldmasters;
+	
+	private Integer realtbltypingtestmasterid;
+	private final String MITH_TBLTYPINGTESTMASTERID="mithtbltypingtestmaster";
+	
+
+	public EditTypingMasterController() {
+		tblquestioncategorymaster = new TblQuestioncategoryMaster();
+		tbltypingtestmaster = new TblTypingtestMaster();
+		tblfontmaster = new TblFontMaster();
+		doloadFonts();
+		doloadOldListtypingmaster();
+	}
+
+	public void doloadForEditing() {
+		System.out.println("EditTypingMasterController.doloadForEditing()");
+		if (selectedhashmap != null) {
+			String string = selectedhashmap.get("typetid");
+
+			Integer typetid = Integer.parseInt(string);
+			
+			tbltypingtestmaster = mapofoldmasters.get(typetid);
+			String decodeFromAscii = CommonParams2.decodeFromAscii(tbltypingtestmaster.getTypetDesc());
+			tbltypingtestmaster.setTypetDesc(decodeFromAscii);
+			
+			QuestionsUtil.dosaveSessionValue2(tbltypingtestmaster, MITH_TBLTYPINGTESTMASTERID);
+			
+			System.out.println("OLD VALUE IS Tbltypingtestmaster has id="+tbltypingtestmaster.getTypetId());
+			
+			realtbltypingtestmasterid=typetid;
+			
+			List<TblFontMaster> retrieveWherClause = QuestionsUtil
+					.retrieveWherClause(new TblFontMaster(), "TblFontMaster",
+							"font_id=" + tbltypingtestmaster.getFontId());
+
+			tblfontmaster = retrieveWherClause.get(0);
+			fonturl = tblfontmaster.getFontPath();
+			doSetSessionFont(fonturl);
+			// tblfontmaster.setFontId(tbltypingtestmaster.getFontId());
+			tblquestioncategorymaster.setQcId(tbltypingtestmaster.getQcId());
+
+		} else {
+			System.err.println("No Item selected in datatable");
+		}
+	}
+
+	public String doUpdateAll() {
+		System.out.println("EditTypingMasterController.doUpdateAll()");
+		try {
+			TblTypingtestMaster dogetSessionValue2 = QuestionsUtil.dogetSessionValue2(new TblTypingtestMaster(),MITH_TBLTYPINGTESTMASTERID);
+			if(dogetSessionValue2==null)
+			{
+				System.err.println("Nope null object ");
+				return "";
+			}
+			dogetSessionValue2.setTypetAlias(tbltypingtestmaster.getTypetAlias());
+//			dogetSessionValue2.setTypetDesc(tbltypingtestmaster.getTypetDesc());
+			String ecoded=CommonParams2.encodeToAscii(tbltypingtestmaster.getTypetDesc());
+			dogetSessionValue2.setTypetDesc(ecoded);
+			dogetSessionValue2.setFontId(tblfontmaster.getFontId());
+			dogetSessionValue2.setQcId(tblquestioncategorymaster.getQcId());
+			QuestionsUtil.updateToQuestions(dogetSessionValue2);
+			System.out.println("Doing Update" + "ID is="+dogetSessionValue2.getTypetId());
+			new QuestionsUtil().resetSessionMith(MITH_TBLTYPINGTESTMASTERID, "");
+			
+//					realtbltypingtestmasterid);
+//					+ realtbltypingtestmaster.getTypetId() + " font id="
+//					+ realtbltypingtestmaster.getFontId()+" "+realtbltypingtestmaster.getTypetAlias());
+			// QuestionsUtil.updateToQuestions(tbltypingtestmaster);
+
+			System.out.println("Done Update");
+			return "index";
+
+		} catch (Exception e) {
+			System.err.println("error here " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return "";
+	}
+
+	private void doloadOldListtypingmaster() {
+		List<TblTypingtestMaster> retrieveALLwithHB = QuestionsUtil
+				.retrieveALLwithHB(new TblTypingtestMaster(),
+						"TblTypingtestMaster", "");
+		listofoldtypingtestmaster = new ArrayList<HashMap>();
+		HashMap<String, String> mapofoldtypingtestmaster;
+		mapofoldmasters = new HashMap<Integer, TblTypingtestMaster>();
+		System.out
+				.println("TypingMasterController.doloadOldListtypingmaster()");
+		if (retrieveALLwithHB.size() > 0) {
+
+			System.out.println("Made it tostep one typingtestmaster");
+			for (int i = 0; i < retrieveALLwithHB.size(); i++) {
+				mapofoldtypingtestmaster = new HashMap<String, String>();
+				TblTypingtestMaster tblTypingtestMaster2 = retrieveALLwithHB
+						.get(i);
+				Integer typetId = tblTypingtestMaster2.getTypetId();
+				int fontId = tblTypingtestMaster2.getFontId();
+				int qcId = tblTypingtestMaster2.getQcId();
+				System.out.println("fontid=" + fontId + " qcid=" + qcId);
+				List<TblFontMaster> retrieveWherClause = QuestionsUtil
+						.retrieveWherClause(new TblFontMaster(),
+								"TblFontMaster", "font_id=" + fontId);
+				List<TblQuestioncategoryMaster> retrieveWherClause2 = QuestionsUtil
+						.retrieveWherClause(new TblQuestioncategoryMaster(),
+								"TblQuestioncategoryMaster", "QC_ID=" + qcId);
+				if (retrieveWherClause.size() > 0
+						&& retrieveWherClause2.size() > 0) {
+
+					TblFontMaster tblFontMaster2 = retrieveWherClause.get(0);
+					TblQuestioncategoryMaster tblQuestioncategoryMaster2 = retrieveWherClause2
+							.get(0);
+					mapofoldtypingtestmaster.put("fontname",
+							tblFontMaster2.getFontName());
+					mapofoldtypingtestmaster.put("course",
+							tblQuestioncategoryMaster2.getQcName());
+					System.out.println("Made it tostep two added to hashmap");
+				}
+
+				mapofoldtypingtestmaster.put("paragraph",
+						tblTypingtestMaster2.getTypetAlias());
+				mapofoldtypingtestmaster.put("typetid", typetId.toString());
+				System.out.println("Made it tostep three hasmap="
+						+ mapofoldtypingtestmaster.toString());
+				listofoldtypingtestmaster.add(mapofoldtypingtestmaster);
+				mapofoldmasters.put(typetId, tblTypingtestMaster2);
+			}
+		}
+	}
+
+	private void doloadFonts() {
+		listtblfontmaster = new ArrayList<TblFontMaster>();
+		List<TblFontMaster> retrieveALLwithHB = QuestionsUtil
+				.retrieveALLwithHB(new TblFontMaster(), "TblFontMaster", "");
+		listtblfontmaster.addAll(retrieveALLwithHB);
+
+	}
+
+	private void doSetSessionFont(String fonturl2) {
+		ExternalContext ctx = FacesContext.getCurrentInstance()
+				.getExternalContext();
+		
+		
+		System.out.println("EditTypingMasterController.doSetSessionFont()");
+
+		HttpSession session = (HttpSession) ctx.getSession(false);
+		if (session.getAttribute("commonParams2") != null) {
+			CommonParams2 comparam2 = (CommonParams2) session
+					.getAttribute("commonParams2");
+			comparam2.setFonturl(fonturl2);
+			session.setAttribute("commonParams2", comparam2);
+			System.out.println("saved to session commonparams2");
+		} else {
+			System.err.println("Sorry no such object commonParams2");
+		}
+	}
+
+	public void doUpdateFont() {
+		Integer fontId = tblfontmaster.getFontId();
+		List<TblFontMaster> retrieveWherClause = QuestionsUtil
+				.retrieveWherClause(new TblFontMaster(), "TblFontMaster",
+						"font_id=" + fontId);
+		if (retrieveWherClause.size() > 0) {
+			TblFontMaster tblFontMaster2 = retrieveWherClause.get(0);
+			fonturl = tblFontMaster2.getFontPath();
+			doSetSessionFont(fonturl);
+		}
+	}
+
+	/*public String doSaveAll() {
+		try {
+			System.out.println("TypingMasterController.doSaveAll()");
+			if (tblquestioncategorymaster == null
+					|| tblquestioncategorymaster.getQcId() == null) {
+				CommonParams2.showMessageOnScreen("No Course Selected");
+				System.err.println("No Course Selected");
+				return "";
+			}
+			if (tblfontmaster.getFontId() == null) {
+				CommonParams2.showMessageOnScreen("No font Selected");
+				System.err.println("No font Selected");
+				return "";
+			}
+			tbltypingtestmaster.setFontId(tblfontmaster.getFontId());
+			tbltypingtestmaster.setQcId(tblquestioncategorymaster.getQcId());
+			// tbltypingtestmaster.setTypetAlias() DONE AUTOMATICALLY
+			// tbltypingtestmaster.setTypetDesc(typetDesc) DONE AUTOMATICALLY
+			Integer doGetNextPK = QuestionsUtil.doGetNextPK(
+					"TblTypingtestMaster", "typet_ID", false);
+			tbltypingtestmaster.setTypetId(doGetNextPK);
+			tbltypingtestmaster.setTypetTag(doGetNextPK);
+			tbltypingtestmaster.setTypetTypingtype("SPEED");
+			QuestionsUtil.saveToNewQuestions(tbltypingtestmaster);
+			System.out.println("Done Saveing TypingTestMaster");
+			return "index";
+		} catch (Exception e) {
+			System.err.println("Exception here " + e.getMessage());
+			e.printStackTrace();
+		}
+		return "";
+	}*/
+
+	public TblQuestioncategoryMaster getTblquestioncategorymaster() {
+		return tblquestioncategorymaster;
+	}
+
+	public void setTblquestioncategorymaster(
+			TblQuestioncategoryMaster tblquestioncategorymaster) {
+		this.tblquestioncategorymaster = tblquestioncategorymaster;
+	}
+
+	public TblTypingtestMaster getTbltypingtestmaster() {
+		return tbltypingtestmaster;
+	}
+
+	public void setTbltypingtestmaster(TblTypingtestMaster tbltypingtestmaster) {
+		this.tbltypingtestmaster = tbltypingtestmaster;
+	}
+
+	public TblFontMaster getTblfontmaster() {
+		return tblfontmaster;
+	}
+
+	public void setTblfontmaster(TblFontMaster tblfontmaster) {
+		this.tblfontmaster = tblfontmaster;
+	}
+
+	public ArrayList<TblFontMaster> getListtblfontmaster() {
+		return listtblfontmaster;
+	}
+
+	public void setListtblfontmaster(ArrayList<TblFontMaster> listtblfontmaster) {
+		this.listtblfontmaster = listtblfontmaster;
+	}
+
+	public ArrayList<HashMap> getListofoldtypingtestmaster() {
+		return listofoldtypingtestmaster;
+	}
+
+	public void setListofoldtypingtestmaster(
+			ArrayList<HashMap> listofoldtypingtestmaster) {
+		this.listofoldtypingtestmaster = listofoldtypingtestmaster;
+	}
+
+	public String getFonturl() {
+		return fonturl;
+	}
+
+	public void setFonturl(String fontname) {
+		this.fonturl = fontname;
+	}
+
+	public HashMap<String, String> getSelectedhashmap() {
+		return selectedhashmap;
+	}
+
+	public void setSelectedhashmap(HashMap<String, String> selectedhashmap) {
+		this.selectedhashmap = selectedhashmap;
+	}
+
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form>
+	<h:messages />
+		<p:remoteCommand name="chekcredentials2addnewclient"   autoRun="true" actionListener="#{commonParams2.checkCredentialsForLoggedOut('userMaster','/MCITER/loginpage.jsf')}"/>
+	<div style="width: 700px" align="right">
+			<p:commandButton value="Logout "
+				action="#{questionsUtil.resetSessionMith('userMaster','loginpage')}"
+				style="font-size:xx-small;" />
+		</div>
+		<h1>Welcome to Client Information !</h1>
+		<p:panel >
+		
+		<p:panelGrid columns="2" >
+		<f:facet name="header">Information about Institute!</f:facet>
+		<h:outputText value="Name of Institute" />
+		<p:inputText value="#{forms_Center_StudentController.centerdetails.nameofinstitute}"/>
+		
+		<h:outputText value="Address of Institute" />
+		<p:inputTextarea value="#{forms_Center_StudentController.centerdetails.addressofinstitute}"/>
+		
+		<h:outputText value="Taluka of Institute" />
+		 <p:inputText value="#{forms_Center_StudentController.centerdetails.talukaofinstitute}"/>
+		
+		<h:outputText value="District where Institute belongs" />
+		<p:inputText value="#{forms_Center_StudentController.centerdetails.distofinstitute}"/>
+		
+		<h:outputText value="State where Institute belongs" />
+		<p:inputText value="#{forms_Center_StudentController.centerdetails.stateofinstitute}"/>
+		
+		<h:outputText value="Email ID of Institute " />
+		<p:inputText value="#{forms_Center_StudentController.centerdetails.emailid}"/>
+		
+		<h:outputText value="Enter new password" />
+		<p:password feedback="true" value="#{forms_Center_StudentController.centerdetails.centerpassword}"/>
+		
+		</p:panelGrid>
+		
+		<p:commandButton value="Save" action="#{forms_Center_StudentController.saveNewInstituteDetails()}"/>
+		</p:panel>  
+			
+ 
+	</h:form>
+</h:body>
+</html>

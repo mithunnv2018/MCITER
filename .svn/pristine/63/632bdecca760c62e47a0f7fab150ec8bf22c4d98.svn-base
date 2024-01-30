@@ -1,0 +1,393 @@
+package com.mciter.services;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
+import org.primefaces.context.RequestContext;
+
+import com.mciter.commonbeans.TblCenterDetails;
+import com.mciter.commonbeans.TblExaminationConduct;
+import com.mciter.commonbeans.TblPapermainqDetails;
+import com.mciter.commonbeans.TblPaperpatternMaster;
+import com.mciter.commonbeans.TblStudentDetails;
+import com.mciter.commonbeans.TblStudentexamConduct;
+import com.mciter.commonbeans.TblStudentpaperSession;
+import com.mciter.commonbeans.TblTypingtestDetails;
+import com.mciter.commonbeans.TblTypingtestMaster;
+import com.mciter.commonbeans.TblTypingtestSession;
+import com.mciter.utils.CommonParams2;
+import name.fraser.neil.plaintext.*;
+import name.fraser.neil.plaintext.diff_match_patch.Diff;
+import name.fraser.neil.plaintext.diff_match_patch.Operation;
+
+public class TypingStudentExamPaperController {
+
+	private TblStudentexamConduct studentexamconduct;
+	private TblStudentDetails studentdetails;
+	private TblCenterDetails centerdetails;
+	private boolean stop;
+	private String typedettype = "";
+	private TblTypingtestMaster tblTypingtestMaster;
+	private TblTypingtestDetails tblTypingtestDetails;
+	private String username = "";
+	private String password = "";
+	private HashMap<Integer, TblTypingtestSession> savedstudentpapersession;
+	private HashMap<Integer, String> exammqname;
+	private Integer speedtestendtime;
+	private String speedtestenteredtext;
+
+	public TypingStudentExamPaperController() {
+		studentexamconduct = new TblStudentexamConduct();
+		TblStudentDetails tblStudentDetails = new TblStudentDetails();
+		studentexamconduct.setTblStudentDetails(tblStudentDetails);
+
+		typedettype = "SPEED";
+		savedstudentpapersession = new HashMap<Integer, TblTypingtestSession>();
+		exammqname = new HashMap<Integer, String>();
+	}
+
+	public String doTypingStudentLogin() {
+		String pagereturn = "";
+
+		String username = this.username;// studentexamconduct.getTblStudentDetails()
+		// .getStudentid();
+		String password = this.password;// studentexamconduct.getSePassword();
+
+		try {
+			List<TblStudentexamConduct> list2 = QuestionsUtil
+					.retrieveWherClause(new TblStudentexamConduct(),
+							"TblStudentexamConduct", " Studentid='" + username
+									+ "'  AND sePassword='" + password + "' ");
+
+			if (list2 != null) {
+				if (list2.size() > 0) {
+					studentexamconduct = list2.get(0);
+
+					if (!doCheckIfExaminationConductIsOk(studentexamconduct)) {
+						CommonParams2
+								.showMessageOnScreen("Sorry Examination Status has expired!");
+						return null;
+					}
+
+					List<TblStudentDetails> retrieveWherClause2 = QuestionsUtil
+							.retrieveWherClause(new TblStudentDetails(),
+									"TblStudentDetails", "studentid='"
+											+ username + "' ");
+					studentdetails = retrieveWherClause2.get(0);
+
+					String anpcode2 = studentdetails.getTblCenterDetails()
+							.getAnpcode();
+					List<TblCenterDetails> retrieveWherClause3 = QuestionsUtil
+							.retrieveWherClause(new TblCenterDetails(),
+									"TblCenterDetails", "anpcode='" + anpcode2
+											+ "' ");
+					centerdetails = retrieveWherClause3.get(0);
+
+					if (!studentexamconduct.getSeStatus().equalsIgnoreCase(
+							"active")) {
+						CommonParams2
+								.showMessageOnScreen("Sorry Student Your Status is INACTIVE");
+						return null;
+					}
+
+					if (doCheckIfReExam()) {
+						if (studentexamconduct.getSeRemaintime().intValue() == 0) {
+							reloadTheStudent();
+							// endofexam();
+							CommonParams2
+									.showMessageOnLog(this.getClass(),
+											"Hi   end of exam since relogin! EndINdex=");
+							// + ENDINDEX);
+							stop = true;
+							return "testtypingexampaperend";
+						}
+						reloadTheStudent();
+					} else {
+						loadTheStudent();
+					}
+					// return "testexampaper";
+					return "typingexamsuccesslogin";
+
+				} else {
+
+					CommonParams2.showMessageOnScreen("Invalid Student Login!");
+
+				}
+			} else {
+				CommonParams2.showMessageOnScreen("Null Student Login!");
+				CommonParams2.showMessageOnLog(this.getClass(),
+						"Nulll login of student");
+			}
+
+		} catch (Exception ex) {
+			System.out.println("doStudentLogin error:" + ex.getMessage());
+			CommonParams2
+					.showMessageOnScreen("Sorrry You have a Exception contact Admin");
+			ex.printStackTrace();
+
+		}
+
+		return pagereturn;
+
+	}
+
+	private void loadTheStudent() {
+
+		try {
+			TblPaperpatternMaster tblPaperpatternMaster = studentexamconduct
+					.getTblPaperpatternMaster();
+			Integer ppid = tblPaperpatternMaster.getPpId();
+			List<TblPapermainqDetails> settblPapermainqDetailses = QuestionsUtil
+					.retrieveWherClause(new TblPapermainqDetails(),
+							"TblPapermainqDetails", "PP_Id=" + ppid);
+
+			for (int i2 = 0; i2 < settblPapermainqDetailses.size(); i2++) {
+
+				TblPapermainqDetails tblPapermainqDetails = settblPapermainqDetailses
+						.get(i2);
+
+				Integer mqid = tblPapermainqDetails.getMqId();
+				exammqname.put(i2, tblPapermainqDetails.getMqName());
+
+				Integer noofquestions2 = 1;
+				System.out.println("MQID is " + mqid);
+				List<TblTypingtestDetails> retrievetbltypingtestdetails = QuestionsUtil
+						.retrieveWherClause(new TblTypingtestDetails(),
+								"TblTypingtestDetails", "MQ_ID=" + mqid
+										+ " AND typedet_type='" + typedettype
+										+ "' ");
+
+				ArrayList<Integer> indexarray2 = doGetRandomArrayIndex(
+						noofquestions2, retrievetbltypingtestdetails.size());
+
+				tblTypingtestDetails = retrievetbltypingtestdetails
+						.get(indexarray2.get(0));
+				
+				speedtestendtime = tblTypingtestDetails.getTypedetTime();
+				dototaltime(speedtestendtime);
+
+				Integer typetId = tblTypingtestDetails.getTypetId();
+				List<TblTypingtestMaster> retrieveTblTypingtestMaster = QuestionsUtil
+						.retrieveWherClause(new TblTypingtestMaster(),
+								"TblTypingtestMaster", "typet_ID=" + typetId);
+				tblTypingtestMaster = retrieveTblTypingtestMaster.get(0);
+
+				/*
+				 * TODO UNCOMMENT THIS IN PRODUCTION STAGE TblTypingtestSession
+				 * newobj=new TblTypingtestSession();
+				 * newobj.setTypesesId(QuestionsUtil
+				 * .doGetNextPK("TblTypingtestSession","typeses_ID",false));
+				 * newobj.setTypesesTag(newobj.getTypesesId().toString());
+				 * newobj.setTblStudentexamConduct(studentexamconduct);
+				 * newobj.setTblTypingtestDetails(tblTypingtestDetails); // new
+				 * TblStudentpaperSessionHome().persist(newobj);
+				 * QuestionsUtil.saveToNewQuestions(newobj);
+				 * 
+				 * savedstudentpapersession.put(i2, newobj);
+				 */
+
+			}
+
+		} catch (Exception e) {
+			System.out.println("loadTheStudent error:" + e.getMessage());
+
+			e.printStackTrace();
+		}
+
+	}
+
+	private void reloadTheStudent() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void doEndExam() {
+		System.out.println("End of exam reached!");
+
+		doCalculateMarks();
+
+	}
+
+	private void doCalculateMarks() {
+
+		String source = tblTypingtestMaster.getTypetDesc();
+		String destination = speedtestenteredtext;
+		
+
+		diff_match_patch dmp = new diff_match_patch();
+		LinkedList<Diff> diff_main = dmp.diff_main(source, destination, false);
+		Integer mistakes = 0;
+		dmp.diff_cleanupSemantic(diff_main);
+		System.out.println("data is"+diff_main.toString());
+		for (Diff diff : diff_main) {
+
+			if (diff.operation.compareTo(Operation.DELETE) == 0) {
+				System.out.println("deletes are=" + diff.text);
+				mistakes++;
+			}
+			if (diff.operation.compareTo(Operation.INSERT) == 0) {
+				System.out.println("inserts are=" + diff.text);
+				mistakes++;
+			}
+		}
+		
+		
+		
+		
+
+	}
+
+	public void dototaltime(Integer r) {
+		System.out.println("dototaltime made it!");
+		RequestContext currentInstance = RequestContext.getCurrentInstance();
+		currentInstance.execute("savetotaltime(" + r + ")");
+		currentInstance.execute("alert('Made It to Server Side')");
+	}
+
+	private void doSaveCurrentAnswers(Integer indx2) {
+		TblTypingtestSession tblTypingtestSession = savedstudentpapersession
+				.get(indx2);
+		// tblTypingtestSession.setTypesesCompletedOnTime()
+		// tblTypingtestSession.setTypesesDesc(typesesDesc)
+		// tblTypingtestSession.setTypesesMistakesdone(typesesMistakesdone)
+		// QuestionsUtil.updateToQuestions(tblTypingtestSession);
+	}
+
+	private ArrayList<Integer> doGetRandomArrayIndex(Integer noofquestions2,
+			Integer totalquestions) {
+		// TODO Auto-generated method stub
+		ArrayList<Integer> ret = new ArrayList<Integer>();
+		// for(int i=0;i<noofquestions2;i++)
+		int i = 0;
+		while (i < noofquestions2) {
+			Random rand = new Random();
+			Integer val = rand.nextInt(totalquestions);
+			if (ret.isEmpty() == false && ret.contains(val)) {
+				continue;
+			}
+			ret.add(val);
+			i++;
+		}
+		return ret;
+	}
+
+	/*
+	 * Check if the student is a re exam
+	 */
+	private boolean doCheckIfReExam() throws Exception {
+
+		Integer seRemaintime = studentexamconduct.getSeRemaintime();
+		Integer seId = studentexamconduct.getSeId();
+		List<TblStudentpaperSession> retrievestudentpapersession = QuestionsUtil
+				.retrieveWherClause(new TblStudentpaperSession(),
+						"TblStudentpaperSession", "Se_Id=" + seId);
+		if (retrievestudentpapersession.size() >= 1) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Examination table is queried and checked if date is valid for exam to be
+	 * conducted
+	 * 
+	 * @param paramstudentexamconduct2
+	 * @return
+	 */
+	private boolean doCheckIfExaminationConductIsOk(
+			TblStudentexamConduct paramstudentexamconduct2) {
+
+		Integer excId = paramstudentexamconduct2.getTblExaminationConduct()
+				.getExcId();
+		List<TblExaminationConduct> retrieveWherClause = QuestionsUtil
+				.retrieveWherClause(new TblExaminationConduct(),
+						"TblExaminationConduct", "Exc_Id=" + excId);
+		if (retrieveWherClause == null || retrieveWherClause.size() == 0) {
+			return false;
+		}
+		TblExaminationConduct localexamconduct2 = retrieveWherClause.get(0);
+		String excActive = localexamconduct2.getExcActive();
+		Date excendtime2 = localexamconduct2.getExcStudentendtime();
+		Date excstarttime2 = localexamconduct2.getExcStudentstarttime();
+		Date currenttime = CommonParams2.getIndiancalendar().getTime();
+		if (!excActive.equalsIgnoreCase("active")) {
+			return false;
+		}
+
+		if (currenttime.after(excstarttime2) && currenttime.before(excendtime2)) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public TblStudentexamConduct getStudentexamconduct() {
+		return studentexamconduct;
+	}
+
+	public void setStudentexamconduct(TblStudentexamConduct studentexamconduct) {
+		this.studentexamconduct = studentexamconduct;
+	}
+
+	public String getTypedettype() {
+		return typedettype;
+	}
+
+	public void setTypedettype(String typedettype) {
+		this.typedettype = typedettype;
+	}
+
+	public TblTypingtestMaster getTblTypingtestMaster() {
+		return tblTypingtestMaster;
+	}
+
+	public void setTblTypingtestMaster(TblTypingtestMaster tblTypingtestMaster) {
+		this.tblTypingtestMaster = tblTypingtestMaster;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public HashMap<Integer, String> getExammqname() {
+		return exammqname;
+	}
+
+	public void setExammqname(HashMap<Integer, String> exammqname) {
+		this.exammqname = exammqname;
+	}
+
+	public Integer getSpeedtestendtime() {
+		return speedtestendtime;
+	}
+
+	public void setSpeedtestendtime(Integer speedtestendtime) {
+		this.speedtestendtime = speedtestendtime;
+	}
+
+	public String getSpeedtestenteredtext() {
+		return speedtestenteredtext;
+	}
+
+	public void setSpeedtestenteredtext(String speedtestenteredtext) {
+		this.speedtestenteredtext = speedtestenteredtext;
+	}
+
+}

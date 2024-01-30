@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 8 May, 2012 4:07:59 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.QuestionMaster" table="tbl_questions_master">
+        <id name="Q_ID" type="java.lang.Integer">
+            <column name="Q_ID" />
+             
+        </id>
+        <property name="M_ID" type="java.lang.Integer">
+            <column name="M_ID"  />
+        </property>
+        <property name="QC_ID" type="java.lang.Integer">
+            <column name="QC_ID" />
+        </property>
+        <property name="U_ID" type="java.lang.Integer">
+            <column name="U_ID" />
+        </property>
+        <property name="Q_Name" type="java.lang.String">
+            <column name="Q_NAME" />
+        </property>
+        <property name="Q_Desc" type="java.lang.String">
+            <column name="Q_DESC" />
+        </property>
+        <property name="Q_Tag" type="java.lang.Integer">
+            <column name="Q_TAG" />
+        </property>
+        <property name="Q_MultiSelect" type="java.lang.Boolean">
+            <column name="Q_MULTISELECT" />
+        </property>
+        <property name="Q_Option" type="java.lang.Integer">
+            <column name="Q_OPTION" />
+        </property>
+    </class>
+</hibernate-mapping>

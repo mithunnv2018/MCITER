@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#loginpage.xhtml" PATH="/loginpage.xhtml"
+  SHAPE="64,56,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#loginpage.xhtml:0" NAME="item"
+   PATH="/loginpage.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="successlogin::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="successlogin" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#addnewquestionmaster.xhtml"
+  PATH="/addnewquestionmaster.xhtml" SHAPE="416,136,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#addnewquestionmaster.xhtml:0" NAME="item"
+   PATH="/addnewquestionmaster.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="index" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#editquestionmaster.xhtml"
+  PATH="/editquestionmaster.xhtml" SHAPE="56,208,50,25" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#editquestionmaster.xhtml:0" NAME="item"
+   PATH="/editquestionmaster.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="index" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#index.xhtml" PATH="/index.xhtml"
+  SHAPE="260,33,0,0" model-entity="JSFProcessGroup" persistent="true"/>
+ <PROCESS-ITEM NAME="rules:#clientinformation.xhtml"
+  PATH="/clientinformation.xhtml" SHAPE="224,248,50,41" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#clientinformation.xhtml:0" NAME="item"
+   PATH="/clientinformation.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="index" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#studentinformationform.xhtml"
+  PATH="/studentinformationform.xhtml" SHAPE="410,289,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#studentinformationform.xhtml:0" NAME="item"
+   PATH="/studentinformationform.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="index::#index.xhtml" NAME="output"
+    PATH="/index.xhtml" TARGET="rules:#index.xhtml" TITLE="index" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

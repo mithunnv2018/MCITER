@@ -1,0 +1,291 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.mciter.services;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.primefaces.event.FileUploadEvent;
+
+import com.mciter.commonbeans.TblCenterDetails;
+import com.mciter.commonbeans.TblQuestioncategoryMaster;
+import com.mciter.commonbeans.TblStudentDetails;
+import com.mciter.utils.CommonParams2;
+
+/**
+ * 
+ * @author mithun
+ */
+public class ToImportExcel {
+
+	private HashMap<String, Integer> mapofcourses;
+	private ArrayList<TblStudentDetails> listofstudents;
+
+	public ToImportExcel() {
+		listofstudents = new ArrayList<TblStudentDetails>();
+		loadmapofcourses();
+	}
+
+	private void loadmapofcourses() {
+		mapofcourses = new HashMap<String, Integer>();
+		mapofcourses.put("ACDP", 20);
+		mapofcourses.put("CBAS", 13);
+		mapofcourses.put("CCFA", 40);
+		mapofcourses.put("CCAD", 12);
+		mapofcourses.put("CPHM", 14);
+		mapofcourses.put("CPCC", 9);
+		mapofcourses.put("CCL", 3);
+		mapofcourses.put("COCS", 8);
+		mapofcourses.put("CCT", 2);
+		mapofcourses.put("CPP", 4);
+		mapofcourses.put("DDAP", 26);
+
+	}
+
+	public void handleFileUpload(FileUploadEvent event) {
+		FacesMessage msg = new FacesMessage("Succesful", event.getFile()
+				.getFileName() + " is uploaded.");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+		System.out.println("ToImportExcel.handleFileUpload()");
+		if(listofstudents!=null)
+		{
+			listofstudents.clear();
+		}
+		try {
+			if(isValidEXCEL(event.getFile().getInputstream()))
+			{
+				System.out.println("Correct file format");
+				doImportStudentDetails(event.getFile().getInputstream());
+			}
+			else
+			{
+				System.err.println("Sorry not valid file "+event.getFile().getFileName());
+			}
+			System.out.println("Hi mith Good Upload done without error");
+		} catch (IOException e) {
+			FacesMessage msg2 = new FacesMessage("Error",
+					"Sorry Error in upload.");
+
+			FacesContext.getCurrentInstance().addMessage(null, msg2);
+			e.printStackTrace();
+			System.err.println("Hi problem with file :" + e.getMessage());
+		}
+	}
+
+	public boolean isValidEXCEL(InputStream is3) {
+		try {
+			Workbook wb = new HSSFWorkbook(is3);
+			Sheet sheet = wb.getSheetAt(0);
+
+			if (sheet == null) {
+				System.err.println("Sorry no sheet available");
+				CommonParams2.showMessageOnScreen("Sorry no sheet available ");
+				return false;
+			}
+			int lastRowNum = sheet.getLastRowNum();
+
+			Row row = sheet.getRow(0);
+			if (row == null || lastRowNum <= 1) {
+				System.err.println("Sorry no rows available");
+				CommonParams2.showMessageOnScreen("Sorry no rows available");
+				return false;
+			}
+			String processtext1 = processtext(row.getCell(0)).trim();
+			String processtext2 = processtext(row.getCell(1)).trim();
+			String processtext3 = processtext(row.getCell(2)).trim();
+			String processtext4 = processtext(row.getCell(3)).trim();
+			String processtext5 = processtext(row.getCell(4)).trim();
+			String processtext6 = processtext(row.getCell(5)).trim();
+			String processtext7 = processtext(row.getCell(6)).trim();
+			String processtext8 = processtext(row.getCell(7)).trim();
+			String processtext9 = processtext(row.getCell(8)).trim();
+			String processtext10 = processtext(row.getCell(9)).trim();
+
+			if (!processtext1.equalsIgnoreCase("Fname") || !processtext2.equalsIgnoreCase("Mname")
+					|| !processtext3.equalsIgnoreCase("Lname") || !processtext4.equalsIgnoreCase("Course name")
+					|| !processtext5.equalsIgnoreCase("CenterID") || !processtext6.equalsIgnoreCase("Taluka")
+					|| !processtext7.equalsIgnoreCase("District") || !processtext8.equalsIgnoreCase("State")
+					|| !processtext9.equalsIgnoreCase("emailid") || !processtext10.equalsIgnoreCase("Phoneno")) {
+					
+					System.err.println("Sorry Column names donot match");
+					CommonParams2.showMessageOnScreen("Sorry Column names donot match");
+					return false;
+			}
+			
+			return true;
+		} catch (IOException e) {
+			System.err.println("Sorry Mith File Exception ");
+			CommonParams2.showMessageOnScreen("Sorry Mith File Exception ");
+			e.printStackTrace();
+			return false;
+		}
+		
+
+	}
+
+	public void doImportStudentDetails(InputStream is2) {
+
+		try {
+			// FileOutputStream fout=new FileOutputStream(inputfile);
+
+			// FileInputStream fin = new FileInputStream(inputfile);
+
+			// Workbook wb = new HSSFWorkbook(fin);
+			Workbook wb = new HSSFWorkbook(is2);
+			Sheet sheet = wb.getSheetAt(0);
+			int noofrows = sheet.getLastRowNum();
+			System.out.println("Now of rows=" + noofrows);
+			listofstudents = new ArrayList<TblStudentDetails>();
+			for (int i = 1; i <= noofrows; i++) {
+				Row row = sheet.getRow(i);
+				if (row == null) {
+					System.out.println("Null row at=" + i);
+					continue;
+				}
+				Cell cell1 = row.getCell(0);
+				String firstname = processtext(cell1);// .getStringCellValue();
+				if (firstname == null) {
+					System.out.println("Null column at=" + i);
+					continue;
+				}
+
+				String middlename = processtext(row.getCell(1));// .getStringCellValue();
+				String lastname = processtext(row.getCell(2));// .getStringCellValue();
+				String coursename = processtext(row.getCell(3));// .getStringCellValue();
+				String centerid = processtext(row.getCell(4));// .getStringCellValue();
+				String city = processtext(row.getCell(5));// .getStringCellValue();
+				String district = processtext(row.getCell(6));// .getStringCellValue();
+				String state = processtext(row.getCell(7));// .getStringCellValue();
+				String emailid = processtext(row.getCell(8));// .getStringCellValue();
+				String mobileno = processtext(row.getCell(9));// .getStringCellValue();
+
+				Integer courseid = mapofcourses.get(coursename);
+
+				TblStudentDetails std = new TblStudentDetails();
+				std.setFirstname(firstname);
+				std.setLastname(lastname);
+				std.setMiddlename(middlename);
+				std.setActive("active");
+				std.setCitytownvillage(city);
+				std.setDistrict(district);
+				std.setState(state);
+				std.setEmailid(emailid);
+				std.setMobileown(mobileno);
+
+				TblCenterDetails center = new TblCenterDetails();
+				center.setAnpcode(centerid);
+
+				std.setTblCenterDetails(center);
+
+				TblQuestioncategoryMaster cat = new TblQuestioncategoryMaster();
+				cat.setQcId(courseid);
+				std.setTblQuestioncategoryMaster(cat);
+
+				System.out.println("CONTENT IS" + middlename + lastname
+						+ courseid + centerid + city + state + emailid
+						+ mobileno);
+				listofstudents.add(std);
+			}
+			System.out.println("Done Student properly");
+			// doSaveToDBStudentDetails();
+		} catch (FileNotFoundException ex) {
+			Logger.getLogger(ToImportExcel.class.getName()).log(Level.SEVERE,
+					null, ex);
+		} catch (Exception ex2) {
+			Logger.getLogger(ToImportExcel.class.getName()).log(Level.SEVERE,
+					null, ex2);
+		}
+
+	}
+
+	public String doSaveToDBStudentDetails() {
+		System.out.println("Size of arraylist of students is="
+				+ listofstudents.size());
+		for (int i = 0; i < listofstudents.size(); i++) {
+			TblStudentDetails tblStudentDetails = listofstudents.get(i);
+			String ret2 = "MCITER/AJ12";
+
+			// System.out.println("Content of student is:"+tblStudentDetails.toString());
+
+			Integer pk2 = QuestionsUtil.doGetNextPK("TblStudentDetails", "tag");
+			ret2 += pk2;
+			tblStudentDetails.setStudentid(ret2);
+			tblStudentDetails.setTag(pk2);
+			System.out.println("Content of student is:"
+					+ tblStudentDetails.toString());
+
+			QuestionsUtil.saveToNewQuestions(tblStudentDetails);
+			System.out.println("Done saving");
+		}
+		System.out.println("DONE SAVING ALL STUDENT DETAILS");
+		return "index.jsf";
+	}
+
+	public String processtext(Cell c) {
+		String ret = "";
+
+		if (c == null) {
+			return ret;
+		}
+		switch (c.getCellType()) {
+		case Cell.CELL_TYPE_BLANK:
+			System.out.println("is blank");
+			ret = "";
+			break;
+		case Cell.CELL_TYPE_STRING:
+			System.out.println(c.getRichStringCellValue().getString());
+			ret = c.getStringCellValue();
+			break;
+		case Cell.CELL_TYPE_NUMERIC:
+			if (DateUtil.isCellDateFormatted(c)) {
+				System.out.println("date " + c.getDateCellValue());
+				ret = c.getDateCellValue().toString();
+			} else {
+				System.out.println("number "
+						+ Math.round(c.getNumericCellValue()));
+
+				ret = "" + Math.round(c.getNumericCellValue());
+				// c.getNumericCellValue();
+			}
+			break;
+		case Cell.CELL_TYPE_BOOLEAN:
+			System.out.println("bool " + c.getBooleanCellValue());
+			ret += "" + c.getBooleanCellValue();
+			break;
+		case Cell.CELL_TYPE_FORMULA:
+			System.out.println("is formula not reequired here "
+					+ c.getCellFormula());
+			break;
+		default:
+			System.out.println("default something wrong");
+		}
+
+		return ret;
+	}
+
+	public ArrayList<TblStudentDetails> getListofstudents() {
+		return listofstudents;
+	}
+
+	public void setListofstudents(ArrayList<TblStudentDetails> listofstudents) {
+		this.listofstudents = listofstudents;
+	}
+}

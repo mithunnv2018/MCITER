@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form>
+		<p:growl autoUpdate="true" />
+		<p:remoteCommand name="chekcredentials2exmcondct" autoRun="true"
+			actionListener="#{commonParams2.checkCredentialsForLoggedOut('userMaster','/MCITER/loginpage.jsf')}" />
+		<div style="width: 700px" align="right">
+			<p:commandButton value="Logout "
+				action="#{questionsUtil.resetSessionMith('userMaster','loginpage')}"
+				style="font-size:xx-small;" />
+		</div>
+		<h1>Welcome to Examination Conduct for center Information !</h1>
+
+		<p:dataTable value="#{examConductForCenter.listofexaminationconduct}"
+			var="examconduct2" editable="false" paginator="true">
+			<f:facet name="header">List of Existing Exams</f:facet>
+			<p:column>
+				<f:facet name="header">Examination Name</f:facet>
+				<h:outputText value="#{examconduct2.excName}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Examination Start Time</f:facet>
+				<h:outputText value="#{examconduct2.excStudentstarttime}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Examination End Time</f:facet>
+				<h:outputText value="#{examconduct2.excStudentendtime}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Examination Duration</f:facet>
+				<h:outputText value="#{examconduct2.excDuration}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Examination Center Name</f:facet>
+				<h:outputText
+					value="#{examconduct2.tblCenterDetails.nameofinstitute}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:separator />
+		<p:separator />
+
+		<p:panelGrid columns="2" style="width:100%;">
+			<f:facet name="header">Add New Examination Conduct for center</f:facet>
+			<h:outputText value="Exam Conduct Name:" />
+			<p:inputText
+				value="#{examConductForCenter.tblexaminationconduct.excName}" />
+
+			<h:outputText value="Center Code" />
+			<p:selectOneMenu
+				value="#{examConductForCenter.tblexaminationconduct.tblCenterDetails.anpcode}">
+				<f:selectItem itemLabel="--Select--" itemValue="" />
+				<f:selectItems value="#{examConductForCenter.centercodes}" />
+			</p:selectOneMenu>
+
+			<h:outputText value="Course Name" />
+			<p:selectOneMenu
+				value="#{examConductForCenter.questioncategorymaster.qcId}"
+				effect="fade">
+				<f:selectItem itemLabel="--Select--" itemValue="" />
+				<f:selectItems value="#{commonParams2.courseList2}" var="course"
+					itemLabel="#{course.QC_Name}" itemValue="#{course.QC_ID}" />
+
+			</p:selectOneMenu>
+			<h:outputText value="Click to get Students list" />
+			<p:commandButton value="Click" ajax="false"
+				actionListener="#{examConductForCenter.showStudentsList()}" />
+
+		</p:panelGrid>
+
+		<p:dataTable id="idstudentlist2" var="students2" style="width:100%;"
+			value="#{examConductForCenter.listofstudents}"
+			selection="#{examConductForCenter.selectionlistofstudents}"
+			rowKey="#{students2.studentid}" editable="false">
+
+			<p:column selectionMode="multiple" />
+
+
+			<p:column>
+				<f:facet name="header">Student Id </f:facet>
+				<h:outputText value="#{students2.studentid}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Student Name</f:facet>
+				<h:outputText value="#{students2.firstname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Last Name</f:facet>
+				<h:outputText value="#{students2.lastname}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">District</f:facet>
+				<h:outputText value="#{students2.district}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">City</f:facet>
+				<h:outputText value="#{students2.citytownvillage}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Gender</f:facet>
+				<h:outputText value="#{students2.gender}" />
+			</p:column>
+		</p:dataTable>
+
+		<p:panelGrid columns="2" style="width:100%;">
+			<f:facet name="header">Exam Details</f:facet>
+			<h:outputText value="Exam Start Date " />
+			<p:calendar
+				value="#{examConductForCenter.tblexaminationconduct.excStudentstarttime}"
+				pattern="yyyy-MM-dd HH:mm" />
+			<h:outputText value="Exam End Date " />
+			<p:calendar
+				value="#{examConductForCenter.tblexaminationconduct.excStudentendtime}"
+				pattern="yyyy-MM-dd HH:mm" />
+
+			<h:outputText value="Exam Duration (mins)" />
+			<p:inputText
+				value="#{examConductForCenter.tblexaminationconduct.excDuration}" />
+
+			<h:outputText value="Paper Pattern Type" />
+			<p:selectOneMenu
+				value="#{examConductForCenter.tblpaperpatternmaster.ppId}">
+				<f:selectItem itemLabel="--Select--" itemValue="" />
+				<f:selectItems
+					value="#{examConductForCenter.listofpaperpatternmaster}"
+					var="paper" itemLabel="#{paper.ppName}" itemValue="#{paper.ppId}" />
+
+			</p:selectOneMenu>
+		</p:panelGrid>
+		<p:commandButton value="Save"
+			action="#{examConductForCenter.saveToDB()}" />
+
+
+
+	</h:form>
+</h:body>
+</html>

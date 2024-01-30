@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form enctype="multipart/form-data">
+		
+		<h1>Welcome to Importing Question Bank Information from Excel!</h1>
+		
+		<p:fileUpload mode="advanced" update="@form"  label="Choose Question Bank Details Excel file(*.xls)"
+			fileUploadListener="#{toImportExcel.handleFileUploadQBank}" auto="TRUE" allowTypes="/(\.|\/)(xls)$/"/>
+		<p:growl id="messages2" showDetail="true" />
+		
+		<p:panel id="idbtnpanel34"  visible="#{toImportExcel.listofquestionmaster.size()>0}">
+			<p:commandButton action="#{toImportExcel.doSaveToDBQuestionBank()}"  value="UPLOAD TO DB (if ok)!"></p:commandButton>
+		</p:panel>
+		
+		<p:dataTable id="idqbanklist" value="#{toImportExcel.listofquestionmaster}" var="qbank2" rowIndexVar="index2">
+			<f:facet name="header">Listing of Question Bank to be added!</f:facet>
+			<p:column>
+				<f:facet name="header">Index </f:facet>
+				<h:outputText value="#{index2}" />
+			</p:column>
+
+			<p:column>
+				<f:facet name="header">Question Name </f:facet>
+				<h:outputText value="#{qbank2.QDesc}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Is Muliple Answers </f:facet>
+				<h:outputText value="#{qbank2.QMultiSelect}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">No of Options </f:facet>
+				<h:outputText value="#{qbank2.QOption}" />
+			</p:column>
+      		
+			
+		</p:dataTable>
+
+	</h:form>
+</h:body>
+</html>

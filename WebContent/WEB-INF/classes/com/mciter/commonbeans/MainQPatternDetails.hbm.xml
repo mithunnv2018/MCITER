@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 16 May, 2012 4:50:21 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.MainQPatternDetails" table="tbl_mainqpattern_details">
+        <id name="Q_ID" type="java.lang.Integer">
+            <column name="Q_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="MP_ID" type="java.lang.Integer">
+            <column name="MP_ID" />
+        </property>
+        <property name="MQ_ID" type="java.lang.Integer">
+            <column name="MQ_ID" />
+        </property>
+        <property name="MP_Marks" type="java.lang.Integer">
+            <column name="MP_MARKS" />
+        </property>
+        <property name="MP_Tag" type="java.lang.Integer">
+            <column name="MP_TAG" />
+        </property>
+    </class>
+</hibernate-mapping>

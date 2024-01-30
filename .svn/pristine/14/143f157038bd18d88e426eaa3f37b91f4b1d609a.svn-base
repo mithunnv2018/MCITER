@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory name="SessionFactoryName">
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.c3p0.acquire_increment">2</property>
+        <property name="hibernate.c3p0.idle_test_period">3600</property>
+        <property name="hibernate.c3p0.max_size">10</property>
+        <property name="hibernate.c3p0.max_statements">0</property>
+        <property name="hibernate.c3p0.min_size">2</property>
+        <property name="hibernate.c3p0.timeout">5000</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+        
+        <property name="hibernate.connection.password">pass</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/mciterdemo</property>
+        <property name="hibernate.connection.username">root</property>
+        <!-- <property name="hibernate.connection.password">mithun</property> <property 
+			name="hibernate.connection.url">jdbc:mysql://mysql1000.mochahost.com/atulmith_mithjusttry</property> 
+			<property name="hibernate.connection.username">atulmith_atul</property> -->
+			
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="hibernate.search.autoregister_listeners">false</property>
+        <mapping resource="com/mciter/commonbeans/TblStudentresultDetails.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblMainqpatternDetails.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblStudentexamConduct.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblMarksMaster.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblQuestioncategoryMaster.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblUserMaster.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblCenterDetails.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblExaminationConduct.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblQuestionOptions.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblPapermainqDetails.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblStudentpaperSession.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblQuestionsMaster.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblStudentCourseDetails.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblCategoryMaster.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblPaperpatternMaster.hbm.xml" />
+        <mapping resource="com/mciter/commonbeans/TblStudentDetails.hbm.xml" />
+        
+        <mapping class="com.mciter.commonbeans.UserMaster" resource="com/mciter/commonbeans/UserMaster.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.MarksMaster" resource="com/mciter/commonbeans/MarksMaster.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.QuestionCategoryMaster"
+			resource="com/mciter/commonbeans/QuestionCategoryMaster.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.QuestionMaster"
+			resource="com/mciter/commonbeans/QuestionMaster.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.QuestionOptions"
+			resource="com/mciter/commonbeans/QuestionOptions.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.PaperPatternMaster"
+			resource="com/mciter/commonbeans/PaperPatternMaster.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.PaperMainQDetails"
+			resource="com/mciter/commonbeans/PaperMainQDetails.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.MainQPatternDetails"
+			resource="com/mciter/commonbeans/MainQPatternDetails.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.CenterDetails"
+			resource="com/mciter/commonbeans/CenterDetails.hbm.xml" />
+		<mapping class="com.mciter.commonbeans.StudentDetails"
+			resource="com/mciter/commonbeans/StudentDetails.hbm.xml" />
+    </session-factory>
+</hibernate-configuration>

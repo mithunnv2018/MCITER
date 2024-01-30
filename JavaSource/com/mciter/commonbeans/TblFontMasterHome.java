@@ -1,0 +1,125 @@
+package com.mciter.commonbeans;
+
+// Generated 5 Sep, 2012 1:19:01 PM by Hibernate Tools 3.4.0.CR1
+
+import java.util.List;
+import javax.naming.InitialContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.hibernate.SessionFactory;
+import static org.hibernate.criterion.Example.create;
+
+/**
+ * Home object for domain model class TblFontMaster.
+ * @see com.mciter.commonbeans.TblFontMaster
+ * @author Hibernate Tools
+ */
+public class TblFontMasterHome {
+
+	private static final Log log = LogFactory.getLog(TblFontMasterHome.class);
+
+	private final SessionFactory sessionFactory = getSessionFactory();
+
+	protected SessionFactory getSessionFactory() {
+		try {
+			return (SessionFactory) new InitialContext()
+					.lookup("SessionFactory");
+		} catch (Exception e) {
+			log.error("Could not locate SessionFactory in JNDI", e);
+			throw new IllegalStateException(
+					"Could not locate SessionFactory in JNDI");
+		}
+	}
+
+	public void persist(TblFontMaster transientInstance) {
+		log.debug("persisting TblFontMaster instance");
+		try {
+			sessionFactory.getCurrentSession().persist(transientInstance);
+			log.debug("persist successful");
+		} catch (RuntimeException re) {
+			log.error("persist failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(TblFontMaster instance) {
+		log.debug("attaching dirty TblFontMaster instance");
+		try {
+			sessionFactory.getCurrentSession().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(TblFontMaster instance) {
+		log.debug("attaching clean TblFontMaster instance");
+		try {
+			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void delete(TblFontMaster persistentInstance) {
+		log.debug("deleting TblFontMaster instance");
+		try {
+			sessionFactory.getCurrentSession().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public TblFontMaster merge(TblFontMaster detachedInstance) {
+		log.debug("merging TblFontMaster instance");
+		try {
+			TblFontMaster result = (TblFontMaster) sessionFactory
+					.getCurrentSession().merge(detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public TblFontMaster findById(java.lang.Integer id) {
+		log.debug("getting TblFontMaster instance with id: " + id);
+		try {
+			TblFontMaster instance = (TblFontMaster) sessionFactory
+					.getCurrentSession().get(
+							"com.mciter.commonbeans.TblFontMaster", id);
+			if (instance == null) {
+				log.debug("get successful, no instance found");
+			} else {
+				log.debug("get successful, instance found");
+			}
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List<TblFontMaster> findByExample(TblFontMaster instance) {
+		log.debug("finding TblFontMaster instance by example");
+		try {
+			List<TblFontMaster> results = (List<TblFontMaster>) sessionFactory
+					.getCurrentSession()
+					.createCriteria("com.mciter.commonbeans.TblFontMaster")
+					.add(create(instance)).list();
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+}

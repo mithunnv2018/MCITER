@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Jul, 2012 7:31:16 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblStudentpaperSession" table="tbl_studentpaper_session" >
+        <id name="studPapId" type="java.lang.Integer">
+            <column name="studPap_Id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblMainqpatternDetails" class="com.mciter.commonbeans.TblMainqpatternDetails" fetch="select">
+            <column name="MP_Id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblStudentexamConduct" class="com.mciter.commonbeans.TblStudentexamConduct" fetch="select">
+            <column name="Se_Id" not-null="true" />
+        </many-to-one>
+        <property name="caAns" type="string">
+            <column name="Ca_ans" length="45" not-null="true" />
+        </property>
+        <property name="studpapAttempt" type="boolean">
+            <column name="Studpap_attempt" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

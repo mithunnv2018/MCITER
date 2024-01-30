@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<!-- 
+		Replace path to template, title, header and body
+		with actual data.
+	 -->
+<ui:composition template="/template/template1.xhtml">
+	<ui:define name="pageTitle">
+		<h:head>
+
+		</h:head>
+ 			
+			Exam Conduct</ui:define>
+	<ui:define name="pageHeader">Examination Conduct!-Accounting Exam</ui:define>
+	 
+	<ui:define name="body">
+
+		<table cellspacing="4" style="FONT-SIZE: large;">
+		<caption>
+		<b style="COLOR: #400040; BACKGROUND-COLOR: #c0c0c0;">Time  00:30:50</b>
+		</caption>
+			<tr>
+				<td  >Question:</td>
+				<td align="right"></td>
+			</tr>
+			<tr>
+				<td colspan="1" style=" width : 936px;"><h:inputTextarea cols="90" label="Enter Questions!"
+						value="What is factorial of 3?" style="FONT-SIZE: large;">
+
+					</h:inputTextarea></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="1" align="left">
+				<h:selectOneRadio
+						value="1 (Ans 3)">
+						<f:selectItem itemLabel="1 (Ans 3)" />
+					</h:selectOneRadio>
+				 
+				</td>
+
+			</tr>
+			<tr>
+				<td colspan="1" align="left">
+				<h:selectOneRadio
+						value="2 (Ans 4)">
+						<f:selectItem itemLabel="2 (Ans 4)" />
+					</h:selectOneRadio>
+				 
+				</td>
+
+			</tr>
+			<tr>
+				<td colspan="1" align="left">
+				<h:selectOneRadio
+						value="3 (Ans 6)">
+						<f:selectItem itemLabel="3 (Ans 6)" />
+					</h:selectOneRadio>
+				 
+				</td>
+			</tr>
+			<tr>
+				<td colspan="1" align="left">
+				<h:selectOneRadio
+						value="4 (Ans 3)">
+						<f:selectItem itemLabel="4 (Ans 3)" />
+					</h:selectOneRadio>
+				 
+				</td>
+
+			</tr>
+
+		  <tr><td></td><td></td></tr>
+		  <tr><td></td><td></td></tr>
+		  <tr><td></td><td></td></tr>
+		  
+			<tr>
+				<td><h:commandButton value="Previous!" style="FONT-SIZE: large; FONT-WEIGHT: bold;"/>
+				</td>
+				<td align="right"><h:commandButton value="Next!" style="FONT-WEIGHT: bold; FONT-SIZE: large;"/>
+				</td>
+
+			</tr>
+			<tr>
+				<td align="center" colspan="1"><h:commandButton
+						value="End Exam!" style="COLOR: #ffffff; BACKGROUND-COLOR: #ff0000; FONT-WEIGHT: bold; FONT-SIZE: x-large;"/>
+				</td>
+			</tr>
+		</table>
+		<br />
+
+
+	</ui:define>
+</ui:composition>
+
+</html>

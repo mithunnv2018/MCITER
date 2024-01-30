@@ -1,0 +1,5 @@
+@CHARSET "ISO-8859-1";
+.output{background-color: menu;
+	color: Lime;
+	font-size: 8px;
+	font-weight: bold  }

@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:head>
+
+</h:head>
+<h:body>
+	
+	<!--<h:form rendered="#{userMaster!=null}">
+		<h:messages />
+		<h6>Welcome user name #{userMaster.u_UserName} to MCITER page2</h6>
+		<table align="left">
+			<tr>
+				<td>Question:</td>
+			</tr>
+			<tr>
+				<td><h:inputTextarea cols="100" label="Enter Questions!"
+						value="#{questionMaster.q_Desc}" required="true"
+						requiredMessage="Please Enter a valid Question in Question box!">
+
+					</h:inputTextarea>
+				</td>
+			</tr>
+		</table>
+		<br />
+		<table align="left">
+			<tr>
+				<td>How many options:</td>
+				<td><h:selectOneMenu value="#{questionMaster.q_Option}"
+						id="dropdownid2">
+						<f:selectItems value="#{commonParams2.noofoptionsList}" />
+
+					</h:selectOneMenu></td>
+			</tr>
+		</table>
+		<br clear="all" />
+
+		<table align="left">
+			<tr>
+
+				<td>Multi Select:</td>
+				<td><h:selectBooleanCheckbox
+						value="#{questionMaster.q_MultiSelect}" /></td>
+
+			</tr>
+		</table>
+		<br clear="all" />
+		<table align="left">
+			<tr>
+				<td>Course:</td>
+				<td><h:selectOneMenu value="#{questionMaster.QC_ID}">
+						<f:selectItems value="#{commonParams2.courseList}" />
+
+					</h:selectOneMenu></td>
+			</tr>
+		</table>
+
+		<br clear="all" />
+
+		<table align="left">
+			<tr>
+				<td>Marks:</td>
+				<td><h:selectOneMenu value="#{questionMaster.m_ID}"
+						required="true" requiredMessage="You have to Select the marks!">
+						<f:selectItems value="#{commonParams2.marksList}" />
+
+					</h:selectOneMenu></td>
+			</tr>
+		</table>
+
+		<br />
+		<h:commandButton value="Show Options" action="nothing">
+			<f:ajax render="@form" execute="@form" />
+		</h:commandButton>
+		<br />
+
+						      h:outputText value="Hello {questionMaster.answerOptionsList[0].QO_Name}"   id="hi"
+		 
+		<table align="left">
+			<tr>
+				<td><h:selectOneRadio value="#{questionMaster.answernumber2}"
+						rendered="#{!questionMaster.q_MultiSelect}">
+						<f:selectItems value="#{questionMaster.answerNumberList}" />
+					</h:selectOneRadio> <h:selectManyCheckbox value="#{questionMaster.correctanswerList}"
+						rendered="#{questionMaster.q_MultiSelect}">
+						<f:selectItems value="#{questionMaster.answerNumberList}" />
+					</h:selectManyCheckbox></td>
+			</tr>
+
+			
+				 <ui:repeat varStatus="status2" var="local2"
+						value="#{questionMaster.answerOptionsList}">
+						 
+						<tr>
+							<td><h:outputText value="( #{status2.index+1} )" /></td>
+							<td><h:inputText
+									value="#{questionMaster.answerOptionsList[status2.index].QO_Name}" />
+
+							</td>
+						</tr>
+					</ui:repeat>
+					
+			<tr>
+			<td></td>
+			</tr>
+			<tr>
+				<td><h:commandButton value="Save New Question Entered!"
+						action="#{questionMaster.doSaveQuestion()}" /></td>
+			</tr>
+		</table>
+		<br />
+		<br />
+
+ 
+	</h:form>
+
+--></h:body>
+
+</html>

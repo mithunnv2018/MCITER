@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 26 Jun, 2013 5:08:41 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblEmailconfigMaster" table="tbl_emailconfig_master" >
+        <id name="emailconfigId" type="string">
+            <column name="Emailconfig_Id" length="50" />
+            <generator class="assigned" />
+        </id>
+        <property name="emailconfigName" type="string">
+            <column name="Emailconfig_Name" length="100" />
+        </property>
+        <property name="emailconfigEmailid" type="string">
+            <column name="Emailconfig_Emailid" length="300" />
+        </property>
+        <property name="emailconfigPass" type="string">
+            <column name="Emailconfig_Pass" length="100" />
+        </property>
+        <property name="emailconfigType" type="string">
+            <column name="Emailconfig_Type" length="100" />
+        </property>
+        <property name="emailconfigInhost" type="string">
+            <column name="Emailconfig_inhost" length="300" />
+        </property>
+        <property name="emailconfigOuthost" type="string">
+            <column name="Emailconfig_outhost" length="300" />
+        </property>
+        <property name="emailconfigInport" type="string">
+            <column name="Emailconfig_inport" length="50" />
+        </property>
+        <property name="emailconfigOutport" type="string">
+            <column name="Emailconfig_outport" length="50" />
+        </property>
+        <property name="emailconfigStatus" type="string">
+            <column name="Emailconfig_status" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

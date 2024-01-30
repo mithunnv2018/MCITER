@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Jul, 2012 7:31:16 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblCategoryMaster" table="tbl_category_master"  >
+        <id name="catId" type="java.lang.Integer">
+            <column name="Cat_ID" />
+            <generator class="identity" />
+        </id>
+        <property name="catName" type="string">
+            <column name="Cat_Name" length="200" not-null="true" />
+        </property>
+        <property name="catDuration" type="string">
+            <column name="Cat_Duration" length="45" not-null="true" />
+        </property>
+        <property name="catDesc" type="string">
+            <column name="Cat_Desc" length="200" not-null="true" />
+        </property>
+        <property name="catTag" type="int">
+            <column name="Cat_Tag" not-null="true" />
+        </property>
+        <set name="tblQuestioncategoryMasters" table="tbl_questioncategory_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cat_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblQuestioncategoryMaster" />
+        </set>
+    </class>
+</hibernate-mapping>

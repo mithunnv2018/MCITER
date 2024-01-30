@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form>
+		<p:growl autoUpdate="true" />
+		<p:remoteCommand name="chekcredentials2exmcondct" autoRun="true"
+			actionListener="#{commonParams2.checkCredentialsForLoggedOut('userMaster','/MCITER/loginpage.jsf')}" />
+		<div style="width: 700px" align="right">
+			<p:commandButton value="Logout "
+				action="#{questionsUtil.resetSessionMith('userMaster','loginpage')}"
+				style="font-size:xx-small;" />
+		</div>
+		<h1>Welcome to Examination Conduct for center Information !</h1>
+
+		<p:dataTable
+			value="#{editExamConductForCenter.listofexaminationconduct}"
+			selection="#{editExamConductForCenter.tempexamconduct}"
+			var="examconduct2" editable="false" paginator="true"
+			rowKey="#{examconduct2.excId}">
+			<f:facet name="header">List of Existing Exams</f:facet>
+			<p:column selectionMode="single" />
+
+			<p:column>
+				<f:facet name="header">Examination Name</f:facet>
+				<h:outputText value="#{examconduct2.excName}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Examination Start Time</f:facet>
+				<h:outputText value="#{examconduct2.excStudentstarttime}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Examination End Time</f:facet>
+				<h:outputText value="#{examconduct2.excStudentendtime}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Examination Duration</f:facet>
+				<h:outputText value="#{examconduct2.excDuration}" />
+			</p:column>
+			<p:column>
+				<f:facet name="header">Examination Center Name</f:facet>
+				<h:outputText
+					value="#{examconduct2.tblCenterDetails.nameofinstitute}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<p:commandButton value="Show Exam Details" ajax="false"
+			actionListener="#{editExamConductForCenter.doLoadExamConduct2()}" />
+
+		<p:separator />
+		<p:separator />
+		<p:outputPanel id="idoutput3"
+			rendered="#{editExamConductForCenter.tblexaminationconduct.excName!=null}">
+			<p:panelGrid columns="2" style="width:100%;">
+				<f:facet name="header">Edit New Examination Conduct for center</f:facet>
+				<h:outputText value="Exam Conduct Name:" />
+				<p:inputText disabled="true"
+					value="#{editExamConductForCenter.tblexaminationconduct.excName}" />
+
+				<h:outputText value="Center Code" />
+				<p:selectOneMenu editable="false" disabled="true"
+					value="#{editExamConductForCenter.tblexaminationconduct.tblCenterDetails.anpcode}">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems value="#{editExamConductForCenter.centercodes}" />
+				</p:selectOneMenu>
+
+				<h:outputText value="Course Name" />
+
+				<p:selectOneMenu disabled="true"
+					value="#{editExamConductForCenter.questioncategorymaster.qcId}"
+					effect="fade" editable="false">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItems value="#{commonParams2.courseList2}" var="course"
+						itemLabel="#{course.QC_Name}" itemValue="#{course.QC_ID}" />
+
+				</p:selectOneMenu>
+				<h:outputText value="Click to get Students list" />
+				<p:commandButton value="Click" ajax="false"
+					actionListener="#{editExamConductForCenter.showStudentsList()}" />
+
+			</p:panelGrid>
+
+			<p:dataTable id="idstudentlist2" var="students2" style="width:100%;"
+				value="#{editExamConductForCenter.listofexamstudents}"
+				rowKey="#{students2.seId}" editable="true">
+
+
+				
+
+				<p:column>
+					<f:facet name="header">Student Id </f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{students2.tblStudentDetails.studentid}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{students2.tblStudentDetails.studentid}" />
+						</f:facet>
+					</p:cellEditor>
+
+
+				</p:column>
+				<p:column>
+					<f:facet name="header">Student Name</f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{students2.tblStudentDetails.firstname}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{students2.tblStudentDetails.firstname}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">Last Name</f:facet>
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{students2.tblStudentDetails.lastname}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:outputText value="#{students2.tblStudentDetails.lastname}" />
+						</f:facet>
+					</p:cellEditor>
+
+				</p:column>
+				<p:column headerText="Remain Time(secs)">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{students2.seRemaintime}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{students2.seRemaintime}" />
+						</f:facet>
+					</p:cellEditor>
+
+				</p:column>
+
+				<p:column headerText="Student Status">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{students2.seStatus}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:selectOneMenu value="#{students2.seStatus}">
+								<f:selectItem itemLabel="--Select--" itemValue="" />
+								<f:selectItem itemLabel="Active" itemValue="active" />
+								<f:selectItem itemLabel="Dormant" itemValue="dormant" />
+
+
+							</p:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+
+				</p:column>
+
+
+				<p:column headerText="Password">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{students2.sePassword}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{students2.sePassword}" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Options">
+					<p:rowEditor />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:separator />
+			<p:separator />
+			<h:outputText value="Add (below) New Student to Exam Conduct" />
+			<p:dataTable id="idstudentlist4" var="students2" style="width:100%;"
+				value="#{editExamConductForCenter.listofstudents}"
+				selection="#{editExamConductForCenter.selectionlistofstudents}"
+				rowKey="#{students2.studentid}" editable="false" >
+
+				<p:column selectionMode="multiple" />
+
+
+				<p:column>
+					<f:facet name="header">Student Id </f:facet>
+					<h:outputText value="#{students2.studentid}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Student Name</f:facet>
+					<h:outputText value="#{students2.firstname}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Last Name</f:facet>
+					<h:outputText value="#{students2.lastname}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">District</f:facet>
+					<h:outputText value="#{students2.district}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">City</f:facet>
+					<h:outputText value="#{students2.citytownvillage}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">Gender</f:facet>
+					<h:outputText value="#{students2.gender}" />
+				</p:column>
+			</p:dataTable>
+
+			<p:separator />
+			<p:separator />
+			<p:panelGrid columns="2" style="width:100%;">
+				<f:facet name="header">Exam Details</f:facet>
+				<h:outputText value="Exam Start Date " />
+				<p:calendar
+					value="#{editExamConductForCenter.tblexaminationconduct.excStudentstarttime}"
+					pattern="yyyy-MM-dd HH:mm" />
+				<h:outputText value="Exam End Date " />
+				<p:calendar
+					value="#{editExamConductForCenter.tblexaminationconduct.excStudentendtime}"
+					pattern="yyyy-MM-dd HH:mm" />
+
+				<h:outputText value="Exam Duration (mins)" />
+				<p:inputText
+					value="#{editExamConductForCenter.tblexaminationconduct.excDuration}" />
+
+				<h:outputText value="Set Status of Exam " />
+				<p:selectOneMenu
+					value="#{editExamConductForCenter.tblexaminationconduct.excActive}">
+					<f:selectItem itemLabel="--Select--" itemValue="" />
+					<f:selectItem itemLabel="Active" itemValue="active" />
+					<f:selectItem itemLabel="Dormant" itemValue="dormant" />
+
+
+				</p:selectOneMenu>
+			</p:panelGrid>
+
+		</p:outputPanel>
+		<p:commandButton value="Update"
+			action="#{editExamConductForCenter.updateToDB()}" />
+
+
+
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6 Aug, 2012 8:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblFontMaster" table="tbl_font_master" catalog="mciterdemo">
+        <id name="fontId" type="java.lang.Integer">
+            <column name="font_id" />
+            <generator class="identity" />
+        </id>
+        <property name="fontName" type="string">
+            <column name="font_name" length="300" not-null="true" />
+        </property>
+        <property name="fontPath" type="string">
+            <column name="font_path" length="300" not-null="true" />
+        </property>
+        <property name="fontTag" type="int">
+            <column name="font_tag" not-null="true" />
+        </property>
+        <set name="tblTypingtestMasters" table="tbl_typingtest_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="font_id" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblTypingtestMaster" />
+        </set>
+    </class>
+</hibernate-mapping>

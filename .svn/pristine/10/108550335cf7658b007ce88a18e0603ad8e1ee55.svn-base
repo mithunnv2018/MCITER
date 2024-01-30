@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 19 Jul, 2012 7:31:16 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblQuestioncategoryMaster" table="tbl_questioncategory_master" >
+        <id name="qcId" type="java.lang.Integer">
+            <column name="QC_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblCategoryMaster" class="com.mciter.commonbeans.TblCategoryMaster" fetch="select">
+            <column name="Cat_ID" not-null="true" />
+        </many-to-one>
+        <property name="qcName" type="string">
+            <column name="QC_Name" length="500" not-null="true" />
+        </property>
+        <property name="qcTag" type="int">
+            <column name="QC_Tag" not-null="true" />
+        </property>
+        <set name="tblStudentresultDetailses" table="tbl_studentresult_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="QC_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentresultDetails" />
+        </set>
+        <set name="tblStudentCourseDetailses" table="tbl_student_course_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="QC_Id" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentCourseDetails" />
+        </set>
+        <set name="tblStudentDetailses" table="tbl_student_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="QC_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentDetails" />
+        </set>
+        <set name="tblQuestionsMasters" table="tbl_questions_master" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="QC_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblQuestionsMaster" />
+        </set>
+        <set name="tblStudentexamConducts" table="tbl_studentexam_conduct" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="QC_Id" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblStudentexamConduct" />
+        </set>
+    </class>
+</hibernate-mapping>

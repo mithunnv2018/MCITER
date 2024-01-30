@@ -1,0 +1,125 @@
+package com.mciter.commonbeans;
+
+// Generated 9 Jul, 2012 8:37:35 PM by Hibernate Tools 3.4.0.CR1
+
+import java.util.List;
+import javax.naming.InitialContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.LockMode;
+import org.hibernate.SessionFactory;
+import static org.hibernate.criterion.Example.create;
+
+/**
+ * Home object for domain model class TblUserMaster.
+ * @see com.mciter.commonbeans.TblUserMaster
+ * @author Hibernate Tools
+ */
+public class TblUserMasterHome {
+
+	private static final Log log = LogFactory.getLog(TblUserMasterHome.class);
+
+	private final SessionFactory sessionFactory = getSessionFactory();
+
+	protected SessionFactory getSessionFactory() {
+		try {
+			return (SessionFactory) new InitialContext()
+					.lookup("SessionFactory");
+		} catch (Exception e) {
+			log.error("Could not locate SessionFactory in JNDI", e);
+			throw new IllegalStateException(
+					"Could not locate SessionFactory in JNDI");
+		}
+	}
+
+	public void persist(TblUserMaster transientInstance) {
+		log.debug("persisting TblUserMaster instance");
+		try {
+			sessionFactory.getCurrentSession().persist(transientInstance);
+			log.debug("persist successful");
+		} catch (RuntimeException re) {
+			log.error("persist failed", re);
+			throw re;
+		}
+	}
+
+	public void attachDirty(TblUserMaster instance) {
+		log.debug("attaching dirty TblUserMaster instance");
+		try {
+			sessionFactory.getCurrentSession().saveOrUpdate(instance);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void attachClean(TblUserMaster instance) {
+		log.debug("attaching clean TblUserMaster instance");
+		try {
+			sessionFactory.getCurrentSession().lock(instance, LockMode.NONE);
+			log.debug("attach successful");
+		} catch (RuntimeException re) {
+			log.error("attach failed", re);
+			throw re;
+		}
+	}
+
+	public void delete(TblUserMaster persistentInstance) {
+		log.debug("deleting TblUserMaster instance");
+		try {
+			sessionFactory.getCurrentSession().delete(persistentInstance);
+			log.debug("delete successful");
+		} catch (RuntimeException re) {
+			log.error("delete failed", re);
+			throw re;
+		}
+	}
+
+	public TblUserMaster merge(TblUserMaster detachedInstance) {
+		log.debug("merging TblUserMaster instance");
+		try {
+			TblUserMaster result = (TblUserMaster) sessionFactory
+					.getCurrentSession().merge(detachedInstance);
+			log.debug("merge successful");
+			return result;
+		} catch (RuntimeException re) {
+			log.error("merge failed", re);
+			throw re;
+		}
+	}
+
+	public TblUserMaster findById(java.lang.Integer id) {
+		log.debug("getting TblUserMaster instance with id: " + id);
+		try {
+			TblUserMaster instance = (TblUserMaster) sessionFactory
+					.getCurrentSession().get(
+							"com.mciter.commonbeans.TblUserMaster", id);
+			if (instance == null) {
+				log.debug("get successful, no instance found");
+			} else {
+				log.debug("get successful, instance found");
+			}
+			return instance;
+		} catch (RuntimeException re) {
+			log.error("get failed", re);
+			throw re;
+		}
+	}
+
+	public List<TblUserMaster> findByExample(TblUserMaster instance) {
+		log.debug("finding TblUserMaster instance by example");
+		try {
+			List<TblUserMaster> results = (List<TblUserMaster>) sessionFactory
+					.getCurrentSession()
+					.createCriteria("com.mciter.commonbeans.TblUserMaster")
+					.add(create(instance)).list();
+			log.debug("find by example successful, result size: "
+					+ results.size());
+			return results;
+		} catch (RuntimeException re) {
+			log.error("find by example failed", re);
+			throw re;
+		}
+	}
+}

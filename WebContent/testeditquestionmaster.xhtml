@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head></h:head>
+<!--
+<h:body>
+
+	<h:form>
+	<h:messages />
+		<h1>Welcome to Editing the Question Paper!</h1>
+		 <h:commandButton   value="Click To Refresh" action="#{questionsUtil.resetSessionMith('questionMaster2','editquestionmaster')}"/>
+		<h:dataTable border="1" value="#{commonParams2.questionMasterList}"   var="row">
+			<f:facet name="caption">List of all the Questions !</f:facet>
+			
+			<h:column>
+			
+				<f:facet name="header">Select Question</f:facet>
+				<h:commandButton action="editquestionmaster" value="#{row.q_ID}" 
+					label="Select Question" actionListener="#{row.doParameterQuestionMaster}" immediate="true">
+					<f:ajax render="@form" execute="@form"/>
+					<f:param name="questionMaster" value="#{row}"/>
+					<f:viewParam name="questionMaster" value="#{row}"></f:viewParam>
+					
+					</h:commandButton>
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Question Name</f:facet>
+				<h:outputText value="#{row.q_Desc}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Category Name</f:facet>
+				<h:outputText value="#{row.categoryname}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">Assigned Marks</f:facet>
+				<h:outputText value="#{row.marks}" />
+			</h:column>
+
+
+		</h:dataTable>
+
+		<br />
+
+		
+		<h3>#{questionMaster2.q_ID}</h3>
+		<br/>
+		<table>
+			<tr>
+				<td>Question:</td>
+				
+			</tr>
+			<tr>
+			<td>
+				<h:inputTextarea cols="100" label="Enter Questions!"
+					value="#{questionMaster2.q_Desc}" required="true"
+					requiredMessage="Please Enter a valid Question in Question box!">
+
+				</h:inputTextarea>
+				</td>
+			</tr>
+		</table>
+		<br />
+		<table align="left">
+			<tr>
+				<td>How many options:</td>
+				<td><h:selectOneMenu value="#{questionMaster2.q_Option}" 
+						id="dropdownid2">
+						<f:selectItems value="#{commonParams2.noofoptionsList}" />
+
+					</h:selectOneMenu></td>
+			</tr>
+		</table>
+		<br clear="all" />
+
+		<table align="left">
+			<tr>
+
+				<td>Multi Select:</td>
+				<td><h:selectBooleanCheckbox
+						value="#{questionMaster2.q_MultiSelect}" /></td>
+
+			</tr>
+		</table>
+		<br clear="all" />
+		<table align="left">
+			<tr>
+				<td>Course:</td>
+				<td><h:selectOneMenu value="#{questionMaster2.QC_ID}">
+						<f:selectItems value="#{commonParams2.courseList}" />
+
+					</h:selectOneMenu></td>
+			</tr>
+		</table>
+
+		<br clear="all" />
+
+		<table align="left">
+			<tr>
+				<td>Marks:</td>
+				<td><h:selectOneMenu value="#{questionMaster2.m_ID}"
+						required="true" requiredMessage="You have to Select the marks!">
+						<f:selectItems value="#{commonParams2.marksList}" />
+
+					</h:selectOneMenu></td>
+			</tr>
+		</table>
+
+		<br />
+		<h:commandButton value="Show Options">
+			<f:ajax render="@form" execute="@form" />
+		</h:commandButton>
+		<br />
+
+						      h:outputText value="Hello #{questionMaster.answerOptionsList[0].QO_Name}"   id="hi" 
+	
+		<table align="left">
+			<tr>
+				<td><h:selectOneRadio value="#{questionMaster2.answernumber2}"
+						rendered="#{!questionMaster2.q_MultiSelect}" >
+						<f:selectItems value="#{questionMaster2.answerNumberList}" />
+					</h:selectOneRadio> 
+					<h:selectManyCheckbox value="#{questionMaster2.correctanswerList}"
+						rendered="#{questionMaster2.q_MultiSelect}">
+						<f:selectItems value="#{questionMaster2.answerNumberList}" />
+					</h:selectManyCheckbox></td>
+			</tr>
+
+			<tr>
+				<ui:repeat varStatus="status2" var="local2"
+						value="#{questionMaster2.answerOptionsList}">
+						 
+						<tr>
+							<td><h:outputText value="( #{status2.index+1} )" /></td>
+							<td><h:inputText
+									value="#{questionMaster2.answerOptionsList[status2.index].QO_Name}" />
+
+							</td>
+						</tr>
+					</ui:repeat>
+					
+			</tr>
+			<tr>
+				<td><h:commandButton value="Update Question Entered!"
+						action="#{questionMaster2.doUpdateQuestion()}" /></td>
+			</tr>
+		</table>
+		<br />
+		<br />
+
+ 
+	</h:form>
+</h:body>
+--></html>

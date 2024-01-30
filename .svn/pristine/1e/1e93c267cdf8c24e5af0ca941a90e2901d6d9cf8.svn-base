@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 6 Aug, 2012 8:03:33 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.mciter.commonbeans.TblTypingtestMaster" table="tbl_typingtest_master" catalog="mciterdemo">
+        <id name="typetId" type="java.lang.Integer">
+            <column name="typet_ID" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tblQuestioncategoryMaster" class="com.mciter.commonbeans.TblQuestioncategoryMaster" fetch="select">
+            <column name="QC_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tblFontMaster" class="com.mciter.commonbeans.TblFontMaster" fetch="select">
+            <column name="font_id" not-null="true" />
+        </many-to-one>
+        <property name="typetDesc" type="string">
+            <column name="typet_desc" length="300" not-null="true" />
+        </property>
+        <property name="typetTypingtype" type="string">
+            <column name="typet_typingtype" length="45" not-null="true" />
+        </property>
+        <property name="typetTag" type="int">
+            <column name="typet_tag" not-null="true" />
+        </property>
+        <set name="tblTypingtestDetailses" table="tbl_typingtest_details" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="typet_ID" not-null="true" />
+            </key>
+            <one-to-many class="com.mciter.commonbeans.TblTypingtestDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<!-- 
+		Replace path to template, title, header and body
+		with actual data.
+	 -->
+	 	<script type="text/javascript" language="javascript">
+	function pollerror2()
+	{
+		//alert("Poll Error!");	
+	}
+	//for   code from http://www.tedpavlic.com/post_detect_refresh_with_javascript.php
+	 
+	 	  	 
+	function doStart2()
+	{
+		//set Interval("incr2()", 30000
+	}
+
+	function showStatusDialog()
+	{
+		bar.show();
+		dialogforstatus.show();
+	
+	}
+	function hideStatusDialog()
+	{
+		bar.hide();
+		dialogforstatus.hide();
+	}
+	 
+	
+</script>
+<ui:composition template="/template/template1.xhtml">
+	<ui:define name="pageTitle">STUDENT LOGIN PAGE</ui:define>
+	<ui:define name="pageHeader">STUDENT LOGIN PAGE</ui:define>
+	<ui:define name="centermenushow"></ui:define>
+	<ui:define name="menusshow"></ui:define>
+	<ui:define name="logoshow">
+		<p:graphicImage value="/images/STUDENTLOGO.png" style="text-align:center;"
+			width="100%" height="130px" />
+	</ui:define>
+
+	<ui:define name="body" >
+
+		<h:form >
+		<p:remoteCommand autoRun="true" actionListener="#{commonParams2.isValidBorwser('errorbrowsernotsupported')}"></p:remoteCommand>
+		
+		<p:dialog id="idstatusshow" widgetVar="dialogforstatus">
+				<h:outputText value="...Loading Exam" />
+			</p:dialog>
+			<p:notificationBar position="top" effect="slide" widgetVar="bar"
+				styleClass="top">
+				<h:outputText
+					value="Hello Student Exam Paper is Loading!"
+					style="color:#FFCC00;font-size:36px;" />
+			</p:notificationBar>
+			
+		<p:ajaxStatus >
+				<f:facet name="start">
+					<h:outputText value="Starting..." />
+				</f:facet>
+				<f:facet name="complete">
+					<h:outputText value="Done!" />
+				</f:facet>
+			</p:ajaxStatus>
+			<p:growl id="idgrowl23" autoUpdate="true" />
+			
+			<p:remoteCommand name="chekcredentials" autoRun="true" actionListener="#{commonParams2.checkCredentialsForLoggedIn('studentExamPaperController','/MCITER/testexampaper.jsf')}"/>
+
+
+
+			<p:message for="idpanelgrid2" id="idmessages" />
+			<p:panelGrid columns="2" id="idpanelgrid2">
+
+				<h:outputText value="Enter Your User Name:" />
+				<p:inputText id="uid"
+					value="#{studentExamPaperController.studentdetails.studentid}" />
+				<h:outputText value="Enter Your Password:" />
+				<p:password id="pwd"
+					value="#{studentExamPaperController.studentexamconduct.sePassword}" />
+				<p:commandButton id="idbtn1"
+					action="#{studentExamPaperController.doStudentLogin()}"
+					value="Login"  />
+				<p:commandButton id="idbtn2" value="Reset"
+					action="#{questionsUtil.resetSessionMith('studentExamPaperController','studentloginpage')}" />
+			</p:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
